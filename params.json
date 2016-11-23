@@ -1,0 +1,6 @@
+{
+  "name": "CIC-ED",
+  "tagline": "Código com implementações para disciplina Estruturas de Dados do Departamento de Ciência da Computação da Universidade de Brasília.",
+  "body": "Estruturas De Dados\r\n===================\r\n\r\nCódigo com implementações para a disciplina \r\n[CIC-116319 Estruturas de Dados](https://matriculaweb.unb.br/matriculaweb/graduacao/disciplina.aspx?cod=116319). \r\nOs arquivos são feitos para funcionar em ambiente Unix, com o compilador \r\n[gcc](http://gcc.gnu.org/).\r\n\r\n### Uso\r\n\r\nOs arquivos são feitos para exemplificar certos conceitos, facilmente identificados \r\npelo nome do artigo. O código segue o [padrão\r\nANSI](http://pt.wikipedia.org/wiki/Biblioteca_padr%C3%A3o_do_C#Padr.C3.A3o_ANSI), \r\ne pode ser compilado com o seguinte comando:\r\n\r\n<code>gcc -Wall -ansi codigo_fonte.c -o nome_executavel</code>\r\n\r\nPor exemplo:\r\n<code>gcc -Wall -ansi ola_turma.c -o oi</code>\r\n\r\n### Erros\r\n\r\nEm caso de erro, lembre-se que a [internet](www.google.com.br) é sua amiga, basta\r\nprocurar um pouco. Se não houver jeito, entre em contato com o responsável pelo\r\nprojeto.",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
