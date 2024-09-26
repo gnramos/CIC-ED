@@ -1,0 +1,196 @@
+%!TEX root = ED_Grafo.tex
+
+\section{Árvore Geradora Mínima}%
+\begin{frame}[label=notas]
+	Uma árvore geradora é um grafo parcial de $G$ que representa uma árvore.
+	\\\vfill\pause
+	\begin{block}{Arvore Geradora Mínima}
+		Árvore geradora cuja soma dos pesos de todas as arestas é mínima\footnote[frame]{Unicidade?}.
+	\end{block}
+	\vfill\pause
+	Algoritmos:
+	\begin{description}
+		\item[Genérico:] a cada passo, adiciona-se uma aresta ``segura''
+		a um subconjunto de arestas do grafo: o subconjunto final é a AGM.
+		\item[Prim:] as arestas adicionadas ao subconjunto (árvore)
+		devem ser as de mínimo peso que conectam a árvore a um vértice ainda não presente.
+		\item[Kruskal:] as arestas adicionadas as árvores são as arestas
+		de menor peso que conectam dois componentes distintos.
+	\end{description}
+\end{frame}
+
+\begin{frame}
+	Outros tipos:
+	\begin{description}
+		\item[Maximum Spanning Trees] AG com as arestas que resultam no maior
+		custo. Implementação?%Suppose we hire an evil telephone company to connect a bunch of houses together, and that this company will be paid a price proportional to the amount of wire they install. Naturally, they will want to build as expensive a spanning tree as possible. The maximum spanning tree of any graph can be found by simply negating the weights of all edges and running Prim’s algorithm. The most negative tree in the negated graph is the maximum spanning tree in the original.
+		\item[Minimum Product Spanning Trees] AG com as arestas cujos pesos,
+		multiplicados, que resultam no menor valor possível.% — Suppose we want the spanning tree with the smallest product of edge weights, assuming all edge weights are positive. Since lg(a · b) = lg(a) + lg(b), the minimum spanning tree on a graph where each edge weight is replaced with its logarithm gives the minimum product spanning tree.
+		\item[Minimum Bottleneck Spanning Tree] AG cujo valor máximo de aresta
+		é o mínimo possível. %Sometimes we seek a spanning tree which minimizes the maximum edge weight over all such trees. In fact, the minimum spanning tree has this property. The proof follows directly from the correctnessof Kruskal’s algorithm. Such bottleneck spanning trees have interesting applications when the edge weights are interpreted as costs, capacities, or strengths. A less efficient but simpler way to solve such problems might be to delete all “heavy” edges from the graph and ask whether the resul
+	\end{description}
+\end{frame}
+
+% \begin{frame}[label=notas]
+%	\begin{itemize}
+%		\item Considere um grafo não direcionado e conectado; e que associada a
+%		cada arco há uma distância não negativa.
+%		\item O objetivo é encontrar o caminho mais curto de tal maneira que os
+%		arcos forneçam um caminho entre todos os pares de nós.
+%		\item O subgrafo conecta todos os vértices é uma árvore geradora.
+%		\item Essa árvore é uma árvore geradora mínima se o comprimento total é
+%		o menor possível.
+%	\end{itemize}
+%	\begin{center}
+%		\includegraphics<1 | handout:0>[width=.8\textwidth]{grafo_arvore_geradora1}
+%		\includegraphics<2>[width=.8\textwidth]{grafo_arvore_geradora2}
+%	\end{center}
+% \end{frame}
+
+% \begin{frame}[label=notas]
+% 	Propriedades:
+% 	\begin{itemize}
+% 		\item Podem haver várias árvores geradoras mínimas, com o mesmo comprimento.
+% 		\item Se cada arco tem um peso diferente, existe uma única árvore geradora mínima.
+% 		\item \alert<1>{A árvore geradora mínima é o subgrafo de menor custo conectando todos os vértices.}
+% 	\end{itemize}
+% 	\vfill\pause
+% 	Exemplo de aplicação: instalação de fibras óticas no campus de uma faculdade.
+% 	\begin{itemize}
+% 		\item Cada trecho de fibra ótica entre os prédios possui um custo associado.
+% 		\item Uma árvore de extensão fornece um modo de conectar todos os prédios
+% 		sem redundância.
+% 		\item Uma árvore geradora mínima desse grafo nos daria uma árvore com o
+% 		menor custo para fazer essa ligação.
+% 	\end{itemize}
+% \end{frame}
+
+% \begin{frame}[label=notas]
+% 	\framesubtitle{Algoritmos}
+
+% 	\begin{enumerate}
+% 		\item Algoritmo Genérico: a cada passo, adiciona-se uma aresta ``segura''
+% 		a um subconjunto de arestas do grafo: o subconjunto final é a AGM.
+% 		\item Algoritmo de Prim: as arestas adicionadas ao subconjunto (árvore)
+% 		devem ser as de mínimo peso que conectam a árvore a um vértice ainda não presente.
+% 		\item Algoritmo de Kruskal: as arestas adicionadas a árvore são as arestas
+% 		de menor peso que conecta dois componentes distintos.
+% 	\end{enumerate}
+% \end{frame}
+
+% \begin{frame}[label=notas]
+% 	\framesubtitle{Algoritmo Genérico}
+
+% 	Enquanto o subconjunto $A'$ não for uma AGM:
+% 	\begin{enumerate}
+% 		\item Seleciona uma aresta do grafo.
+% 		\item Se aresta é segura, adiciona a $A'$.
+% 	\end{enumerate}
+% 	\vfill
+% 	A aresta segura é sempre a aresta de peso mínimo que conecta a árvore a um
+% 	vértice não presente no conjunto $V'$ (vértices ligados pelas arestas de $A'$).
+% 	\\\vfill\pause
+% 	Como determinar o que é uma aresta segura?
+% 	\begin{itemize}
+% 		\item Faz-se um corte do do grafo, dividindo-o em dois subgrafos: $A'$
+% 		estará contido em um deles.
+% 		\item A mais leve entre as arestas que cruzam o corte é uma aresta segura.
+% 	\end{itemize}
+% \end{frame}
+
+% \begin{frame}[label=notas]
+% 	\framesubtitle{Algoritmo Genérico: Aresta Segura}
+
+% 	\begin{center}
+% 		\includegraphics[width=.8\textwidth]{graph-agm-alg-geral}
+% 	\end{center}
+% 	\begin{itemize}
+% 		\item $V'$ = \{0,1,2,3\}
+% 		\item Arestas que cruzam o corte: (1,4),(2,4),(2,5),(3,5)
+% 		\item Arestas seguras: (2,5) e (3,5).
+% 	\end{itemize}
+% \end{frame}
+
+% \begin{frame}[label=notas]
+% 	\framesubtitle{Algoritmo de Prim}
+
+% 	\emph{Entrada: um grafo conectado ponderado com vértices $V$ e
+% arestas $A$.}
+% 	\\\vfill
+% 	\begin{enumerate}
+% 		\item Inicialize $V'=\{u\}$, onde $u$ é um nó arbitrário de $V$ e $A' = \{\emptyset\}$
+% 		\item Repita até que $V' = V$:
+% 			\begin{enumerate}
+% 				\item Escolha um arco $(u,v)$ de $A$ com o mínimo peso tal que
+% 				$u$ esteja em $V'$ e $v$ não
+% 				\item Adicione $v$ a $V'$ e $(u,v)$ a $A'$
+% 			\end{enumerate}
+% 	\end{enumerate}
+% 	\vfill
+% 	\emph{Saída: $A'$, que descreve a árvore geradora mínima (junto a $V' = V$).}
+% \end{frame}
+
+\begin{frame}
+	\framesubtitle{Algoritmo de Prim - Exemplo\footnote{Imagens de \href{http://commons.wikimedia.org/wiki/User:Alexander_Drichel}{Alexander Drichel}}}
+
+	\begin{center}
+		\includegraphics<1 | handout:0>[width=.7\textwidth]{prim0}
+		\includegraphics<2 | handout:0>[width=.7\textwidth]{prim1}
+		\includegraphics<3 | handout:0>[width=.7\textwidth]{prim2}
+		\includegraphics<4 | handout:0>[width=.7\textwidth]{prim3}
+		\includegraphics<5 | handout:0>[width=.7\textwidth]{prim4}
+		\includegraphics<6 | handout:0>[width=.7\textwidth]{prim5}
+		\includegraphics<7 | handout:0>[width=.7\textwidth]{prim6}
+		\includegraphics<8>[width=.7\textwidth]{prim7}
+	\end{center}
+\end{frame}
+
+% \begin{frame}[label=notas]
+% 	\framesubtitle{Algoritmo de Kruskal}
+
+% 	\begin{enumerate}
+% 		\item Crie uma floresta $F$ (um conjunto de árvores), onde cada vértice
+% 		no grafo é uma árvore separada.
+% 		\item Crie um conjunto $A'$ contendo todas as arestas do grafo.
+% 		\item Enquanto $A'\neq\emptyset$:
+% 		\begin{enumerate}
+% 			\item remova uma aresta com peso mínimo de $A'$
+% 			\item se essa aresta conecta duas árvores diferentes, adicione-a a $F$,
+% 			combinando duas árvores numa única árvore parcial
+% 			\item  se não (aresta conecta dois vértices na mesma árvore), descarte a aresta.
+% 		\end{enumerate}
+% \end{enumerate}
+% 	Ao fim do algoritmo, a floresta tem apenas um componente e forma uma árvore
+% 	geradora mínima do grafo.
+% \end{frame}
+
+\begin{frame}
+	\framesubtitle{Algoritmo de Kruskal - Exemplo\footnote{Imagens de \href{http://commons.wikimedia.org/wiki/User:Alexander_Drichel}{Alexander Drichel}}}
+
+	\begin{center}
+		\includegraphics<1 | handout:0>[width=.7\textwidth]{prim0}
+		\includegraphics<2 | handout:0>[width=.7\textwidth]{kruskal1}
+		\includegraphics<3 | handout:0>[width=.7\textwidth]{kruskal2}
+		\includegraphics<4 | handout:0>[width=.7\textwidth]{kruskal3}
+		\includegraphics<5 | handout:0>[width=.7\textwidth]{kruskal4}
+		\includegraphics<6 | handout:0>[width=.7\textwidth]{kruskal5}
+		\includegraphics<7>[width=.7\textwidth]{kruskal6}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+	\framesubtitle{Complexidade}
+
+	\begin{itemize}
+		\item Prim\pause
+			\begin{itemize}
+				\item Complexidade $O(|V|^2)$
+				\item Usando um vetor ordenado ou árvore binária para armazenar os vértices:
+					\vspace{-1\baselineskip}
+					\subitem[]{$O(|A|log|V|)$}
+			\end{itemize}
+		\vfill
+		\item Kruskal\pause (depende de como as arestas são ordenadas)
+			\subitem{$O(|A|log|A|)$}
+	\end{itemize}
+\end{frame}

@@ -1,0 +1,47 @@
+\ProvidesPackage{ED}%
+
+% ------------ Autor, Título, etc. ------------ %
+
+\title[ED]{Estruturas de Dados}%
+\subtitle[ED]{Estruturas de Dados}%
+\author[gnramos]{Prof. Guilherme N. Ramos\\\texttt{gnramos@unb.br}}%
+\institute[CIC]{Departamento de Ciência da Computação\\Universidade de Brasília}%
+\date[1/2012]{}%
+
+\graphicspath{{img/}}%
+
+%%\RequirePackage{multirow,array}%	Tables
+%%\RequirePackage{colortbl}%      	use color in tables
+\RequirePackage{listings}%        	Código
+\lstset{%
+basicstyle=\small%      	the size of the fonts that are used for the code
+,showstringspaces=false%	underline spaces within strings
+,frame=single%          	adds a frame around the code
+,tabsize=2 %            	sets default tabsize
+,breaklines=true %      	sets automatic line breaking
+,flexiblecolumns=true%
+,commentstyle=\color{gray}%
+,escapechar=@%
+}%
+\lstset{morekeywords={para, de, a, cada, em, enquanto, repita, ate, se, senao, retorna,fatorial}}%
+\lstset{literate=	{:=}{{$\gets$}}2
+                 	{<=}{{$\leq$}}1
+                 	{>=}{{$\geq$}}1
+                 	{!=}{{$\neq$}}2
+                 	{/in}{{$\in$}}1
+                 	{emptyset}{{$\emptyset$}}2}%
+
+
+\RequirePackage{tikz}%            	Gráficos
+%%\RequirePackage{qtree}%         	árvores
+%\RequirePackage{tikz-qtree}%     	árvores
+%%\RequirePackage{etex}%          	modifies how LaTeX allocates registers to use e-TeX -> needed for tikz-qtree to stop complaining
+
+%%\RequirePackage{multimedia}% videos
+
+%%\RequirePackage[absolute,overlay]{textpos} %absolute positioning
+
+%%\RequirePackage{gnramos}%			Comandos auxiliares
+
+\tikzstyle{block}= [draw, rectangle, text centered, rounded corners]%
+\tikzstyle{line} = [draw, line width = 1.5pt]%

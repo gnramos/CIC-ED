@@ -1,0 +1,359 @@
+\subsection{Complexidade de Algoritmos}
+\begin{frame}[label=main]
+	\begin{exampleblock}{Notação Assintótica (Grande-O/Big-O Notation)}
+		Notação matemática usada para analisar o comportamento  de funções
+		\subitem{utilizada para descrever o uso de recursos computacionais}
+	\end{exampleblock}
+	\vfill
+	Permite:
+	\begin{itemize}
+		\item prever o comportamento do algoritmo
+		\item determinar qual algoritmo utilizar
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[label=main]
+	\begin{exampleblock}{Dominância Assintótica - $O(g(n)) = f(n)$}
+		Uma função $g(n)$ domina assintoticamente outra função $f(n)$ se existem 
+		duas constantes positivas $c$ e $n_0$ tais que:
+		$0 \leq f(n) \leq c{\cdot}g(n), ^{\forall}n \geq n_0$.
+	\end{exampleblock}
+	\vfill
+	\begin{center}%
+		\includegraphics[width=.4\textwidth]{Introduction_BigOGraph}%
+	\end{center}
+\end{frame}
+
+\newcommand{\funcEx}[5]{%
+	Exemplo: $f(n) = #1$ e $g(n) = #2$\pause
+	\subitem{$0 \leq #1 \leq \alert{#3}\cdot#2, ^{\forall}n \geq \alert{#4}$ \pause $\rightarrow f(n) = O(#5)$}%
+}%
+\begin{frame}[label=main]
+	\funcEx{n}{2n}{1}{0}{n}%
+	\vfill\pause
+	\funcEx{n}{n^2}{1}{0}{n^2}%
+	\vfill\pause
+	\funcEx{(n + 3)^2}{n^2}{2}{10}{n^2}%
+	\vfill\pause
+	\funcEx{2n^3 + 3n^2 + n}{n^4}{2}{3}{n^4}%
+\end{frame}
+
+% \begin{frame}[label=main]
+%	Exemplo: $g(n) = 3n^{3} + 2n^{2} + n$\pause
+%	\begin{itemize}
+%		\item $|3n^{3} + 2n^{2} + n| \leq 6\cdot|n^3|,  {\forall}n \geq 0$ \pause $\rightarrow g(n) = \alert{O(n^3)}$\pause
+%		\item também é $O(n^{4})$
+%	\end{itemize}
+%	\pause\vfill
+%	Exemplo: $g(n) = log_{5}(n)$\pause
+%	\subitem{$|log_{5}(n)| \leq log_{5}(10)\cdot|log_{10}(n)|,  {\forall}n \geq 1$ \pause $\rightarrow g(n) = \alert{O(log(n))}$}
+%\end{frame}
+
+\begin{frame}[label=graduacao]
+	Operações:\\\vfill
+	\begin{center}
+		\begin{tabular}{rl}
+			$f(n)$ 					& $\rightarrow$  $O(f(n))$\\
+			$c{\cdot}f(n)$ 			& $\rightarrow$  $O(f(n))$ \textcolor{gray}{c constante}\\
+			$O(f(n)) + O(f(n))$ 	& $\rightarrow$  $O(f(n))$\\
+			$O(O(f(n)))$ 			& $\rightarrow$  $O(f(n))$\\
+			$O(f(n) + g(n))$ 		& $\rightarrow$  $O(max(f(n),g(n)))$\\
+			$O(f(n)){\cdot}O(g(n))$ & $\rightarrow$  $O(f(n){\cdot}g(n))$\\
+			$f(n){\cdot}O(g(n))$ 	& $\rightarrow$  $O(f(n){\cdot})g(n))$\\
+		\end{tabular}
+	\end{center}
+\end{frame}
+
+\begin{frame}[fragile,label=main]
+	Exemplo: Comparar cada elemento de um vetor aos outros elementos.
+	\subitem{função de custo: \alert<1>{comparação}}
+	\begin{columns}[T]
+		\column{.35\textwidth}
+			\begin{lstlisting}[title=Algoritmo,morekeywords={compare}]
+				para i /in [1, n]
+				    para j /in [1, n]
+				        se i != j
+				            compare(i,j)
+			\end{lstlisting}
+			\pause
+			$g(n) = n(n-1)$
+		\column{.35\textwidth}
+			\begin{lstlisting}[title= Algoritmo Otimizado,morekeywords={compare}]
+				para i /in [1, n)
+				    para j /in [i+1,n]
+				        compare(i,j)
+			\end{lstlisting}
+			\pause
+			$$g(n) = \sum_{i=1}^{n-1}(n-i) = \frac{n(n-1)}{2}$$
+	\end{columns}
+	\vfill
+	E as complexidades?	
+\end{frame}
+
+\begin{frame}[fragile,label=main]
+	Exercício: qual o custo (tempo) dos algoritmos considerando \alert{atribuições 
+	e operações matemáticas}?%e a complexidade dos seguintes algoritmos
+	\begin{columns}[T]
+		\column{.45\textwidth}
+			\begin{lstlisting}[title=Algoritmo1,language=C]
+				for(i = 0; i < n; ++i)
+				  for(j = 0; j < n; ++j)
+				    a[i][j] = b[i][j] * c[i][j];
+			\end{lstlisting}
+			%\alert{$$1 + 3n + 4n^{2} \Rightarrow O(n^{2})$$}
+		\column{.45\textwidth}
+			\begin{lstlisting}[title= Algoritmo2,language=C]
+				for(i = 0; i < n-1; ++i)
+				  for(j = i + 1; j < n; ++j) {
+				    aux =  a[i][j];
+				    a[i][j] = a[j][i];
+				    a[j][i] = aux;
+				  }
+			\end{lstlisting}
+			%\alert{$$2 + 4(n-1)+ 5\frac{n(n-1)}{2} = \frac{5n^2}{2} + \frac{3n}{2} - 2 \Rightarrow O(n^{2})$$}
+	\end{columns}
+\end{frame}
+
+% \begin{frame}[fragile,label=main]
+%	\vspace{-1\baselineskip}
+%	\begin{center}
+%		\begin{minipage}{.45\textwidth}
+%			\begin{lstlisting}[title=Algoritmo1]
+%				for(i = 0; i < n; ++i)
+%				  for(j = 0; j < n; ++j)
+%				    a[i][j] = b[i][j]*c[i][j];
+%			\end{lstlisting}
+%		\end{minipage}
+%	\end{center}
+%	\pause
+%	\begin{itemize}
+%		\item 1 atribuição feita uma única vez: i=0
+%		\item 1 soma feita $n$ vezes: ++i
+%		\item 1 atribuição feita $n$ vezes: ++i
+%		\item 1 atribuição feita $n$ vezes: j=0
+%		\item 1 soma feita $n^2$ vezes: ++j
+%		\item 1 atribuição feita $n^2$ vezes: ++j
+%		\item 1 multiplicação feita $n^2$ vezes: b[i][j]*c[i][j]
+%		\item 1 atribuição feita $n^2$ vezes: a[i][j]= b[i][j]*c[i][j]
+%	\end{itemize}
+%	\pause
+%	\alert{$$1 + 3n + 4n^{2} \Rightarrow O(n^{2})$$}
+% \end{frame}
+
+% \begin{frame}[fragile,label=main]
+%	\vspace{-1\baselineskip}
+%	\begin{center}
+%		\begin{minipage}{.45\textwidth}
+%			\begin{lstlisting}[title= Algoritmo2]
+%				for(i = 0; i < n-1; ++i)
+%				  for(j = i + 1; j < n; ++j)
+%				    aux =  a[i][j];
+%				    a[i][j] = a[j][i];
+%				    a[j][i] = aux;
+%			\end{lstlisting}
+%		\end{minipage}
+%	\end{center}
+%	\pause
+%	\begin{itemize}
+%		\item 1 atribuição feita uma única vez: i=0
+%		\item 1 subtração feita uma única vez: n-1
+%		\item 1 soma e atribuição feitas $n-1$ vezes: ++i
+%		\item 1 atribuição e atribuição feitas $n-1$ vezes: j=i+1	
+%		\item 4 atribuições e uma soma dentro do laço $j$: ++j, aux = a[i][j], 
+%		a[i][j] = a[j][i], a[j][i] = aux feitas (n-1)+(n-2)+ ... + 1 vezes	
+%		% progressao aritmetica: Sm = (a1 + am)*m/2 -> (1+(n-1))*(n-1)/2=n*(n-1)/2
+%	\end{itemize}
+%	\pause
+%	\alert{$$2 + 4(n-1)+ 5\frac{n(n-1)}{2} = \frac{5n^2}{2} + \frac{3n}{2} - 2 \Rightarrow O(n^{2})$$}
+% \end{frame}
+
+\begin{frame}[label=main]
+	\framesubtitle{Exemplo: \emph{Caixeiro Viajante}}
+
+	\begin{center}
+		\includegraphics[height=15\baselineskip]{salesman}
+	\end{center}
+\end{frame}
+
+\begin{frame}[label=main]
+	\framesubtitle{Exemplo: \emph{Caixeiro Viajante} saindo de \emph{A}}
+
+	\begin{columns}[T]
+		\column{.7\textwidth}\centering
+			\begin{tikzpicture}[auto,swap]
+				\foreach \pos/\name in {{(1,0)/A}, {(0,-3)/B}, {(2,-1.5)/C}, {(5,-2)/D}}
+					\node[circle,fill=black!25,minimum size=20pt,inner sep=0pt] (\name) at \pos {$\name$};
+				% Connect vertices with edges and draw weights
+			    \foreach \source/ \dest /\weight in {A/B/9, A/C/3, A/D/10, B/C/6, B/D/9, C/D/5}
+				\draw (\source) -- node {$\weight$} (\dest);
+			    \foreach \source / \dest in {A/C, C/D, D/B, B/A}
+		            \draw<2->[line, red] (\source) -- (\dest);
+			\end{tikzpicture}
+		\column{.25\textwidth}
+			\uncover<2->{
+			\begin{tabular}{|c|c|}
+				\hline
+				\textbf{Trajeto} & \textbf{Custo}\\\hline
+				ABCDA & 30\\\hline
+				ABDCA & 26\\\hline
+				ACBDA & 28\\\hline
+			\end{tabular}}
+	\end{columns}
+	\vfill
+	Algoritmo mais simples\alt<1>{?}{: \emph{força bruta}}
+	\pause\pause
+	\begin{itemize}
+		\item Se um computador realiza $10^9$ avaliações por segundo, para 50 cidades:\pause
+		\subitem[]{$$\frac{49!\ \textrm{avl}}{10^9\ \textrm{avl/s}} = 6{\cdot}10^{53} \textrm{s} \approx 1,9{\cdot}10^{44}\ \textrm{séculos}$$
+		}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[label=main]
+	Principais classes de problemas:
+	\begin{columns}[T]
+		\column{.45\textwidth}
+			\begin{itemize}
+				\item $O(1)$: constante
+				\item $O(n)$: linear
+				\item $O(n{\cdot}log(n))$: logarítmica
+			\end{itemize}
+		\column{.45\textwidth}
+			\begin{itemize}
+				\item $O(n^2)$: quadrática
+				\item $O(n^3)$: cúbica
+				\item $O(2^n)$: exponencial
+				\item $O(n!)$: fatorial
+			\end{itemize}
+	\end{columns}
+	\vfill\pause
+	\begin{tabular}{|*{8}{c|}}
+		\hline
+		& \multicolumn{7}{c|}{f(n)}\\\hline
+		\textbf{n} & $1$ & $n$ & $n\cdot\log(n)$ & $n^2$ & $n^3$ & $2^n$ & $n!$	\\\hline
+		\textbf{2} & 1 & 2 & 0.6 & 4 & 8 & 4 & 2 \\\hline
+		\textbf{5} & 1 & 5 & 3.5 & 25 & 125 & 32 & 120\\\hline
+		\textbf{10} & 1 & 10 & 10 & 100 & 1000 & 1024 & 3628800\\\hline
+		\textbf{20} & 1 & 20 & 26 & 400 & 8000 & 1048576 & 2.4$\cdot10^{18}$\\\hline
+		\textbf{100} & 1 & 100 & 200 & 10000 & 1000000 & 1.2$\cdot10^{30}$ & 9.3$\cdot10^{157}$\\\hline
+	\end{tabular}
+\end{frame}
+
+\begin{frame}[label=main]
+	\framesubtitle{Tudo depende de $n$...}
+
+	\vspace{-1em}
+	\begin{center}
+		\includegraphics<1>[height=17\baselineskip]{complexities}%
+	\end{center}
+\end{frame}
+
+\begin{frame}[label=main]
+	Algoritmo exponencial
+		\subitem{tempo de execução tem função de complexidade $O(c^n)$; $c > 1$}
+	\vfill
+	Algoritmo polinomial
+		\subitem{tempo de execução tem função de complexidade $O(p(n))$, onde $p(n)$ é um polinômio}
+	\pause\vfill
+	Algoritmos exponenciais
+		\subitem{simples variações de pesquisa exaustiva}
+	\vfill
+	Algoritmos polinomiais
+		\subitem{obtidos mediante entendimento aprofundado da estrutura do problema}
+\end{frame}
+
+\begin{frame}[label=main]
+	Casos de estudo da função de custo:
+	\begin{description}
+		\item[Melhor:] definida pelo menor número de passos executados 
+		para qualquer instância de tamanho $n$
+		\item[Médio:] definida pela média do número de passos executados 
+		para qualquer instância de tamanho $n$
+		\item[Pior:] definida pelo maior número de passos executados para 
+		qualquer instância de tamanho $n$
+	\end{description}
+	\pause\vfill
+	\begin{block}{Complexidade Assintótica}
+		\begin{itemize}
+			\item Para pequenos valores de $n$, a maioria dos algoritmos não representa problemas.
+			\item Estuda-se a complexidade somente para \alert<2>{grandes valores de $n$}.
+			\item O comportamento assintótico de $g(n$) representa o limite do 
+			comportamento do custo quando $n$ cresce.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[label=main]
+	Técnicas de análise de algoritmos
+		\begin{itemize}
+			\item considerar memória infinita
+			\item não considerar o sistema operacional nem o compilador
+			\item analisar o algoritmo e não o programa
+			\item levar em conta o tamanho das entradas
+			\item ter cuidado ao escolher a função de custo:
+				\begin{itemize}
+					\item atribuição
+					\item adição
+					\item multiplicação
+					\item comparação
+					\item etc.
+				\end{itemize}
+		\end{itemize}
+\end{frame}
+
+\begin{frame}[label=main]
+	\framesubtitle{Dicas}
+		\begin{itemize}
+			\item A complexidade de um laço é igual ao número de comandos internos 
+			vezes o número de vezes que ele é executado
+			\vfill
+			\item A complexidade de laços aninhados é o produto dos tamanhos dos laços
+			\vfill
+			\item Para uma sequência de laços do algoritmo, a complexidade é a 
+			do laço de maior custo
+			\vfill
+			\item Em testes condicionais, a complexidade é a maior das duas 
+			partes (if/else) do teste
+		\end{itemize}
+\end{frame}
+
+% \begin{frame}[label=main]
+%	\framesubtitle{Dicas}
+%		\begin{itemize}
+%			\item Funções não recursivas
+%				\begin{itemize}
+%					\item computar o tempo de execução de cada procedimento separadamente
+%					\item avaliar os procedimentos que chamam os procedimentos 
+%					que não chamam outros procedimentos, usando os tempos já avaliados
+%				\end{itemize}
+%			\vfill
+%			\item Funções recursivas
+%				\begin{itemize}
+%					\item associar a complexidade da função recursiva uma equação de recorrência
+%						\subitem{descreve uma função em termos do seu valor para entradas menores}
+%					\item resolvendo a equação de recorrência, é possível avaliar a classe do algoritmo
+%				\end{itemize}
+%		\end{itemize}
+% \end{frame}
+
+\section{Eficiência}
+\begin{frame}[label=main]
+	Para dois algoritmos que executem a mesma tarefa, a diferença entre 
+	complexidades pode ser muito mais significante que a entre hardware/software.
+	\\\vfill\pause
+	Supondo:
+	\begin{description}
+		\item[Insertion Sort] com custo $c_1n^2$, rodando no computador $A$
+		\item[Merge Sort] com custo $c_2\cdot{n}\log(n)$, rodando no computador $B$
+	\end{description}
+	\vfill\pause
+	Se $n = 10^7$ e:
+	\begin{description}
+		\item[$A$] executa $10^{10}$ instruções por segundo
+		\item[$B$] executa $10^{7}$ instruções por segundo
+		\item[$c_1 = 2$] devido ao superprogramador
+		\item[$c_2 = 50$] devido a preguiça do estagiário
+		% g_A = 2*(10^{10})^{2} = 2*(10ˆ{20})
+		% g_B = 50*(10^{7})*log(10^{7}) = 3.5*10ˆ9
+	\end{description}
+\end{frame}

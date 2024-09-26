@@ -1,0 +1,159 @@
+%!TEX root = ED_Vetor_Ponteiro.tex
+
+\section{Vetor}
+\begin{frame}[label=notas]
+	\begin{itemize}
+		\item Conjunto de dados do mesmo tipo (estrutura homogênea)
+		\item Cada elemento pode ser acessado por sua posição (índice)
+		\item Alocação estática e sequencial
+	\end{itemize}
+	\vfill
+	\begin{columns}
+		\column{.4\textwidth}
+			\uncover<2>{
+				Vantagens:
+				\begin{itemize}
+					\item Simplicidade
+					\item Acesso direto
+				\end{itemize}
+				Desvantagens:
+				\subitem{Tamanho fixo}
+			}
+		\column{.5\textwidth}
+			\begin{tabular}{*{6}{|c}|}
+				\hline a & b & c & d & e & f \\\hline
+			\end{tabular}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile,label=notas]
+	\begin{center}
+		\begin{minipage}{.8\textwidth}
+		\begin{lstlisting}[title=Inserção no fim,morekeywords={append}]
+			char *append(char *v, int n, char novo_item) {
+			    int i;  // n: numero de elementos do vetor
+			    char *novo_vetor = (char*)malloc((n + 1)*sizeof(char));
+			    for (i = 0; i < n - 1; ++i)
+			        novo_vetor[i] = v[i];
+			    novo_vetor[i] = novo_item;  
+			    free(v);
+			    return novo_vetor;
+			}
+		\end{lstlisting}
+		\end{minipage}
+	\end{center}
+\end{frame}
+
+\section{Matriz}
+\begin{frame}[label=notas]
+	\begin{itemize}
+		\item Conjunto de dados do mesmo tipo (estrutura homogênea)
+		\item Cada elemento pode ser acessado por sua posição (índice)
+		\item Alocação estática e sequêncial
+	\end{itemize}
+	\vfill
+	\begin{columns}
+		\column{.4\textwidth}
+			\uncover<2>{
+				Vantagens:
+				\begin{itemize}
+					\item Simplicidade
+					\item Acesso direto
+				\end{itemize}
+				Desvantagens:
+				\subitem{Tamanho fixo}
+			}
+			%Ideais para acesso aleatório
+		\column{.5\textwidth}
+			\includegraphics[width=.5\textwidth]{array}
+			%source: http://en.wikipedia.org/wiki/File:Array_of_array_storage.svg
+	\end{columns}
+\end{frame}
+
+\section{Alocação Estática x Alocação Dinâmica}
+\begin{frame}[fragile,label=notas]
+	\begin{block}{Variáveis estáticas}
+		 Tem seu endereço fixado antes do início da execução do programa. A área de memória ocupada se mantém durante toda a execução.
+	\end{block}
+	\vfill
+	\uncover<2>{
+		\begin{exampleblock}{Variáveis dinâmicas}
+			São criadas e eliminadas durante a execução do programa, ocupando memória somente quando são utilizadas.
+		\end{exampleblock}
+	}
+	\vfill
+	\begin{columns}[T]
+		\column{.25\textwidth}
+			\begin{lstlisting}[title=Alocação estática]
+				int vetor[10];
+			\end{lstlisting}
+		\column{.05\textwidth}
+		\pause
+		\column{.65\textwidth}
+			\begin{lstlisting}[title=Alocação dinâmica]
+				int *vetor = (int *)malloc(10*sizeof(int));
+				// verificar se houve erro
+			\end{lstlisting}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile,label=notas]
+	É possível criar vetores de tamanho variável usando alocação dinâmica?
+	\pause
+	\begin{itemize}[<+->]
+		\item Quantos elementos?
+		\item Onde cada elemento está alocado?
+	\end{itemize}
+	\vfill
+	\begin{center}
+		\begin{minipage}{.3\textwidth}
+			\begin{lstlisting}[title=Elemento do vetor dinâmico]
+				typedef struct no_t {
+				  data_t data;
+				  struct no_t *prox;
+				} no_t;
+			\end{lstlisting}
+		\end{minipage}
+	\end{center}
+	% \begin{columns}[T]
+	% 	\column{.25\textwidth}
+	% 		\begin{lstlisting}[title=Tipo data\_t]
+	% 			typedef struct {
+	% 			  key_t key;
+	% 			  // etc.
+	% 			} data_t;
+	% 		\end{lstlisting}
+	% 	\column{.05\textwidth}
+	% 	\column{.45\textwidth}
+	% 		\begin{lstlisting}[title=Elemento do vetor dinâmico]
+	% 			typedef struct slist_node_t {
+	% 			  data_t data;
+	% 			  struct slist_node_t *next;
+	% 			} slist_node_t;
+	% 		\end{lstlisting}
+	% \end{columns}
+\end{frame}
+\lstset{morekeywords={data_t, slist_node_t}}
+
+\begin{frame}[label=notas]
+	\framesubtitle{Análise de complexidade}
+	
+	Qual a complexidade de inserção de um item novo no início de um vetor estático/dinâmico?
+	\\\vfill\pause
+	\begin{columns}
+		\column{.5\textwidth}
+			Vetor estático \uncover<4>{$O(n)$}
+			\begin{enumerate}
+				\item criar novo vetor
+				\item inserir novo item
+				\item \alert<4>{copiar items do velho para o novo vetor}
+			\end{enumerate}
+			\pause
+		\column{.5\textwidth}
+			Vetor dinâmico \uncover<4>{$O(1)$}
+			\begin{enumerate}
+				\item definir o primeiro item como próximo do novo item
+				\item definir o primeiro item como o novo item
+			\end{enumerate}
+	\end{columns}
+\end{frame}

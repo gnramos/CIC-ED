@@ -1,0 +1,211 @@
+\section*{Ordenação Eficiente}
+\subsection{Quicksort}
+\begin{frame}[label=main]
+	\begin{columns}
+		\column{.45\textwidth}\centering
+			\includegraphics[width=\textwidth]{pivot}
+		\pause
+		\column{.5\textwidth}\centering
+			\begin{enumerate}
+				\item Escolher o elemento pivô
+				\item Reordenar a lista de acordo com o pivô
+				\item Reordenar recursivamente as sub-listas com elementos menores/maiores que o pivô
+			\end{enumerate}
+			\pause\vfill
+			\begin{alertblock}{Complexidade}
+				\begin{itemize}
+					\item Tempo: $O(n^2)$
+						\subitem{média $O(n\cdot\log(n))$}
+					\item Espaço: $O(n)$
+				\end{itemize}
+			\end{alertblock}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[label=main]
+	\alert{Na prática}, o quicksort é mais rápido que outros algoritmos $O(n\cdot\log(n))$ pois:
+	\begin{itemize}
+		\item o laço de repetição pode ser implementado de forma eficiente na arquitetura
+		\item pode-se ``ajustar'' os dados para que não chegue a $O(n^2)$
+		\item consegue tirar o máximo de vantagem da hierarquia de memória
+	\end{itemize}
+	\vfill
+	Pior caso: o pivô escolhido é sempre um extremo da lista\\
+	\vfill
+	Caso médio: ocorre quando cada partição divide o arquivo em duas partes iguais
+\end{frame}
+
+\subsection{Shellsort}
+\begin{frame}[fragile,label=main]
+	\begin{columns}[T]
+		\column{.4\textwidth}\centering
+			\includegraphics[width=\textwidth]{confused}
+		\pause
+		\column{.55\textwidth}\centering
+			\begin{lstlisting}
+				H := {701, 301, 132, 57, 23, 10, 4, 1}
+				para cada h /in H
+				    para i em (h, n)
+				        aux := A[i]
+				        j := i
+				        enquanto j >= h e A[j-h] > aux
+				            A[j] :=  A[j-h]
+				            j := j-h
+				        A[j] := aux
+			\end{lstlisting}
+			\pause\vfill
+			\begin{alertblock}{Complexidade}
+				\begin{itemize}
+					\item Tempo: \emph{depende de H\footnote[frame]<3>{No exemplo, sequência de Marcin Ciura.}}
+					\item Espaço: $O(n)$
+				\end{itemize}
+			\end{alertblock}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[label=main]
+	\fbox{13 14 94 33 82 25 59 94 65 23 45 27 73 25 39 10}\\
+	\ \\\pause
+	{\color<3->{gray}
+		$h = 5$\hspace{10mm}
+		\begin{minipage}{.3\textwidth}
+			13 14 94 33 82\\
+			25 59 94 65 23\\
+			45 27 73 25 39\\
+			10
+		\end{minipage}
+		$\Rightarrow$\hspace{10mm}
+		\begin{minipage}{.3\textwidth}
+			10 14 73 25 23\\
+			13 27 94 33 39\\
+			25 59 94 65 82\\
+			45
+		\end{minipage}
+	}
+	\\\ \\\pause
+	\fbox{10 14 73 25 23 13 27 94 33 39 25 59 94 65 82 45}\\
+	\ \\\pause
+	{\color<5->{gray}
+			$h = 3$\hspace{10mm}
+		\begin{minipage}{.3\textwidth}
+			10 14 73\\
+			25 23 13\\
+			27 94 33\\
+			39 25 59\\
+			94 65 82\\
+			45
+		\end{minipage}
+		$\Rightarrow$\hspace{10mm}
+		\begin{minipage}{.3\textwidth}
+			10 14 13\\
+			25 23 33\\
+			27 25 59\\
+			39 65 73\\
+			45 94 82\\
+			94
+		\end{minipage}
+	}
+	\\\ \\\pause
+	\fbox{10 14 13 25 23 33 27 25 59 39 65 73 45 94 82 94}\\
+	\ \\
+	$h = 1 \Rightarrow$ \fbox{10 13 14 23 25 25 27 33 39 45 59 65 73 82 94 94}
+\end{frame}
+
+\begin{frame}[label=main]
+	\alert<1>{Ninguém ainda foi capaz de analisar o algoritmo!}
+		\begin{itemize}
+			\item análise da performance é difícil e extremamente dependente de $h$
+			\item um dos primeiro a quebrar a barreira quadrática, embora só ficasse provado bem depois
+		\end{itemize}
+	\pause
+	\begin{exampleblock}{Vantagens}
+		\begin{itemize}
+			\item ótima opção para arquivos de tamanho moderado
+			\item implementação é simples e requer uma quantidade de código pequena
+		\end{itemize}
+	\end{exampleblock}
+	\pause\vfill
+	\begin{alertblock}{Desvantagens}
+		\begin{itemize}
+			\item tempo de execução do algoritmo é sensível à ordem inicial do arquivo
+			\item não é estável
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\subsection{Heap Sort}
+\begin{frame}[fragile,label=main]
+	\begin{columns}[T]
+		\column{.4\textwidth}\centering
+			\includegraphics[width=\textwidth]{wizard}
+		\pause
+		\column{.55\textwidth}\centering
+			\begin{lstlisting}[morekeywords={heap_de_maximo,troca}]
+				para i de n a 1
+				    heap_de_maximo(A,0,i)
+				    troca(A[i], A[0])
+			\end{lstlisting}
+			\pause\vfill
+			\begin{alertblock}{Complexidade}
+				\begin{itemize}
+					\item Tempo: $O(n\cdot\log(n))$
+					\item Espaço: $O(n)$
+				\end{itemize}
+			\end{alertblock}
+	\end{columns}
+\end{frame}
+
+\subsection{Merge Sort}
+\begin{frame}[fragile,label=main]
+	\begin{columns}[T]
+		\column{.4\textwidth}\centering
+			\includegraphics[width=.5\textwidth]{converge}\\\vfill
+			\includegraphics[width=.5\textwidth]{diverge}
+		\pause
+		\column{.55\textwidth}\centering
+			\begin{lstlisting}[morekeywords={mergesort,merge}]
+				mergesort(A)
+				    se n > 2
+				        esq := metade_esquerda(A)
+				        dir := metade_direita(A)
+				        mergesort(esq)
+				        mergesort(dir)
+				        A := merge(esq,dir)
+			\end{lstlisting}
+			\pause\vfill
+			\begin{alertblock}{Complexidade}
+				\begin{itemize}
+					\item Tempo: $O(n\cdot\log(n))$
+					\item Espaço: $O(n)$
+				\end{itemize}
+			\end{alertblock}
+	\end{columns}
+\end{frame}
+
+\subsection{Moral da História...}
+\begin{frame}[label=main]
+	\begin{center}
+		\Large
+		\begin{tabular}{|c|c|}
+			\hline
+			Bogosort   	& \alert{$O(n{\cdot}n!)$}\pause	\\\hline
+			Bubble Sort	& $O(n^2)$                     	\\\hline
+			Inserção   	& $O(n^2)$                     	\\\hline
+			Seleção    	& $O(n^2)$\pause               	\\\hline
+			Shellsort  	& \alert{$O(n\cdot\log(n))$}   	\\\hline
+			Quicksort  	& \alert{$O(n^2)$}             	\\\hline
+			Heapsort   	& $O(n\cdot\log(n))$           	\\\hline
+			Merge Sort 	& $O(n\cdot\log(n))$           	\\\hline
+		\end{tabular}
+	\end{center}
+\end{frame}
+
+\begin{frame}[label=main]
+	\begin{center}
+	\Huge \href{http://www.sorting-algorithms.com/random-initial-order}{www.sorting-algorithms.com}\footnotesize{\footnote{\href{http://xkcd.com/1185/}{http://xkcd.com/1185/}}}
+	\end{center}
+	\vfill
+	\begin{center}
+	\Huge \href{$HOME/workspace/ED/ordenacao/ordenacao.c}{ordenacao.c}
+	\end{center}
+\end{frame}

@@ -1,0 +1,150 @@
+%!TEX root = ED_Lista_Fila_Pilha
+
+\section{Fila}
+% \begin{frame}
+%	Em certas aplicações, tornam-se úteis estruturas de dados constituídas por  conjuntos de elementos organizados, não pelos valores dos dados, mas em função de uma determinado critério que regulamenta a entrada e a saída dos dados na estrutura.
+%	\begin{itemize}
+%		\item atendimento ao cliente
+%		\item processamento de tarefa
+%		\item etc.
+%	\end{itemize}
+% \end{frame}
+
+\begin{frame}[label=notas]
+	\begin{itemize}
+		\item Lista FIFO (First In, First Out)
+		\item Os elementos são colocados na fila e retirados (ou processados) por ordem de chegada
+			\begin{itemize}
+				\item Inserção \alert<1>{apenas no final} da fila
+				\item Remoção \alert<1>{apenas do início} da fila
+			\end{itemize}
+	\end{itemize}
+	\begin{center}
+		\includegraphics[width=.5\textwidth]{queue}
+		%source: http://commons.wikimedia.org/wiki/File:Data_Queue.svg
+	\end{center}
+\end{frame}
+
+\begin{frame}[label=notas]
+	Implementação? 
+	\\\pause\vfill
+	Uma fila permite várias operações:
+	\begin{itemize}
+		\item criar uma fila vazia
+		\item inserir um item novo (ao final)
+		\item remover um item (do início)
+		\item esvaziar a fila
+		\item etc.
+	\end{itemize}
+\end{frame}
+
+% \begin{frame}[fragile,label=notas]
+% 	\begin{center}
+% 		\begin{minipage}{.45\textwidth}
+% 			\begin{lstlisting}[title=Elemento de fila]
+% 				typedef struct queue_item_t {
+% 				  item_t item;
+% 				  struct queue_item_t *next;
+% 				} queue_item_t;
+% 			\end{lstlisting}			
+% 		\end{minipage}
+% 	\end{center}
+% 	\pause
+% 	\begin{center}
+% 		\begin{minipage}{.45\textwidth}
+% 			\begin{lstlisting}[title=Fila]
+% 				typedef struct queue_t {
+% 				  queue_item_t *first, *last;
+% 				  /* int num_items; */
+% 				} queue_t;
+% 			\end{lstlisting}			
+% 		\end{minipage}
+% 	\end{center}
+% \end{frame}
+% \lstset{morekeywords={queue_item_t, queue_t}}
+
+% \begin{frame}[fragile,label=notas]
+% 	\vspace{-1\baselineskip}
+% 	\begin{center}
+% 		\begin{minipage}{.75\textwidth}
+% 			\begin{lstlisting}[title=Criar fila]
+% 				queue_t *queue_new(item_t *item) {
+% 				  queue_t *fila = (queue_t *)malloc(sizeof(queue_t));
+% 				  if (fila) {
+% 				    if(item) enqueue(fila, *item);
+% 				    else (fila->first = fila->last = NULL);
+% 				  }
+% 				  return fila;
+% 				}
+% 			\end{lstlisting}
+% 		\end{minipage}
+% 	\end{center}
+% 	\vspace{-1.5em}\pause
+% 	\begin{center}
+% 		\begin{minipage}{.5\textwidth}
+% 			\begin{lstlisting}[title=Esvaziar fila]
+% 			                	void queue_empty(queue_t *fila) {
+% 			                	  while (fila->first)
+% 			                	    free(dequeue(fila));
+% 			                	  fila->last = NULL;
+% 			                	}
+% 			\end{lstlisting}			
+% 		\end{minipage}
+% 	\end{center}
+% \end{frame}
+% \lstset{morekeywords={queue_new, queue_empty}}
+
+% \begin{frame}[fragile,label=notas]
+% 	\vspace{-1\baselineskip}
+% 	\begin{center}
+% 		\begin{minipage}{.75\textwidth}
+% 			\begin{lstlisting}[title=Inserir]
+% 				void enqueue(queue_t *fila, item_t item) {
+% 				  if(!fila->last) { // fila vazia
+% 				    fila->first = queue_new_item(item, NULL);
+% 				    fila->last = fila->first;
+% 				  } else { // ao final
+% 				    fila->last->next = queue_new_item(item, NULL);
+% 				    fila->last = fila->last->next;
+% 				  }
+% 				}
+% 			\end{lstlisting}
+% 		\end{minipage}
+% 	\end{center}
+% 	\vspace{-1.5em}\pause
+% 	\begin{center}
+% 		\begin{minipage}{.6\textwidth}
+% 			\begin{lstlisting}[title=Remover]
+% 			                	queue_item_t *dequeue(queue_t *fila) {
+% 			                	  queue_item_t *aux = fila->first;
+% 			                	  fila->first = aux->next;
+% 			                	  return aux;
+% 			                	}
+% 			\end{lstlisting}			
+% 		\end{minipage}
+% 	\end{center}
+% \end{frame}
+% \lstset{morekeywords={enqueue, dequeue}}
+
+\begin{frame}
+	\framesubtitle{\subsecname\- Aplicações}
+	
+	As filas são utilizadas quando desejamos processar itens de acordo com a 
+	ordem de chegada (o primeiro a chegar será o primeiro a ser processado.
+	\\\vfill\pause
+	Sistemas operacionais, por exemplo, usam filas para regular a ordem em que 
+	as tarefas devem receber processamento e recursos devem ser alocados a processos.
+	\subitem{fila de prioridade (inserção ordenada)}
+\end{frame}
+
+\begin{frame}
+	\framesubtitle{Exercícios}
+	
+	\begin{itemize}
+		\setlength{\itemsep}{\baselineskip}
+		\item Soma de inteiros (super) longos (ex5)
+		\item Controle de delimitadores em uma equação (ex6)
+		\item Implementação de uma fila de prioridade descendente (ex7)
+		\item Manipulação de uma sequência de caracteres (ex8)
+	\end{itemize}
+\end{frame}

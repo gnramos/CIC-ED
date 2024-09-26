@@ -1,0 +1,370 @@
+\documentclass{UnBeamer}%
+%\documentclass[draft]{UnBeamer}%
+%\documentclass[handout]{UnBeamer}%
+%\documentclass[notasDeAula]{UnBeamer}%
+
+\usepackage{../ED}%
+\title{Tabela de Dispersão}%
+\subtitle{Estruturas de Dados Não Lineares}%
+
+% \includeonlyframes{notas}%
+
+\begin{document}%
+	\frame[label=notas]{\titlepage}%
+
+	\section{Tabela de Dispersão}
+	\begin{frame}[label=notas]
+		\framesubtitle{(Tabela de Espalhamento / Tabela \emph{Hash})}
+
+		Uma estrutura que trabalhe na ordem de $log(n)$ é muito eficiente\pause,
+		mas o que seria melhor?\pause
+		\begin{center}
+			\Large $O(1)$
+		\end{center}
+		Isto significa que: \pause
+		\begin{itemize}
+			\item A ordem de inserção dos elementos não têm influência.  \pause
+			\item O número de elementos não tem influência.  \pause
+			\item Não há comparações desnecessárias.  \pause
+		\end{itemize}
+		\vfill
+		Mas como?
+		\begin{itemize}[<+->]
+			\item O acesso direto implica a utilização de um vetor (tabela).
+			\item Se cada chave precisa ser recuperada em um único acesso,
+			\alert{a posição do elemento depende somente da chave}.
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}
+		Exemplo: inventário de 100 itens:\pause
+		\begin{itemize}
+			\item Itens identificados por uma chave de 2 dígitos.
+			\item Vetor de 100 elementos onde o índice $i$ é a própria chave.
+		\end{itemize}
+		\vfill\pause
+		E se forem menos de 100 itens? \pause O mesmo vetor também resolve.
+		\\\vfill\pause
+		E se os itens forem identificados por uma chave de 7 caracteres?\pause
+		\subitem[]{\large índice $\leftarrow$ \alert{\textbf{função\_de\_dispersão}}(chave)}
+		\vfill
+		\emph{A função de dispersão associa chaves de pesquisa a uma posição.}
+	\end{frame}
+
+	\begin{frame}[label=notas]
+		\begin{columns}[T]
+			\column{.4\textwidth}
+				Vantagens:
+				\begin{itemize}
+					\item Utilidade
+					\item Velocidade
+				\end{itemize}
+			\column{.55\textwidth}
+				\vspace{-2\baselineskip}
+				\includegraphics[width=\textwidth]{hash}
+		\end{columns}
+		\vspace{-3\baselineskip}\pause
+		Desvantagens:
+		\begin{itemize}
+			\item Colisões
+			\item Não permite:
+				\begin{itemize}
+					\item ordenação
+					\item recuperar o elemento antecessor/sucessor
+					\item chaves duplicadas
+				\end{itemize}
+			\item Pode necessitar de redimensionamento
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}
+		Exemplo: inventário de 100 itens:
+		\begin{itemize}[<+->]
+			\item Itens identificados por uma chave de 7 dígitos.
+			\item Vetor de 100 elementos onde o índice $i$ é composto pelos 2 últimos números da chave.
+			\item Elementos com chaves bem diferentes podem estar próximos no vetor.
+			\item Elementos com chaves bem diferentes podem estar associadas ao mesmo índice (colisão).
+		\end{itemize}
+		\vfill
+		\uncover<5->{
+		\begin{tabular}{|*{8}{c|}}
+			\hline
+			Chave & 4967000 &  & 8421002 & $\cdots$ &  &  1234598 & 1234599\\\hline
+			\small Posição & 0 & 1 & 2 & $\cdots$ & 97 & 98 & 99\\\hline
+		\end{tabular}}
+		\\\vfill\pause
+		\uncover<6->{Chave 1234500? \pause \alert{Colisão}...}
+	\end{frame}
+
+	\subsection{Colisão}
+	\begin{frame}
+		A colisão é um problema sério?\pause
+		\begin{block}{Problema do Aniversário}
+		Dado um grupo de 23 (ou mais) pessoas escolhidas aleatoriamente, a chance
+		de que duas pessoas terão a mesma data de aniversário é de mais de
+		\uncover<3->{50}\uncover<2->{\%}. \pause Para 57 ou mais pessoas, a
+		probabilidade é maior do que \uncover<4->{99}\uncover<3->{\%}.
+		\end{block}
+		\vfill\pause
+		Uma aplicação com 2500 chaves uniformemente distribuídas, a serem
+		armazenadas em um vetor de tamanho $10^6$ tem 95\% de chance de colisão.
+		\\\vfill\pause
+		A colisão pode ser evitada conhecendo-se todas as chaves \pause
+		$\rightarrow$ escolhe-se a função de dispersão ideal para obter a indexação perfeita.
+		\\\vfill\pause
+		Como isto não é prático, outras técnicas são utilizadas.
+	\end{frame}
+
+	\begin{frame}[label=notas]
+		\framesubtitle{Fator de Carga}
+
+		\emph{Load Factor}: razão entre o número de chaves e o tamanho da tabela
+		\begin{itemize}[<+->]
+			\item Geralmente $<$ 0.7 (com uma boa função de dispersão)
+			\vfill
+			\item Fator de carga alto indica que a memória está sendo bem utilizada,
+			mas implica em maior probabilidade de colisão.
+			\vfill
+	\item Fator de carga baixo implica em menor probabilidade de colisão mas indica
+	que a memória está sendo desperdiçada.
+		\end{itemize}
+	\end{frame}
+
+	\lstset{morekeywords={funcao_de_dispersao, reespalha}}
+	\begin{frame}[fragile,label=main]
+		\framesubtitle{Reespalhamento / Endereçamento Aberto}
+
+		A maneira mais simples de lidar com a colisão é colocar o registro na \emph{próxima solução disponível}.
+		\pause
+		\begin{center}
+			\begin{minipage}{.8\textwidth}
+				\begin{lstlisting}
+	void ht_insert(dado_t dado) {
+	    int i = funcao_de_dispersao(dado.chave);
+	    while(tabela[i] && tabela[i]->chave != dado.chave)
+	        i = reespalha(i);
+	    if(!tabela[i])
+	        tabela[i] = novo_registro(dado);
+	    // else OPS!
+	}
+				\end{lstlisting}
+			\end{minipage}
+		\end{center}
+		É preciso verificar se foi possível inserir (a tabela pode estar cheia,
+		ou a função de reespalhamento ser inadequada). \pause Geralmente,
+		\begin{lstlisting}
+	int reespalha(int i){
+	    return (i+c)%TAM_VETOR; // c e TAM_VETOR sao primos entre si
+	}
+		\end{lstlisting}
+	\end{frame}
+
+	\begin{frame}[label=notas]
+		\framesubtitle{Reespalhamento / Endereçamento Aberto}
+
+		A informação é armazenada na própria tabela.\\\vfill
+		\begin{tikzpicture}
+			\node[circle,draw] (k) {chave};
+			\node[right of=k] (aux1) {};
+			\node[right of=aux1] (aux2) {};
+			\node[block, right of=aux2] (f) {função de dispersão};
+			\draw[->,line] (k) -- (f);
+
+			\node[right of=f] (aux3) {};
+			\node[right of=aux3] (aux4) {};
+			\node[right of=aux4] (aux5) {};
+			\node[rectangle,draw, right of=aux5] (0) {0 - dado1};
+			\draw[->,line] (f.east) -- (0.west);
+			\node[rectangle,draw, below of=0] (1) {1 - dado 2};
+			\draw[->,line] (f.east) -- (1.west);
+			\node[below of=1] (d) {$\vdots$ \textcolor{white}{- dado 2}};
+			\node[rectangle,draw, below of=d] (n) {n - dado X};
+			\draw[->,line] (f.east) -- (n.west);
+		\end{tikzpicture}
+	\end{frame}
+
+	\begin{frame}
+		\framesubtitle{Endereçamento Aberto}
+
+		\begin{itemize}
+			\item Reespalhamento Linear: o intervalo entre os índices é linear.
+				\subitem{$(i+c)\%N$}
+			\item Reespalhamento Quadrático: o intervalo entre os índices é
+				\subitem{$(i+i^2)\%N$}
+			\item Reespalhamento Duplo: o intervalo entre os índices é função de
+			outra dispersão.
+				\subitem{$(i+ funcao\_de\_dispersao\_2(i))\%N$}
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}
+		\framesubtitle{Espalhamento Combinado (Geral)}
+
+		\begin{columns}[T]
+			\column{.75\textwidth}
+				\begin{itemize}
+					\vfill
+					\item As posições na tabela são usadas como nós de listas (no caso de colisões).
+					\vfill
+					\item Estratégia eficiente, eficaz, e de fácil implementação.
+					\vfill
+					\item Pode exigir mais memória.
+					\vfill
+					\item Evita agrupamentos:
+						\begin{itemize}
+						\item[primário] : duas chaves (com índices diferentes)
+						competem entre si em sucessivos reespalhamentos.
+						\item[secundário] : chaves diferentes (com o mesmo índice)
+						seguem o mesmo percurso de reespalhamento.
+						\end{itemize}
+				\end{itemize}
+			\column{.2\textwidth}
+				\includegraphics[width=\textwidth]{CoalescedHash}
+		\end{columns}
+	\end{frame}
+
+	\begin{frame}
+		\framesubtitle{Outros espalhamentos}
+		\begin{columns}[T]
+			\column{.75\textwidth}
+				\begin{itemize}[<+->]
+					\item Robin Hood: uma nova chave toma o lugar de outra se seu
+					número de \emph{provas} (testes) é maior que o da que está armazenada.
+						\subitem{Melhora o pior caso.}
+					\item Cuckoo (cuco): usa 2 ou mais funções de dispersão. Uma
+					nova inserção substitui o registro existente, que é deslocado
+					para a segunda posição (e assim sucessivamente).
+						\subitem{Garante busca em tempo constante e amortiza inserção/remoção.}
+					\item Hopscotch (``amarelinha''): busca em uma região próxima
+					ao índice. Se não houver espaço para inserção, acha um espaço
+					próximo e desloca os itens fora da região até ele (efetivamente
+					levando o espaço para dentro da vizinhança).
+				\end{itemize}
+			\column{.2\textwidth}
+				\includegraphics<3->[width=\textwidth]{cuckoo}
+		\end{columns}
+	\end{frame}
+
+	% \begin{frame}
+	%	\framesubtitle{Encadeamento Separado}
+
+	%	\pause
+	%	\begin{itemize}[<+->]
+	%		\item Cada elemento da tabela é uma lista simplesmente encadeada de
+	%		todos os itens com o mesmo índice.
+	%		\item Durante a busca, a lista é percorrida.
+	%		\item Possibilita que o número de registros seja maior que o número
+	%		de posições na tabela (possivelmente com fator de carga aceitável).
+	%		\item A lista pode ser ordenada dinamicamente pela chave (facilitando a busca).
+	%		\item Exige espaço adicional para armazenar os registros.
+	%		\item Buscar na lista [ordenada] pode ser mais eficiente que múltiplos
+	%		reespalhamentos \uncover<8->{(e pode não ser).}
+	%	\end{itemize}
+	% \end{frame}
+
+	\begin{frame}[label=notas]
+		\framesubtitle{Encadeamento}
+
+		A informação é armazenada em estruturas encadeadas fora da tabela.
+		\\\vfill
+		\begin{tikzpicture}
+			\node[circle,draw] (k) {chave};
+			\node[right of=k] (aux1) {};
+			\node[right of=aux1] (aux2) {};
+			\node[block, right of=aux2] (f) {função de dispersão};
+			\draw[->, line] (k) -- (f);
+
+			\node[right of=f] (aux3) {};
+			\node[right of=aux3] (aux4) {};
+			\node[right of=aux4] (aux5) {};
+			\node[rectangle,draw, right of=aux5] (0) {0 - dado1};
+			\draw[->, line] (f.east) -- (0.west);
+			\node[rectangle,draw, below of=0] (1) {1 - dado 2};
+			\draw[->, line] (f.east) -- (1.west);
+			\node[below of=1] (d) {$\vdots$ \textcolor{white}{- dado 2}};
+			\node[rectangle,draw, below of=d] (n) {n - dado X};
+			\draw[->, line] (f.east) -- (n.west);
+
+			\node[right of=0] (auxl01) {};
+			\node[rectangle,draw,right of=auxl01] (l01) {?};
+			\draw[->, line] (0) -- (l01);
+			\node[rectangle,draw,below of=l01] (l11) {?};
+			\node[rectangle,draw,right of=l11] (l12) {?};
+			\node[right of=l12] (l13) {$\cdots$};
+			\draw[->, line] (1) -- (l11);
+			\draw[->, line] (l11) -- (l12);
+			\draw[->, line] (l12) -- (l13);
+
+		\end{tikzpicture}
+	\end{frame}
+
+	\begin{frame}
+		\framesubtitle{Encadeamento}
+
+		Além do espaço adicional, há o custo de busca/inserção/remoção.
+		\\\vfill
+		\begin{itemize}
+			\item[] \uncover<2->{Mas pode-se utilizar qualquer estrutura de dados:}
+			\begin{itemize}
+				\item[$O(n)$] Lista simplesmente encadeada\pause
+				\item[$O(log(n))$] Árvore AVL
+				\item[$O(log(n))$] Árvore Rubro-Negra\pause
+				\item[$O(1)$] Tabela de Dispersão
+				\item[$O(?)$] ?
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}[label=notas]
+		\begin{center}
+			\includegraphics[width=.8\textwidth]{hash_table_average_insertion_time}
+		\end{center}
+	\end{frame}
+
+	\subsection{Considerações sobre a Tabela de Dispersão}
+	\begin{frame}
+		\begin{itemize}[<+->]
+			\item Têm tempo médio de busca constante.\vfill
+			\item Custo de desenvolvimento é significativo.\vfill
+			\item Avaliação de uma boa função de espalhamento é complexa.\vfill
+			\item Os dados na memória ficam aleatoriamente distribuídos
+			(sobrecarrega o sistema)\vfill
+			\item \alert{O tempo gasto na depuração e remoção de erros é maior
+			do que nas árvores balanceadas, que também podem ser levadas em conta
+			para solução do mesmo tipo de problema.}
+			\item
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}
+		Limitações:
+		\begin{itemize}[<+->]
+			\item Estrutura de dados do tipo dicionário, que não permite
+				\begin{enumerate}
+					\item armazenar elementos repetidos;
+					\item recuperar elementos sequencialmente (ordenação);
+					\item recuperar o elemento antecessor/sucessor.
+				\end{enumerate}\vfill
+			\item Para otimizar a função de dispersão é necessário conhecer a
+			natureza da chave a ser utilizada.
+				\subitem{no pior caso, a ordem das operações pode ser $O(n)$}\vfill
+			\item Podem necessitar de redimensionamento.\vfill
+			\item O custo da função de dispersão pode ser proibitivo.
+		\end{itemize}
+	\end{frame}
+
+
+	\begin{frame}
+		Aplicações:
+		\begin{itemize}[<+->]
+			\item Vetor associativo (cujos índices são strings arbitrárias),
+			especialmente em linguagens interpretadas (AWK, Perl, e PHP).
+			\item Indexação de bancos de dados \pause (embora árvores sejam mais comuns).
+			\item Cache de memória: memória auxiliar para acelerar o processamento.
+			\item Conjuntos (indica a existência e recupera rapidamente)
+			\item Representação de objetos em linguagens de programação dinâmicas (Perl, Python, JavaScript, e Ruby).
+			\item Representação única de dados (em LISP, para evitar a criação strings repetidas).
+			\item etc.
+		\end{itemize}
+	\end{frame}
+\end{document}%

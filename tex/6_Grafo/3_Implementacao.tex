@@ -1,0 +1,121 @@
+%!TEX root = ED_Grafo.tex
+
+\section{Implementação}
+% \begin{frame}[label=notas]
+% 	\framesubtitle{Matriz de Adjacência}
+	
+% 	\begin{itemize}
+% 		\item Cada posição na matriz é um arco:
+% 			\begin{itemize}
+% 				\item linha indica o nó de saída do arco
+% 				\item coluna indica o nó de chegada
+% 			\end{itemize}
+% 		\pause
+% 		\item Valor da posição indica:
+% 			\begin{itemize}
+% 				\item a existência ou não do arco
+% 				\item o peso associado ao arco
+% 			\end{itemize}
+% 		\pause
+% 		\item Deve ser utilizada para grafos densos, onde o número de arcos $|A|$ 
+% 		é próximo do número de vértices ao quadrado $|V|^2$
+% 		\subitem{Complexidade de espaço $O(V^2)$}
+% 		\item O tempo necessário para acessar um elemento é  constante.
+% 		\item Ler ou examinar  a matriz tem complexidade de 
+% tempo $O(V^2)$
+% 	\end{itemize}
+% \end{frame}
+
+\begin{frame}[label=notas]
+	\framesubtitle{Matriz de Adjacência}
+
+	\begin{columns}[T]
+     	\column{.5\textwidth}\centering
+     		\includegraphics[width=.8\textwidth]{graph_matrix1}
+     	\pause
+     	\column{.5\textwidth}\centering
+     		\includegraphics[width=.8\textwidth]{graph_matrix2}
+	\end{columns}
+\end{frame}
+
+% \begin{frame}[fragile,label=notas]
+%	\framesubtitle{Lista de Adjacência}
+ 	
+%	\begin{itemize}
+%		\item Os vértices de uma lista de adjacência são em geral armazenados em 
+%		uma ordem arbitrária.
+%		\item Possui uma complexidade de espaço $O(|V|+|A|)$
+%		\item Indicada para grafos esparsos, onde $|A|$ é muito menor do que $|V|^2$ .
+%		\item é compacta e usualmente utilizada na maioria das aplicações.
+%		\item Tempo $O(|V|)$ para determinar se existe uma aresta entre 
+%		o vértice $i$ e o vértice $j$, pois podem existir $O(|V|)$vértices na 
+%		lista de adjacentes do vértice $i$.
+%	\end{itemize}
+%	\begin{center}
+%	\begin{minipage}{.35\textwidth}
+%	\begin{lstlisting}[title=Vértice]
+% typedef struct v_node_t {
+%     char cidade[20];
+%     a_node_t *aresta;
+%     struct v_node_t *prox;
+% } v_node_t;
+%	\end{lstlisting}
+%	\end{minipage}
+%	\hspace{1cm}
+%	\begin{minipage}{.4\textwidth}
+%	\begin{lstlisting}[title=Aresta]
+% typedef struct a_node_t {
+%     double peso;
+%     struct v_node_t *vertice;
+%     struct a_node_t *prox;
+% } a_node_t;
+%	\end{lstlisting}
+%	\end{minipage}
+%	\end{center}
+% \end{frame}
+
+\makeatletter%
+\newcommand{\vertice}[2][\@empty]{%
+	\ifx#1\@empty%
+		\node[block, fill=greenUnB, minimum size=2em] (#2) {\textcolor{white}{\large\textbf{#2}}};
+	\else%
+		\node[block, fill=greenUnB, minimum size=2em, below of=#1] (#2) {\textcolor{white}{\large\textbf{#2}}} edge[line, greenUnB, <-] (#1);
+	\fi%
+}%
+\makeatother%
+\newcommand{\aresta}[3]{%
+	\node[block, blueUnB, minimum size=2em, right of=#1] (#1#2) {$#3 \overrightarrow{#2}$} edge[line,blueUnB,<-] (#1);
+}%
+\begin{frame}[label=notas]
+	\framesubtitle{Lista de Adjacência}
+	
+	\begin{tikzpicture}[scale=1.5]
+		\drawABCDnodes
+		\drawABCDdirectedEdges
+		\drawABCDweights
+	\end{tikzpicture}
+	\hfill\pause
+	\begin{tikzpicture}[node distance=15mm]
+		\vertice{A}
+		\vertice[A]{B}
+		\vertice[B]{C}
+		\vertice[C]{D}
+		
+		\pause
+		\aresta{A}{B}{0.3}
+		\draw<3>[->, dashed] (AB)..controls +(south east:0.5) and +(north east:1) .. (B);
+		\pause
+		\aresta{B}{A}{0.4}
+		\aresta{BA}{C}{0.2}
+		\aresta{BAC}{D}{0.7}
+		\draw<4>[->, dashed] (BA)..controls +(north east:0.5) and +(south east:1) .. (A);
+		\draw<4>[->, dashed] (BAC)..controls +(south east:0.5) and +(north east:1) .. (C);
+		\draw<4>[->, dashed] (BACD)..controls +(south east:0.5) and +(north east:1) .. (D);
+		
+		\pause
+		\aresta{C}{C}{0.5}
+		\aresta{CC}{D}{0.1}
+		\aresta{D}{A}{0.8}
+		\aresta{DA}{C}{1}
+	\end{tikzpicture}
+\end{frame}

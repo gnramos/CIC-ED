@@ -1,0 +1,80 @@
+\subsection*{Exercício}
+\begin{frame}[label=main]
+	\begin{block}{Entrada}
+		Um arquivo com, no máximo, $n$ inteiros positivos distintos, cada um de valor $\leq 10^7$. Não há qualquer outro dado relacionado ao número.
+	\end{block}
+	\vfill\pause
+	\begin{exampleblock}{Saída}
+		Uma lista com os inteiros (de entrada) \emph{em ordem crescente}.
+	\end{exampleblock}
+	\vfill\pause
+	\begin{alertblock}{Restrições}
+		Em torno de 1Mb de memória RAM, espaço a vontade no disco rígido. Processamento em poucos minutos.
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}[label=main]
+	\vspace{2em}\hspace{15mm}
+	\mbox{
+		\tikzstyle{db}= [cylinder, gray, rotate=90, draw]%
+		\begin{tikzpicture}[minimum height=1cm, minimum width=2cm, line width=1.5pt, remember picture, overlay]
+			\node[db] (in)	at(0,0) {};
+			\node[db] (out) at(8,0) {};
+			\node[draw, redUnB, minimum height=8mm] (alg) at(4,0) {} edge[<-] (in) edge[->] (out);
+			\node<1-2>[db] (aux) at(4,2) {} edge[<->] (alg);
+			
+			\node at(in)                        	{Entrada};
+			\node at(out)                       	{Saída};
+			\node<1-2> at(aux)                  	{HD};
+			\node<1 | handout:0>[redUnB] at(alg)	{\textbf{?}};
+			
+			\node<2 | handout:0> at(alg)  	{MergeSort};
+			\node<2 | handout:0> at(4.3,1)	{?};
+			\node<2 | handout:0> at(2,0.3)	{1};
+			\node<2 | handout:0> at(6,0.3)	{1};
+			
+			\node<3 | handout:0> at(alg)  	{MultiPass};
+			\node<3 | handout:0> at(2,0.3)	{40};
+			\node<3 | handout:0> at(6,0.3)	{1};
+			
+			\node<4> at(alg)  	{NinjaSort};
+			\node<4> at(2,0.3)	{1};
+			\node<4> at(6,0.3)	{1};
+		\end{tikzpicture}}
+	\\\vspace{5em}
+	\only<2 | handout:0>{Utiliza o disco auxiliar para ordenação.}
+	\only<3 | handout:0>{Lê blocos de 250.000 inteiros e os ordena na memória.}
+\end{frame}
+
+% \begin{frame}[fragile,label=main]
+%	E se usássemos um bit para indicar se o número existe ou não no arquivo de entrada?
+%	\pause\vfill
+%	\begin{center}
+%		\begin{minipage}{.55\textwidth}
+%	\begin{lstlisting}[morekeywords={escreve}]
+%		|\comentario{1. Inicializa}|
+%		para i de 1 a n
+%		    bit[i] := 0
+%		|\comentario{2. Marca numeros existentes na entrada}|
+%		para cada i em entrada
+%		    bit[i] := 1
+%		|\comentario{3. Escreve numeros (ordenados)}|
+%		para i de 1 a n
+%		    se bit[i] = 1
+%		        escreve(saida)
+%	\end{lstlisting}
+%	\end{minipage}
+%	\end{center}
+% \end{frame}
+
+\subsection{... e algo mais?}
+\begin{frame}[label=main]
+	\begin{center}
+	\includegraphics[width=.2\textwidth]{bucket}\hfill
+	\includegraphics[width=.3\textwidth]{fsm}\hfill
+	\includegraphics[width=.3\textwidth]{pancakes}
+	\\\vfill
+	\includegraphics[width=.5\textwidth]{counting}\hfill
+	\includegraphics[width=.4\textwidth]{radix}
+	\end{center}
+\end{frame}

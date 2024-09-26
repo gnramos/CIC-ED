@@ -1,0 +1,70 @@
+%!TEX root = ED_Grafo.tex
+
+\section{Exemplos}
+\begin{frame}
+	\frametitle{Exercício}
+	\framesubtitle{Algoritmo para Encontrar Amigos em uma Rede Social}
+	
+	Dada uma rede social representada por um grafo, onde cada aresta representa 
+	uma relação de amizade, elabore um algoritmo que liste sugestões de prováveis 
+	amigos. \pause Uma pessoa pode ser sugerida a outra se elas não são amigas 
+	(na rede social) e têm pelo menos $n$ amigos em comum.
+	\pause
+	\begin{enumerate}
+		\item Suponha o grafo $G(V,A)$ e um vértice $v$ inicial.
+		\item Para cada vértice $u$ tal que $^{\exists}(v,u)$:
+			\begin{enumerate}
+				\item Para cada vértice $w \not\in\{v,u\}$ tal que $^{\exists}(u,w)$:
+				\subitem[]{Se $\not\exists (v,w)$: incremente $contador\_W$.}
+				\item Se $contador\_W \geq n$: adicione $w$ a lista de sugestões.
+			\end{enumerate}
+		\item Retorne a lista de sugestões.
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}[label=notas]
+	\frametitle{Exercício}
+	\framesubtitle{Encontrar Amigos de $A$}
+	
+	\begin{center}
+		\begin{tikzpicture}[every node/.style={circle,draw},node distance=15mm]
+			\node (A) {A};
+			\node[above right of=A] (B) {B} edge (A);
+			\node[below right of=A] (C) {C} edge (A);
+			\node[right of=A] (D) {D} edge (A) edge (B) edge (C);
+			\node[right of=D] (E) {E} edge (B) edge (C) edge (D);
+			\node[left of=A] (K) {K} edge (A);
+			\node[below of=K] (F) {F} edge (A) edge (C);
+			\node[above left of=K] (G) {G} edge (B) edge (F);
+			\node[above right of=G] (H) {H} edge (B) edge (G);
+			\node[above of=B] (I) {I} edge (B) edge (H);
+			\node[above of=E] (J) {J} edge (B) edge (E) edge (I);
+			\node[above right of=J, right = 2\baselineskip, label=right:{L}] (L) {\includegraphics[width=.1\textwidth]{foreveralone}};
+		\end{tikzpicture}
+		\\\vfill		
+		\uncover<2->{
+		\begin{tabular}{*{13}{|c}|}
+			\hline
+			& A & B & C & D & E & F & G & H & I & J & K & L\\\hline
+			contador & 0 & 0 & 0 & 0 & 3 & 0 & 2 & 1 & 1 & 1 & 0 & 0 \\\hline
+		\end{tabular}
+		}
+	\end{center}
+	\begin{columns}[T]
+		\column{.45\textwidth}
+		\subitem[a)]{Para $n = 3$ \pause $\rightarrow\{E\}$}
+		\column{.45\textwidth}
+		\subitem[b)]{Para $n = 2$ \pause $\rightarrow\{E, G\}$}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[label=notas]
+	\frametitle{Exemplo: Mapas de Música}
+	\framesubtitle{\url{http://audiomap.tuneglue.net/}}
+	
+	\vfill
+	\begin{center}
+		\includegraphics[width=.8\textwidth]{musicmap}
+		\framezoom<2 | handout:0><2 | handout:0>[border](10mm,30mm)(4cm,4cm)
+	\end{center}
+\end{frame}

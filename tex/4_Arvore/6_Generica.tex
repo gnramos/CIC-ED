@@ -1,0 +1,75 @@
+%!TEX root = ED_Arvore.tex
+
+\section{Árvores Genéricas}
+\begin{frame}[fragile,label=notas]
+	\pause
+	\begin{itemize}
+		\item Uma árvore genérica pode possuir um número arbitrário de filhos por nó.
+		\item Como implementar se não sabemos quantos ponteiros são necessários?
+			\uncover<3->{\subitem{Usando a mesma estrutura da árvore binária  com diferentes significados.}}
+	\end{itemize}
+	\begin{columns}[T]
+		\column{.3\textwidth}\centering
+			\uncover<2->{\Tree [ .10 [ .5 [ .1 ] [ .8 [ .2 ] ] ] [ .15 [ .50 ] [ .16 ] ] [ .22 ] ]}
+		\column{.68\textwidth}\centering
+			\uncover<3->{
+			\begin{tikzpicture}[->]
+				\node[btnode] (10) at (0, 0) {\nodepart{two} 10};
+				\node[btnode] (5) at (0, -1) {\nodepart{two} 5};
+				\node[btnode] (15) at (2, -1) {\nodepart{two} 15};
+				\node[btnode] (22) at (4, -1) {\nodepart{two} 22};
+				\node[btnode] (1) at (0, -2) {\nodepart{two} 1};
+				\node[btnode] (8) at (2, -2) {\nodepart{two} 8};
+				\node[btnode] (2) at (2, -3) {\nodepart{two} 2};
+				\node[btnode] (50) at (4, -2) {\nodepart{two} 50};
+				\node[btnode] (16) at (6, -2) {\nodepart{two} 16};
+				
+				\draw[line] (10.south west) -- (5);
+				\draw[line] (5.east) -- (15);
+				\draw[line] (15.east) -- (22);
+				\draw[line] (5.south west) -- (1);
+				\draw[line] (1.east) -- (8);
+				\draw[line] (8.south west) -- (2);
+				\draw[line] (15.south west) -- (50);
+				\draw[line] (50.east) -- (16);
+			\end{tikzpicture}}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile,label=notas]
+	\framesubtitle{Aplicação: Árvore de Busca (de Soluções)}
+	
+	\begin{itemize}
+		\item Game Trees são árvores que representam as  possibilidades de jogadas para um jogador a partir de um estado do jogo.\pause
+		\item Os filhos de um nó representam todas as possibilidades a partir daquela situação do jogo.\pause
+		\item Função \emph{avalia} retorna um valor representando o quão bom um estado do jogo (posição do tabuleiro).\pause
+	\end{itemize}
+	\begin{columns}[T]
+		\column{.4\textwidth}\centering
+			\begin{lstlisting}
+				typedef struct gt_node_t {
+     int info;
+     struct gt_node_t *pai;
+     struct gt_node_t *filho;
+     struct gt_node_t *irmao;
+} gt_node_t;
+			\end{lstlisting}
+		\column{.6\textwidth}
+			\begin{center}
+				\includegraphics[width=\textwidth]{gametree}
+			\end{center}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[label=notas]
+	\framesubtitle{Aplicação: Árvore de Busca (de Soluções) - Jogo da Velha}
+	
+	\begin{itemize}
+		\item Altura da árvore indica o número de jogadas adiante que se deseja prever.
+		\item A decisão deve maximizar a função \emph{avalia} para o jogador (e minimizar  para o adversário).
+			\subitem{A função de avaliação retorna o valor do número de linhas colunas e diagonais abertas para o programa menos o número de linhas, colunas e diagonais abertas ao adversário.}
+	\end{itemize}
+	\begin{center}
+		\includegraphics[width=.75\textwidth]{jogo_da_velha}
+	\end{center}
+\end{frame}

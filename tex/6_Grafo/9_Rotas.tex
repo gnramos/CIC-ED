@@ -1,0 +1,138 @@
+%!TEX root = ED_Grafo.tex
+
+\section{Rotas}
+\begin{frame}
+	\frametitle{Caminhos mais Curtos}
+	\framesubtitle{Menor Caminho \emph{x} Caminho de menor custo}
+
+	\begin{center}
+		\includegraphics[width=.75\textwidth]{Theofilos_monomaxia_Achilleos}\\
+		\small Pintura de Theophilos Hatzimihail
+	\end{center}
+\end{frame}
+
+\begin{frame}[label=notas]
+	\begin{description}
+		\item[Caminho Euleriano] passa por todas as arestas do grafo \emph{uma} vez.
+		\item[Caminho Hamiltoniano] passa por todos os vértices \emph{uma} vez.
+	\end{description}
+	\vfill\pause
+	\begin{description}
+		\item[Ciclo Euleriano] Circuito! Como verificar se existe?
+		\item[Ciclo Hamiltoniano] Existe um algoritmo eficiente para encontrar um?
+	\end{description}
+\end{frame}
+
+\subsection{As Pontes de Königsberg}
+\begin{frame}
+	O objetivo é percorrer exatamente uma vez todas as sete pontes da cidade que 
+	conectam as duas ilhas entre si e as margens do rio, voltando ao ponto de
+	partida. Existe tal rota?
+	\begin{center}
+		\includegraphics<1 | handout:0>[height=13\baselineskip]{Koenigsberg_Map_by_Merian-Erben_1652}
+		\uncover<2->{
+		\begin{tikzpicture}[every node/.style={circle,draw,blueUnB}, node distance=2cm]
+			\node (A) {A};
+			\node[above of=A] (B) {B} edge (A);
+			\node[below of=A] (C) {C} edge (A);
+			\node[right of=A, right=2cm] (D) {D} edge (A) edge (B) edge (C);
+			\draw (A)..controls +(north west:1) and +(south west:1) .. (B);
+			\draw (A)..controls +(south west:0.5) and +(north west:1) .. (C);
+		\end{tikzpicture}}
+	\end{center}
+\end{frame}
+
+\begin{frame}[label=notas]
+	\begin{itemize}[<+->]
+		\item O problema do inspetor de estradas foi estudado pela primeira vez 
+		por Leonhard Euler (1707-1783).
+		\item Euler mostrou a não existência de tal circuito através de um 
+		argumento simples: 
+		\subitem{\emph{Consideremos, por exemplo, a ilha da direita ($D$). Um 
+		circuito qualquer deve chegar à ilha e sair dela o mesmo número de vezes. 
+		Logo, para que exista um circuito euleriano, deve haver um 
+		\alert<3>{número par} de pontes com extremidade nesta ilha.}}
+	\end{itemize}
+	\vfill
+	\uncover<4->{
+	\begin{block}{Teorema de Euler}
+		Um grafo admite um circuito euleriano se, e somente se, o número de 
+		arestas em cada vértice for par.
+	\end{block}}
+\end{frame}
+
+\newcommand{\pent}[3][1]{%
+	\node (#21) at(72/#1:#3cm){};
+	\node (#22) at(72/#1+72:#3cm) {};
+	\node (#23) at(72/#1+2*72:#3cm) {};
+	\node (#24) at(72/#1+3*72:#3cm) {};
+	\node (#25) at(72/#1+4*72:#3cm) {} ;
+}%
+\newcommand{\hpath}[1][black] {
+	\draw[#1] (p11) -- (p12) -- (p13) -- (p14) -- (p15) -- (p25) -- (p35) -- (p24) -- (p34) -- (p23) -- (p33) -- (p22) -- (p32) -- (p42) -- (p43) -- (p44) -- (p45) -- (p41) -- (p31) -- (p21) -- (p11);
+}
+
+\subsection{Caixeiro viajante}
+\begin{frame}[label=notas]
+	Um representante de vendas de uma companhia deseja planejar uma rota, 
+	iniciando na capital, na qual ele visite cada cidade exatamente uma vez, 
+	voltando ao ponto de partida. Existe tal rota?
+	\pause	
+	\begin{center}
+		\uncover<2->{
+		\begin{tikzpicture}[every node/.style={circle,draw,blueUnB}, scale=.7]%, node distance=2cm]
+			\pent{p1}{1}
+			\pent{p2}{2}
+			\pent[2]{p3}{3}
+			\pent[2]{p4}{4.5}
+			\hpath
+			\draw<2> (p11) -- (p15);
+			\draw<2> (p12) -- (p22);
+			\draw<2> (p13) -- (p23);
+			\draw<2> (p14) -- (p24);
+			\draw<2> (p21) -- (p32);
+			\draw<2> (p25) -- (p31);
+			\draw<2> (p33) -- (p43);
+			\draw<2> (p34) -- (p44);
+			\draw<2> (p35) -- (p45);
+			\draw<2> (p41) -- (p42);
+			\uncover<3>{
+			\hpath[red, line width=2pt]}
+		\end{tikzpicture}}
+	\end{center}
+\end{frame}
+
+% \begin{frame}[label=notas]
+% 	\begin{itemize}[<+->]
+% 		\item É o caminho Hamiltoniano (em homenagem a William Hamilton).
+% 		\item É fácil convencer alguém da existência de um circuito hamiltoniano 
+% 		em um grafo: basta exibir tal caminho.
+% 		\item É difícil convencer alguém da não existência de um tal circuito.
+% 		\item Não há método \alert<4>{eficiente} para determinar se um tal 
+% 		circuito existe em um grafo.
+% 		\item Existe um procedimento para verificar se um determinado grafo G 
+% 		possui um circuito hamiltoniano:
+% 		\subitem{Basta gerar \alert<6>{todas} as permutações circulares dos nós 
+% 		deste grafo e testar para ver se uma delas corresponde a um percurso no grafo.}
+% 	\end{itemize}
+% \end{frame}
+
+\begin{frame}
+	\begin{itemize}[<+->]
+		\item Suponha um grafo completo com 50 vértices.
+		\item São 49! circuitos.
+			\begin{itemize}
+				\item $49! = 1{\cdot}2{\cdot}3{\cdot}4{\cdot}5{\cdot}6{\cdot}7{\cdot}8{\cdot}9{\cdots}16{\cdot}17{\cdots}32{\cdot}33{\cdots}49$
+				\item $49! > 1{\cdot}2{\cdot}2{\cdot}4{\cdot}4{\cdot}4{\cdot}4{\cdot}8{\cdot}8{\cdots}16{\cdot}16{\cdots}32{\cdot}32{\cdots}32$
+				\item $49! > 1{\cdot}2^2{\cdot}4^4{\cdot}8^8{\cdot}16^{16}{\cdot}32^{18}$
+				\item $49! > (2^2){\cdot}(2^2)^4{\cdot}(2^3)^8{\cdot}(2^4)^{16}{\cdot}(2^5)^{18}$
+				\item $49! > 2^2{\cdot}2^8{\cdot}2^{24}{\cdot}2^{64}{\cdot}2^{90}$
+				\item $49! > 2^{188} =  2^8{\cdot}(2^{10})^{18} >  2^8{\cdot}(10^3)^{18}$
+				\item $49! >2^8{\cdot}10^{54}$
+			\end{itemize}
+		\item Se um computador moderno pode realizar 200 milhões de operações 
+		por segundo e a cada operação ele testar um circuito:
+			\subitem[]{$$\frac{2^8{\cdot}10^{54}}{(200{\cdot}10^6){\cdot}(31.6{\cdot}10^6)}\frac{\text{circuitos}}{\frac{\text{circuitos}}{\text{segundo}}\frac{\text{segundo}}{\text{ano}}} \approx 4{\cdot}10^{40}\text{ anos.}$$}
+		\item A idade do universo é da ordem de $10^{15}$ anos...
+	\end{itemize}
+\end{frame}

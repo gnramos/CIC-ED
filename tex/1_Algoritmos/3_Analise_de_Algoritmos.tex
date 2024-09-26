@@ -1,0 +1,156 @@
+\section{Análise de Algoritmos}%
+\begin{frame}[label=main]
+	Em computação, o termo \alert{algoritmo} poderia ser descrito como um procedimento 
+	bem definido que recebe um valor(es) como \emph{entrada} e produz valor(es)
+	como \emph{saída}.
+	\vfill\pause
+	Exemplos?
+	\vfill\pause
+	E se houvesse um computador infinitamente rápido com memória infinita?
+\end{frame}
+
+\begin{frame}[label=main]
+	\framesubtitle{Eficiência}
+
+	Um algoritmo deve:
+	\begin{itemize}
+		\item funcionar corretamente;
+		\item executar o mais rápido possível;
+		\item utilizar a memória da melhor forma possível.
+	\end{itemize}
+	\vfill\pause
+	Como comparar algoritmos em função do custo de tempo?
+	\begin{itemize}
+		\item Computadores diferentes podem funcionar em frequências diferentes.
+		\item Compiladores podem otimizar o código antes da execução.
+		\item Um algoritmo pode ser escrito de formas diferentes conforme a 
+		linguagem de programação utilizada.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=graduacao]
+	\framesubtitle{Exemplo}
+
+	Diferentes algoritmos podem realizar a mesma tarefa com instruções diferentes.
+	\vfill
+	Problema: ordenar uma lista de números
+	\vfill\pause
+	\begin{columns}[T]
+		\column{.42\textwidth}
+			\begin{lstlisting}[morekeywords={menor,insereFinal,remove}]
+				listaOrdenada := emptyset
+				enquanto numeros != emptyset
+				    n := menor(numeros)
+				    insereFinal(listaOrdenada,n)
+				    remove(numeros,n)
+			\end{lstlisting}
+		\column{.45\textwidth}
+			\begin{lstlisting}[morekeywords={maior,insereInicio,remove}]
+				listaOrdenada := emptyset
+				enquanto numeros != emptyset
+				    n := maior(numeros)
+				    insereInicio(listaOrdenada,n)
+				    remove(numeros,n)
+			\end{lstlisting}
+	\end{columns}
+\end{frame}
+
+
+\begin{frame}[label=main]
+	\framesubtitle{Contando Operações}
+
+	Pode-se medir ao custo de tempo contando quantas operações são realizadas pelo algoritmo
+	\\\vfill
+	Mas o que é uma operação?
+	\begin{itemize}
+		\item Atribuições
+		\item Comparações
+		\item Instruções de retorno
+		\item etc.
+	\end{itemize}
+	\vfill\pause
+	Cada operação demora o mesmo tanto?
+\end{frame}
+
+\newcommand{\comentario}[2][1-]{\uncover<#1>{\textcolor{gray}{// #2}}}%
+\begin{frame}[fragile,label=main]
+	\framesubtitle{Busca por um elemento}
+
+	\uncover<2->{Pior Caso: não existe no vetor}
+	\begin{center}
+	\begin{minipage}{.58\textwidth}
+	\begin{lstlisting}[morekeywords={busca_linear,tamanho}] 
+		busca_linear(vetor, chave)
+		    i := 0                         @\comentario[2]{1}@
+		    enquanto i < tamanho(vetor)    @\comentario[2]{n+1}@
+		        se vetor[i] = chave        @\comentario[2]{n}@
+		            retorna i
+		        i := i + 1                 @\comentario[2]{n}@
+		    retorna -1                     @\comentario[2]{1}@
+	\end{lstlisting}
+	\hfill\pause Total: 3n+3
+	\end{minipage}
+	\end{center}
+	\vfill\pause
+	Melhor caso?
+\end{frame}
+
+\begin{frame}[fragile,label=graduacao]
+	Diferentes algoritmos podem realizar a mesma tarefa com instruções diferentes 
+	a um custo maior/menor
+	\\ \vfill
+	Problema: ordenar os números da mega-sena
+	\vfill\pause
+	\begin{columns}[T]
+		\column{.01\textwidth}
+		\column{.4\textwidth}
+			\begin{lstlisting}[morekeywords={menor,adicionar,remover}]
+				for(int i = 1; i < 60; ++i) {
+				  i = menor(numeros);
+				  adicionar(lista_ord, i);
+				  remover(numeros, i);
+				}
+			\end{lstlisting}
+		\column{.01\textwidth}
+			\pause
+		\column{.5\textwidth}
+			\begin{lstlisting}[morekeywords={em_ordem,embaralhar}]
+				lista_ord = numeros;
+				while(!em_ordem(lista_ord))
+				  lista_ord = embaralhar(numeros);
+			\end{lstlisting}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[label=graduacao]
+	As vezes ser ``melhor'' não quer dizer que seja mais eficiente...
+	\pause\\\vfill
+	John Richard Boyd
+	\begin{itemize}
+		\item EUA, $^{\star}$1927 $^{\dagger}$1997
+		\item piloto, consultor do Pentágono
+		\item OODA - tomada de decisões \pause
+			\begin{itemize}
+				\item Observe
+				\item Oriente
+				\item Decida
+				\item Aja
+			\end{itemize}
+	\end{itemize}
+	
+	\pause%\\\vfill
+	\begin{beamerboxesrounded}{}
+		A \emph{velocidade} de iteração \uncover<3->{pode} supera\uncover<3->{r} 
+		a \emph{qualidade} da iteração
+	\end{beamerboxesrounded}
+
+	Exemplos:\pause
+	\begin{columns}[T]
+		\column{.3\textwidth}
+			\subitem{Android}
+		\column{.3\textwidth}
+			\subitem{Google Chrome}
+		\column{.3\textwidth}
+			\subitem{Firefox}
+	\end{columns}
+\end{frame}

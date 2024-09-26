@@ -1,0 +1,128 @@
+%!TEX root = ED_Arvore.tex
+
+\section{Árvore B}
+\begin{frame}[label=notas]
+	\frametitle{\secname\ (B-Tree)}
+	\begin{itemize}
+		\item Generalização da uma BST.
+		\item Útil em sistemas que leêm/escrevem grandes blocos de dados.
+		\item Utilizada em bancos de dados e sistema de arquivos.
+		\item Busca/Inserção/Remoção em $O(\log(n))$
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[label=notas]
+	Uma árvore B de ordem $m$ satisfaz\footnote{de acordo com Donald Knuth.}:
+	\begin{enumerate}
+		\item Todo nó tem, no máximo, $m$ filhos.
+		\item Todo nó (exceto a raiz) tem, pelo menos, $^m/_2$ filhos.
+		\item A raiz tem pelo menos dois filhos quando não for uma folha.
+		\item Um nó que não é uma folha com $k$ filhos tem $k-1$ chaves.
+		\item Todas as folhas contêm informação e estão no mesmo nível.
+	\end{enumerate}
+	\vfill
+	\begin{center}
+		%http://commons.wikimedia.org/wiki/File:B-tree.svg
+		\includegraphics[width=.75\textwidth]{B-Tree}
+	\end{center}
+\end{frame}
+
+\begin{frame}[label=notas]
+	\begin{itemize}
+		\item Um nó (que não seja uma folha) pode ter um número variável de filhos 
+		[dentro de um intervalo pré-determinado].
+		\item Para garantir o intervalo, nós podem ser divididos/unidos
+		\item A árvore é balanceada pela exigência que todas as folhas tenham a 
+		mesma profundidade.
+	\end{itemize}
+	\vfill
+	\begin{eqnarray}
+		max(numero\_de\_filhos)	& \rightarrow &	min(altura)\nonumber\\
+		                       	& \rightarrow &	min(balanceamentos)\nonumber
+	\end{eqnarray}
+	\vfill
+	%The maximum number of child nodes depends on the information that must be stored for each child node and the size of a full disk block or an analogous size in secondary storage. While 2-3 B-trees are easier to explain, practical B-trees using secondary storage want a large number of child nodes to improve performance.
+\end{frame}
+
+\subsection{Aplicação em Banco de Dados}
+\begin{frame}[label=notas]
+	\begin{itemize}
+		\item Busca/Ordenação são [geralmente] caracterizados pela quantidade de 
+		comparações necessárias.
+		\item Bancos de dados são [geralmente] armazenados em discos, e o custo 
+		de leitura do disco pode dominar o custo de comparação de chaves.
+	\end{itemize}
+	\vfill\pause
+	Supondo:
+	\begin{itemize}
+		\item disco de 7200 RPM (Seagate ST3500320NS)
+		\item tempo médio de leitura do disco de 10 ms
+	\end{itemize}
+	\vfill
+	Então, o tempo para localizar um registro em um milhão seria aproximadamente...
+	\pause $\log_2(10^6)*10^{-2}\approx0.2s$
+\end{frame}
+
+\begin{frame}[label=notas]
+	Leitura de disco por blocos: 100 registros/bloco, então na verdade o custo seria:
+	\begin{itemize}
+		\item 14 leituras de disco para encontrar o bloco
+		\item 1 leitura de disco para carregar os registros [do bloco]
+		\item[$\rightarrow$] total = 150ms
+	\end{itemize}
+	\vfill
+	\begin{center}
+		\includegraphics[width=.5\textwidth]{btree1}
+	\end{center}
+\end{frame}
+\begin{frame}[label=notas]
+	Utilizar um índice auxiliar com $10^4$ chaves (primeiro registro de cada bloco 
+	de memória como chave):
+	\begin{itemize}
+		\item 100 blocos para armazenar os índices
+		\item 8 leituras de disco para encontrar o [índice do] bloco
+		\item 1 leitura de disco para carregar os registros [do bloco]
+		\item[$\rightarrow$] total = 90ms
+	\end{itemize}
+	\vfill
+	\begin{center}
+		\includegraphics[width=.5\textwidth]{btree2}
+	\end{center}
+\end{frame}
+\begin{frame}[label=notas]
+	Utilizar um sub-índice auxiliar deste índice auxiliar (primeiro registro de 
+	cada 100 blocos como chave):
+	\pause
+	\begin{itemize}
+		\item 1 bloco para armazenar os sub-índices
+		\item 1 leitura de disco para encontrar o [subíndice do] índice
+		\item 1 leitura de disco para encontrar o [índice do] bloco
+		\item 1 leitura de disco para carregar os registros [do bloco]
+		\item[$\rightarrow$] total = 30ms
+	\end{itemize}
+	\vfill
+	\begin{center}
+		\includegraphics[width=.5\textwidth]{btree3}
+	\end{center}
+\end{frame}
+
+\section{Google}
+\begin{frame}
+ 	\begin{block}{C++ B-Tree\footnote[frame]{\url{http://google-opensource.blogspot.com.br/2013/01/c-containers-that-save-memory-and-time.html}}}
+ 		Biblioteca C++ que implementa as estrutura de dados \texttt{set} e 
+ 		\texttt{map} com Árvores-B e interface análoga a STL.
+ 	\end{block}
+ 	\vfill
+ 	\begin{columns}
+ 		\footnotesize
+ 		\column{.45\textwidth}\centering
+ 			\includegraphics[width=\textwidth]{google_BTree_insertion_tree_size}
+ 			\\tempo de inserção x tamanho da árvore\\(256b/nó)
+ 		\column{.45\textwidth}\centering
+ 			\includegraphics[width=\textwidth]{google_BTree_insertion_node_size}
+ 			\\tempo de inserção x tamanho do nó\\($10^6$ elementos)
+ 	\end{columns}
+%	B-trees are well-known data structures for organizing secondary storage, because they are optimized for reading and writing large blocks of data. But the same property that makes B-trees appropriate for use with databases and file systems also makes them appropriate for use in main-memory, just with smaller blocks.
+
+% C++ standard libraries commonly implement the map and set data structures using Red-Black trees, which store one element per node, requiring three pointers plus one bit of information per element to keep the tree balanced. By comparison, B-tree containers store a number of elements per node, thereby reducing pointer overhead and saving a significant amount of memory. For small data types, B-tree containers typically reduce memory use by 50 to 80\% compared with Red-Black tree containers.
+\end{frame}

@@ -1,0 +1,129 @@
+%!TEX root = ED_Arvore.tex
+
+\section{Balanceamento Dinâmico - Árvore Rubro-negra}
+\begin{frame}[label=notas]
+	\begin{itemize}
+		\item	É complexa.\pause
+		\item Tem um bom tempo de execução para suas operações no \emph{pior caso}.\pause
+		\item É eficiente na prática: busca, inserção, e remoção em tempo $O(log n)$.
+	\end{itemize}
+	\pause\vfill
+	Propriedades:
+	\begin{enumerate}
+		\item[$P_1$] Um nó é vermelho ou preto.
+		\item[$P_2$] A raiz é preta.
+		\item[$P_3$] Todas as folhas são pretas (NULL também).
+		\item[$P_4$] Um nó vermelho só tem filhos pretos.
+		\item[$P_5$] Todo caminho de um dado nó para qualquer de seus nós folhas descendentes tem o mesmo número de nós pretos.
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}[label=notas]
+	Supondo $X$ nós pretos em um caminho até uma folha de uma árvore rubro-negra $T$:
+	\begin{enumerate}
+		\item O menor caminho possível é formado por $X$ nós pretos.\pause
+		\item O caminho mais longo possível alterna entre nós vermelhos e pretos.\pause
+		\item Por $P_4$, o maior caminho possível é $2X$.\pause
+		\item Por $P_5$,  qualquer outro caminho até uma folha tem $X$ nós pretos \pause e, portanto, comprimento máximo de  $2X$.
+	\end{enumerate}
+	\vfill\pause
+	O caminho mais longo da raiz a qualquer folha \emph{não é maior que duas vezes o caminho mais curto} da raiz a qualquer outra folha naquela árvore.	
+	\\\vfill\pause
+	A árvore é \alert{aproximadamente balanceada}. 
+	\\\vfill\pause
+	Altura máxima: \pause $2log_2(n+1)$
+\end{frame}
+
+\begin{frame}
+	\framesubtitle{Inserção}
+	
+	\begin{itemize}
+		\item Insere um nó \alert<1>{vermelho} como folha.
+		\begin{enumerate}
+			\item<2-> Se for a raiz, basta pintá-la de preto para satisfazer $P_2$.
+			\item<3-> Se o pai é preto ($P_4$ e $P_5$ ok).
+			\item<4-> Se o pai e o tio são vermelhos. Pintá-los de preto (satisfaz $P_4$) e o avô de vermelho. Se o avô violar $P_2$ ou $P_4$, ``sobe'' a árvore recursivamente ajustando os valores.
+		\end{enumerate}
+	\end{itemize}
+	
+	\begin{center}
+		\includegraphics<4->[height=8em]{Red-black_tree_insert_case_3}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+	\framesubtitle{Inserção}
+	
+	\begin{itemize}
+		\item Insere um nó vermelho como folha.
+		\begin{enumerate}
+			\setcounter{enumi}{3}
+			\item Se o pai (filho esquerdo) é vermelho mas o tio é preto, e o nó foi inserido a direita: rotação do pai  \emph{a esquerda} $\rightarrow$ violação de $P_4$ mas não de $P_5$. Realizar passo 5.
+			\item<2-> Se o pai (filho esquerdo) é vermelho mas o tio é preto, e o nó foi inserido a esquerda: rotação do avô \emph{a direita}, inversão das cores do pai e avô.
+		\end{enumerate}
+	\end{itemize}
+	\begin{center}
+	\includegraphics<1>[height=8em]{Red-black_tree_insert_case_4}
+	\includegraphics<2>[height=8em]{Red-black_tree_insert_case_5}
+	\end{center}
+\end{frame}
+
+\begin{frame}[label=notas]
+	\framesubtitle{Remoção}
+	
+	\begin{itemize}
+		\item Mais complexa que a inserção.
+		\item Se for uma folha? Basta removê-la.
+		\item Se tiver 2 filhos? Remoção por cópia, sendo que a cópia do valor não altera as propriedades da árvore \pause (mas a remoção do nó antecessor/sucessor, sim).
+		\item Se tiver 1 filho só?\\
+			\begin{itemize}
+				\item Nó vermelho: \pause substitui pelo filho (preto).
+				\item Nó preto com filho vermelho: \pause substitui pelo filho e muda a cor deste.
+			\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	Se tiver 1 filho só?
+	\begin{itemize}
+		\item Nó preto com filho preto: substitui pelo filho e
+		\begin{enumerate}[<+->]
+			\item Se não for raiz, execute $2$
+			\item Se o irmão for vermelho, troque as cores e rotacione o pai. Execute 3. 
+			\item Se nó, pai, irmão e filhos do irmão são pretos,  execute $1$ no pai. Senão, execute $4$.
+			\item O pai é vermelho, mas o irmão e seus filhos são pretos, troca as cores entre o pai e o irmão. Se não, execute $5$.
+			\item O irmão é preto com o filho a esquerda vermelho e o outro preto. Rotacione o irmão a direita e troque as cores do irmão e do filho vermelho. Execute $6$.
+			\item O irmão é a direita e preto, com filho a direita vermelho. Rotacione o pai a esquerda e troque sua cor com o irmão.
+		\end{enumerate}
+	\end{itemize}
+	\begin{center}
+		\includegraphics<2 | handout:0>[height=7em]{Red-black_tree_delete_case_2}
+		\includegraphics<3 | handout:0>[height=7em]{Red-black_tree_delete_case_3}
+		\includegraphics<4 | handout:0>[height=7em]{Red-black_tree_delete_case_4}
+		\includegraphics<5 | handout:0>[height=7em]{Red-black_tree_delete_case_5}
+		\includegraphics<6>[height=7em]{Red-black_tree_delete_case_6}
+	\end{center}
+\end{frame}
+
+\begin{frame}[label=notas]
+	\framesubtitle{\url{http://www.youtube.com/watch?v=vDHFF4wjWYU}}
+	\begin{center}
+		% http://commons.wikimedia.org/wiki/File:Red-black_tree_example.svg
+		\href{run:vid/Red-Black_tree_example.mp4}{\includegraphics<handout:0>[width=\paperwidth]{Red-black_tree_example}}
+	\end{center}
+\end{frame}
+
+\begin{frame}[label=notas]
+	Garantem custo logarítmico no pior caso.
+	\\\vfill\pause
+	\begin{itemize}
+		\item Busca eficiente. \pause
+		\item Aplicações em tempo real.
+			\begin{enumerate}
+				\item \emph{Planejador Completamente Justo}\footnote<3->{A partir do núcleo 2.6.23 (kernel).} - planeja a alocação de recursos para os processos em execução, buscando maximizar o uso da CPU e o desempenho.
+				\item Componentes de outras estruturas de dados de tempo real.
+			\end{enumerate}
+	\end{itemize}
+	\vfill\pause
+	Árvores AVL também garantem custo logarítmico, mas por serem mais rigidamente definidas, o custo das operações de inserção e remoção é maior \pause (mas o custo de busca é menor).
+\end{frame}

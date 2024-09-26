@@ -1,0 +1,136 @@
+\documentclass{UnBeamer}%
+%\documentclass[draft]{UnBeamer}%
+%\documentclass[handout]{UnBeamer}%
+% \documentclass[notasDeAula]{UnBeamer}%
+
+\usepackage{../ED}%
+\usepackage{listings}% Código
+\subtitle{Apresentação}%
+
+\begin{document}%
+	\frame[label=main]{\titlepage}%
+
+	\section{Apresentação}
+	\subsection{Objetivos do Curso}
+	\begin{frame}[label=main]
+	A disciplina 116319 - Estruturas de Dados busca propiciar aos alunos conceito sólidos na forma de  armazenamento e organização dos dados por meio do gerenciamento dinâmico da memória e de estruturas de dados lineares e não lineares. Com a compreensão desses conceitos é esperado o desenvolvimento do pensamento computacional e das habilidades de programação pelos alunos através das atividades práticas.
+
+		\Large Apresentar técnicas fundamentais na análise e projeto de estruturas
+		de dados em programas e computacionais.
+		\begin{center}
+			\includegraphics[width=.6\textwidth]{hammer-screw}
+		\end{center}
+	\end{frame}
+
+	\subsection{Obrigatória x Optativa}
+	\begin{frame}[label=main]
+		\begin{center}
+			\includegraphics[width=.75\textwidth]{Theofilos_monomaxia_Achilleos}\\
+			Pintura de Theophilos Hatzimihail
+		\end{center}
+	\end{frame}
+
+	\subsection{Aulas Expositivas}
+	\begin{frame}[label=main]
+		\vspace{-.5\baselineskip}
+		\begin{center}
+			\includegraphics[width=.75\textwidth]{mafalda}
+		\end{center}
+		Quino: \url{http://www.quino.com.ar}
+	\end{frame}
+
+	\subsection{Na prática, a teoria é outra... }
+	\begin{frame}[label=main]
+		\begin{center}
+			\includegraphics[width=\textwidth]{matriculaweb}
+		\end{center}
+	\end{frame}
+
+	% \subsection{A1-10/28}
+	% \begin{frame}[label=main]
+	%	\begin{columns}
+	%		\column{.5\textwidth}\centering
+	%			\includegraphics[height=8\baselineskip]{thumbup}
+	%		\column{.5\textwidth}\centering
+	%			\includegraphics[height=8\baselineskip]{forbid}
+	%	\end{columns}
+	% \end{frame}
+
+	\subsection{Ferramentas}
+	\begin{frame}[fragile,label=main]
+		\begin{columns}[T]
+			\column{.75\textwidth}
+				\begin{itemize}
+					\item Editor de texto
+					\item gcc - \emph{GNU Compiler Collection}
+					\item Moodle\footnote[frame]{\url{aprender.unb.br/course/view.php?id=2424}}
+						\subitem{senha: \alert{ED-1-2013}}
+				\end{itemize}
+			\column{.2\textwidth}
+				\vspace{-1\baselineskip}
+				\includegraphics[width=\textwidth]{gcc}%
+		\end{columns}
+		\vfill
+		\begin{columns}
+			\column{.43\textwidth}
+				\begin{lstlisting}[language=C,title=hello.c,morekeywords={printf}]
+					#include <stdio.h>
+
+					int main() {
+					  printf("\nHello World!\n\n");
+					  return 1;
+					}
+				\end{lstlisting}
+			\column{.5\textwidth}
+				\includegraphics[width=\textwidth]{hello}%
+		\end{columns}
+	\end{frame}
+
+	\subsection{Definições}
+	\begin{frame}[label=main]
+		\begin{exampleblock}{Algoritmo}
+			\pause
+			Sequência \alert{finita} de \emph{instruções} para executar uma tarefa.
+			\begin{itemize}
+				\item Bem definidas e não ambíguas
+				\item Executáveis com uma quantidade de esforço finita
+				\item Executáveis em um período de tempo finito
+			\end{itemize}
+		\end{exampleblock}
+		\vfill\pause
+		\begin{block}{Estrutura de Dados}
+			\pause
+			Modo particular de armazenar/organizar dados para facilitar acesso e modificações.
+			\subitem{\alert<4>{Só tem significado quando \emph{associada a um algoritmo}.}}
+		\end{block}
+		\pause
+		\begin{columns}[T]
+			\column{.68\textwidth}
+				Representação dos dados depende de:
+				\begin{itemize}
+					\item tipo de dado
+					\item operações a serem realizadas sobre os dados
+					\item etc.
+				\end{itemize}
+			\column{.3\textwidth}\centering
+				% \uncover<3->{
+				% \begin{tikzpicture}[node distance=1em,minimum width=5.5em, minimum height=1.5em]
+				%	\node[block] (percepcao) {\scriptsize Percepção};
+				%	\node[block, below=of percepcao] (processamento) {\scriptsize Processamento};
+				%	\node[block, below=of processamento] (execucao) {\scriptsize Execução};
+				%	\draw[line, ->] (percepcao) -- (processamento);
+				%	\draw[line, ->] (processamento) -- (execucao);
+				%	\draw[line, ->] (execucao)..controls +(east:2) and +(east:2) ..  (percepcao);
+				% \end{tikzpicture}
+				% }
+		\end{columns}
+	\end{frame}
+
+	\begin{frame}[label=main]
+		\frametitle{Estruturas de Dados}
+		\begin{center}
+			\includegraphics[width=.75\textwidth]{swiss_army}\\
+			\href{http://secure.victorinox.com/}{Victorinox Presentation Master}
+			\end{center}
+	\end{frame}
+\end{document}%

@@ -1,0 +1,329 @@
+\section{Classificação}%
+\subsection{Término}%
+\begin{frame}[label=main]
+	\begin{itemize}
+		\item Alguns autores restringem a definição de algoritmo para 
+		procedimentos que terminam (eventualmente).
+			\subitem{Um algoritmo pode repetir um procedimento infinitamente}
+		\pause\vfill
+		\item Se o tamanho de um procedimento não é conhecido, não é possível 
+		determinar se ele terminará (Marvin Minsky).
+			\subitem{Provado por Alan Turing em 1936}
+		\pause\vfill
+		\item Para algoritmos intermináveis o sucesso não pode ser determinado 
+		pela interpretação da resposta e sim por condições impostas pelo próprio
+		desenvolvedor do algoritmo durante sua execução.
+	\end{itemize}
+\end{frame}
+
+\subsection{Representação}%
+\begin{frame}[label=main]
+	\begin{columns}
+		\column{.65\textwidth}
+			\begin{itemize}[<+->]
+				\item Linguagem Natural
+					\subitem{Se estiver \alert<1-1>{quente}, tome \alert<1>{remédio}}
+				\item Pseudo-código
+					\subitem{\textbf{se} \emph{temp $> 37^{\circ}{\rm C}$} \textbf{então} \emph{tomar(aspirina)}}
+				\item Diagrama
+				\item Tabela de Controle
+					\vfill
+					\begin{center}
+						\small
+						\begin{tabular}{|c|c|c|c|}
+							\hline
+							\textbf{ASCII} & \textbf{dec} & \textbf{hex} & \textbf{vetor} \\\hline
+							A & 65 & 41 & abacate \\\hline
+							B & 66 & 42 & banana \\\hline
+							$\cdots$ & $\cdots$ & $\cdots$ & $\cdots$ \\\hline
+							P & 80 & 50 & pêra \\\hline
+						\end{tabular}
+					\end{center}
+					\vfill
+				\item Linguagem de Programação
+					\subitem{\textbf{if}(\emph{temp$>$37}) \textbf{take}(aspirin)}
+			\end{itemize}
+		\column{.3\textwidth}
+			\includegraphics<5->[width=\textwidth]{flowchart}%
+			%source: http://en.wikipedia.org/wiki/File:FlowchartExample.png
+	\end{columns}
+\end{frame}
+
+\subsection{Implementação}%
+\begin{frame}[label=main]
+	\begin{itemize}
+	    \item Iterativo%: estruturas de repetição (laços, pilhas, etc.)
+	    \item Recursivo%: invoca a \alert<1>{si mesmo} até que certa condição seja satisfeita
+	    \vfill\pause
+		\item Lógico%: deduções lógicas controladas
+	    \vfill\pause
+		\item Serial%: cada instrução é executada em \alert<3>{seqüência}
+		\item Paralela%: várias instruções executadas \alert<3>{ao mesmo tempo}
+	    \vfill\pause
+		\item Determinístico%: decisão \alert<4>{exata} a cada passo
+		\item Probabilístico%: decisão \alert<4>{provável} em passo(s)
+	    \vfill\pause
+		\item Exato%: resposta \alert<5>{exata}
+		\item Aproximado%: resposta \alert<5>{próxima} a verdadeira solução
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=graduacao]
+	\framesubtitle{Recursividade}
+	
+	Lida com uma função que pode invocar a si própria
+	\vspace{-.7\baselineskip}
+	\begin{columns}[T]
+		\column{.4\textwidth}
+			\begin{lstlisting}[title=Fatorial iterativo]
+				fatorial(n)
+				    resultado := 1
+				    enquanto n > 1
+				      resultado := n*resultado
+				      n :=  n - 1
+				    retorna resultado
+			\end{lstlisting}
+			\pause
+		\column{.4\textwidth}
+			\begin{lstlisting}[title=Fatorial recursivo]
+				fatorial(n)
+				    se n < 2
+				      retorna 1
+				    senao
+				      retorna n*fatorial(n-1)
+			\end{lstlisting}
+	\end{columns}
+	\vfill\pause
+	Recursão vs Iteração?
+	% \begin{itemize}
+	%	\item a implementação iterativa tende a ser ligeiramente mais rápida na 
+	%	prática do que a implementação recursiva%, uma vez que uma implementação recursiva precisa registrar o estado atual do processamento de maneira que ela possa continuar de onde parou após a conclusão de cada nova excecução subordinada do procedimento recursivo. Esta ação consome tempo e memória. (Note que a implementação de uma função fatorial para números naturais pequenos é mais rápida quando se usa uma tabela de busca.)
+	%	\item existem problemas cujas soluções são inerentemente recursivas%, já que elas precisam manter registros de estados anteriores. Um exemplo é o percurso de uma árvore; outros exemplos incluem a função de Ackermann e algoritmos de divisão e conquista tais como o Quicksort. Todos estes algoritmos podem ser implementados iterativamente com a ajuda de uma pilha, mas o uso de uma pilha, de certa forma, anula as vantagens das soluções iterativas.
+	%	\item nas linguagens de programação modernas o espaço disponível para o 
+	%	fluxo de controle é geralmente bem menor que o espaço da pilha%, e algoritmos recursivos tendem a necessitar de mais espaço na pilha do que algoritmos iterativos.
+	% \end{itemize}
+\end{frame}
+
+\subsection{Paradigma}%
+\begin{frame}[label=main]
+	\begin{itemize}[<+->]
+		\item Força Bruta%: tentar todas as soluções possíveis
+		\item Divisão e conquista%: reduzir repetidamente o problema, até que este seja pequeno o suficiente para ser resolvido
+		\item Programação dinâmica%: reutilizar o cálculo de solução já resolvidas
+		\item Algoritmo ganancioso%: escolher a solução que parece ser mais adequada no momento
+		\item Programação linear%: otimização de uma função linear
+		\item Redução%: transformação em outro problema de mais fácil solução
+		\item Busca e enumeração%: exploração de possíveis soluções
+	\end{itemize}
+\end{frame}
+
+\subsection{Complexidade}
+\begin{frame}[label=main]
+	Porque analisar um algoritmo?
+	\begin{enumerate}
+		\item Para saber quais os recursos necessários
+		\item Para avaliar seu desempenho (e comparar diferentes algoritmos)
+	\end{enumerate}
+	\pause\vfill
+	Mas analisar o que?
+	\begin{description}
+		\item[tempo] de execução
+		\item[espaço] uso de memória
+	\end{description}
+	\pause\vfill
+	\begin{alertblock}{Importante!}
+		Análise de algoritmos compara \alert{algoritmos} e não \emph{programas}.
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}[label=graduacao]
+	Análise de um algoritmo particular
+	\begin{itemize}
+		\item Qual é o custo de usar um dado algoritmo para resolver um problema específico?
+		\item Características que devem ser investigadas:
+			\begin{itemize}
+				\item análise do número de vezes que cada parte do algoritmo 
+				deve ser executada $\rightarrow$ \alert<1>{tempo}
+				\item estudo da quantidade de memória necessária $\rightarrow$ \alert<1>{espaço}
+			\end{itemize}
+	\end{itemize}
+	\vfill\pause
+	Análise de uma classe de algoritmos
+	\begin{itemize}
+		\item Qual é o algoritmo de menor custo possível para resolver um problema particular?
+		\item Toda uma família de algoritmos é investigada (busca pelo melhor possível)
+		\item Coloca-se limites para a complexidade computacional dos algoritmos pertencentes à classe
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[label=graduacao]
+	Custo de um algoritmo
+	\begin{itemize}
+		\item ao determinar o menor custo possível para resolver problemas de uma 
+		classe, tem-se a medida da dificuldade inerente para resolver o problema.
+		\item quando o custo de um algoritmo é igual ao menor custo possível, o 
+		algoritmo é considerado ótimo (para a medida de custo considerada)
+	\end{itemize}
+	\vfill\pause
+	Podem existir vários algoritmos para resolver o mesmo problema
+	\begin{itemize}
+		\item se a mesma medida de custo é aplicada a diferentes algoritmos, 
+		então é possível compará-los e escolher o mais adequado
+		\item se há vários algoritmos, todos com um custo de execução dentro da 
+		mesma ordem de grandeza, pode-se considerar tanto os custos reais das 
+		operações como os custos não aparentes
+			\vspace{-1\baselineskip}
+			\begin{columns}[T]
+				\column{.45\textwidth}
+					\begin{itemize}
+						\setlength{\itemsep}{0pt}
+						\item alocação de memória
+						\item indexação
+					\end{itemize}
+				\column{.45\textwidth}
+					\begin{itemize}
+						\setlength{\itemsep}{0pt}
+						\item carga
+						\item etc.
+					\end{itemize}
+			\end{columns}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[label=graduacao]
+	Análise pela execução
+		\begin{itemize}
+			\item a eficiência do programa depende da linguagem (compilada ou interpretada)
+			\item depende do sistema operacional
+			\item depende do hardware (quantidade de memória, velocidade do 
+			processador e arquitetura)
+		\end{itemize}
+	\vfill\pause
+	\begin{beamerboxesrounded}{}
+		Útil nas comparações entre programas em máquinas específicas pois, além 
+		dos custos do algoritmo, são comparados os custos não aparentes (alocação 
+		de memória, indexação, carga de arquivos, etc)
+	\end{beamerboxesrounded}
+\end{frame}
+
+\begin{frame}[label=main]
+	Modelo matemático: ``contar instruções'' 
+		\begin{itemize}
+			\item Não depende do computador nem da implementação
+			\item Determinado em função do custo das operações realizadas e do
+			tamanho da entrada
+		\end{itemize}
+	\pause \vfill
+	Caracteriza de forma simples o desempenho do algoritmo e permite comparações 
+	entre algoritmos distintos que resolvem um mesmo problema.
+\end{frame}
+
+\begin{frame}[label=main]
+	Exemplo: descobrir o maior número em uma lista
+	\\\vfill\pause
+	Função de custo: \alert{atribuição}
+		\subitem{hipótese: todas as atribuição custam o mesmo}
+	\vfill\pause
+	\begin{columns}[T]
+		\column{.42\textwidth}
+			\underline{Algoritmo} \\
+			lista $\gets$ \textbf{entrada}()\\
+			maior $\gets -\infty$\\
+			\textbf{para} i $\in [1,n]$ \\
+			\hspace{1em}maior $\gets$ \textbf{max}(maior, lista[i])
+			\pause
+		\column{.30\textwidth}
+			\underline{Tempo} \\
+			$T\cdot 1$ \\
+			$T\cdot 1$ \\
+			$T\cdot n$ \\
+			$T\cdot n$\\
+			\pause
+			$\overline{g_T(n)=2n+2}$
+		\pause
+		\column{.25\textwidth}
+			\underline{Espaço} \\
+			$S{\cdot}n$ \\
+			$S{\cdot}1$ \\
+			$S{\cdot}2$ \\
+			$S{\cdot}0$ \\
+			\pause
+			$\overline{g_S(n)=n+3}$
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile,label=main]
+	Exemplo: Qual o custo do algoritmo de soma?
+		\begin{center}
+			\begin{minipage}{.3\textwidth}
+				\begin{lstlisting}
+					soma := 0
+					para i /in [1, n]
+					    soma := soma + i
+				\end{lstlisting}
+			\end{minipage}
+		\end{center}
+	\pause
+	Considerando somente as \alert<2>{atribuições} como operações relevantes.
+	\\\vfill\pause
+	\begin{columns}[T]
+		\column{.45\textwidth}
+			Custo (tempo): \alert{$g(n) = 2n + 1$}
+			\begin{itemize}
+				\item[1] na inicialização
+				\item[2n] no laço
+			\end{itemize}
+		\pause
+		\column{.45\textwidth}
+			Custo (espaço): \alert{$g(n) = 3$}
+			\subitem[3]{variáveis ($soma$, $i$, $n$)}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile,label=main]
+	Exemplo: Qual o custo do algoritmo de divisão de elementos de uma matriz 
+	quadrada por uma constante $k$?
+	\begin{center}
+	\begin{minipage}{.4\textwidth}
+	\begin{lstlisting}
+		para i /in [1, n]
+		    para j /in [1, n]
+		        A[i][j] := A[i][j]/k;
+	\end{lstlisting}
+	\end{minipage}
+	\end{center}
+	\pause
+	Considerando somente as \alert<2>{atribuições} como operações relevantes
+	\\\vfill\pause
+	\begin{columns}[T]
+		\column{.51\textwidth}
+			Custo (tempo): \alert{$g(n)=2n^2+n$}  
+				\begin{itemize}
+					\item[$n$] no laço externo ($i$)
+					\item[$n^2$] no laço interno ($j$)
+					\item[$n^2$] no laço interno ($A_{ij}$)
+				\end{itemize}
+		\pause
+		\column{.44\textwidth}
+			Custo (espaço): \alert{$g(n) = n^2+4$} 
+				\begin{itemize}
+					\item[4] variáveis simples ($i$, $n$, $j$, $k$)
+					\item[$n^2$] matriz ($A$)
+				\end{itemize}
+	\end{columns}
+\end{frame}
+
+\newcommand{\custo}[1]{$g(#1) = 2{\cdot}#1^2 + #1$}%
+\begin{frame}[label=main]
+	Considerando a função \custo{n}, o crescimento dos termos em função de $n$:
+	\begin{itemize}
+		\item \custo{1}   	$ = 3$\pause
+		\item \custo{5}   	$ = 55$\pause
+		\item \custo{10}  	$ = 210$
+		\item \custo{100} 	$ = 20100$
+		\item \custo{1000}	$ = 2001000$
+		\item $\cdots$
+	\end{itemize}
+	\vfill\pause
+	Para valores de $n$ muito grandes, o \alert{primeiro} termo é \alert{dominante}...
+\end{frame}

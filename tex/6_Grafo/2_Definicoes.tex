@@ -1,0 +1,62 @@
+%!TEX root = ED_Grafo.tex
+
+\section{Definições}
+	\begin{frame}[label=notas]
+		\framesubtitle{Variações de grafos}
+		\begin{columns}
+			\column{.475\textwidth}
+				\begin{tikzpicture}%
+					\node[draw, circle]	(A)		  {A};
+					\node[draw, circle]	(B) at(30:2)  {B} edge[line] (A);
+					\node[draw, circle]	(C) at(-30:2) {C};
+					\draw<1-5>[line]   		(C) -- (A);
+					\node<2->          					at(50:1)  {0.75};
+					\node<2-5>         					at(-50:1) {2};
+					\draw<3-5>[line]       	(C) -- (B);
+					\node<3-5>             	           				at(0:1.5) {1};
+					\draw<4->[line] (B)..controls +(south east:1) and +(north east:1) .. (C);
+					\draw<4->[line] (B)..controls +(north west:1.5) and +(north east:1.5) .. (B);
+					\node<4->             	           				at(0:2.8) {1000};
+					\node<4->             	           				at(33:3.1) {3.14};
+					\node<5->[draw, circle]	(D) at(10:4)	  {D};
+				\end{tikzpicture}%
+				\begin{itemize}
+					\item Não-orientado
+					\item<2-> Ponderado % cada aresta tem um peso associado.
+					\item<3-> Cíclico % possui caminho de um vértice a ele mesmo
+					\item<4-> Multigrafo % existe um vértice com um laço ou um par de vértices conectados por mais de uma aresta
+					\item<5-> Desconexo % existe pelo menos um par de vértices enrte os quais não há um caminho
+					\item<6-> Parcial % contém todos os nós de $G$ mas apenas um subconjunto de seus arcos.
+				\end{itemize}
+			\column{.475\textwidth}
+				\begin{tikzpicture}%
+					\node<1-5>[draw, circle] (A)	  {A};
+					\node[draw, circle] (B) at(30:2)  {B};
+					\node[draw, circle] (C) at(-30:2) {C} edge[<-,line] (B);
+					\draw<1-5>[<-, line] (B) -- (A);
+					\draw<3-5>[->,line] (A) -- (C);
+					\draw<4->[->,white] (B)..controls +(north west:1.5) and +(north east:1.5) .. (B);
+					\node<6->[circle,white] (A) {A};
+				\end{tikzpicture}%
+				\begin{itemize}[<+->]
+					\item Orientado
+					\item<2-> Não-ponderado
+					\item<3-> Acíclico % não possui circuito.
+					\item<4-> Simples %
+					\item<5-> {[Fracamente] Conexo} % Existe um caminho entre um par qualquer de vértices (u,v) de modo que u é alcançavel de v mas não o contrário
+					\item<6-> Subgrafo % grafo cujo conjunto de vértices é um subconjunto do conjunto de vértices $G$ e o conjunto de arestas é um subconjunto do conjunto de arestas de $G$.
+				\end{itemize}
+		\end{columns}
+	\end{frame}
+
+\begin{frame}[label=notas]
+	\begin{description}[<+->]%
+		\item[Incidência]\ % uma aresta incidente é o que chega ao vértice. 
+		\item[Adjacência]\ % vértices adjacentes estão ligados por uma aresta, arestas adjacentes incidem sobre o mesmo vértice 
+		\item[Grau] {[de entrada/saída]} do vértice% número de arestas incidentes em $v$.
+		\vfill
+		\item[Caminho]\ % sequência de arcos levando de um vértice a outro.
+		\item[Alcançável]\ % um vértice $x$ é alcançável a partir do vértice $y$ se existe um caminho de $y$ até $x$.
+		\item[Circuito/Laço]\ %circuito é um caminho que leva de um vértice a ele mesmo sem repetições (de vértices), laço é um ciclo formado por uma aresta
+	\end{description}
+\end{frame}

@@ -1,0 +1,59 @@
+\documentclass{UnBeamer}%
+%\documentclass[draft]{UnBeamer	}%
+% \documentclass[handout]{UnBeamer}%
+% \documentclass[notasDeAula]{UnBeamer}%
+
+\usepackage{../ED}%
+\usepackage{ED_Grafo}%
+% \usepackage{gnramos}%
+% \usepackage{electComp}%
+% \usepackage{calc}%
+
+% \includeonlyframes{notas}%
+
+\title{Grafos}
+\subtitle{Estruturas de Dados Não-lineares}%
+
+\begin{document}%
+    \frame[label=notas]{\titlepage}%
+    \section{\inserttitle}%
+	\include{1_Conceito}%
+	\include{2_Definicoes}%
+	\include{3_Implementacao}%
+	\include{4_Busca}%
+	\include{5_Exemplos}%
+	\include{6_Ordenamento_Topologico}%
+	\include{7_IA}%
+	\include{8_AGM}%
+	\include{9_Rotas}%
+	\include{10_Djikstra}%
+
+	% \begin{frame}[label=notas]
+	% 	\begin{columns}[T]
+	% 		\column{.3\textwidth}\centering
+	% 			\includegraphics<1>[width=\textwidth]{kevinbacon}
+	% 			\includegraphics<2->[width=\textwidth]{opte}
+	% 		\column{.65\textwidth}
+	% 			\pause
+	% 			Albert-László Barabási\footnote[frame]<2->{Northeastern University}
+	% 			\\18/02/2013 - doi:\href{http://dx.doi.org/10.1098/rsta.2012.0375}{10.1098/rsta.2012.0375}
+	% 			\\\vspace{2\baselineskip}\includegraphics[width=.95\textwidth]{journal_logo}
+	% 	\end{columns}
+	% 	\vfill\pause
+	% 	\begin{center}
+	% 	\begin{tikzpicture}
+	% 		\node[block,align=center] (pa) {página\\aleatória};
+	% 		\node[block,align=center] at(5,0) {página\\desejada} edge[line,<-] (pa);
+	% 		\node at(2.5,0.3) {19 cliques};
+	% 	\end{tikzpicture}
+	% 	\end{center}\pause
+	% 	Supondo $14*10^9$ páginas online\pause, a internet poderia ser organizada
+	% 	em uma árvore balanceada de grau $\approx3.42$.
+	% 	\begin{itemize}
+	% 		\item humanos criam as páginas \hfill(small world)
+	% 		\item Reddit, /. etc. \hfill(7 graus de separação)
+	% 	\end{itemize}
+	% \end{frame}
+	\include{11_Coloracao}%
+	% \include{Kirchoff}%
+\end{document}%

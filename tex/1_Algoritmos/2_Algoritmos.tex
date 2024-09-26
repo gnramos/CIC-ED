@@ -1,0 +1,96 @@
+\section{Algoritmos}
+\begin{frame}[fragile,label=main]
+	\begin{block}{}
+		Sequência finita de instruções para executar uma tarefa.
+		\begin{itemize}
+			\item Bem definidas e não ambíguas.
+			\item Executáveis com uma quantidade de esforço finita.
+			\item Executáveis em um período de tempo finito.
+		\end{itemize}
+	\end{block}
+	\vfill\pause
+	\begin{columns}[T]\small
+		\column{.3\textwidth}
+			\begin{lstlisting}[title=Soma Sequencial]
+				total = 0
+				para i /in (0, 100]
+				    total := total + i
+			\end{lstlisting}
+		\pause
+		\column{.4\textwidth}
+			\begin{lstlisting}[title=Bolo,morekeywords={tempo,batedeira,untar,esperar,conteudo}]
+				tigela:= ingredientes
+				enquanto(tempo() < 5min)
+				    batedeira(tigela)
+				untar(forma)
+				forma:= conteudo(tigela)
+				esperar(40min)
+			\end{lstlisting}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[label=graduacao]
+	Edsger Wybe \alert{Dijkstra}
+	\begin{itemize}
+		\item Holanda, $^{\star}$1930 $^{\dagger}$2002
+		\item Prêmio Turing de 1972 (ACM)
+			\begin{itemize}
+				\item notação polonesa inversa  ($(a+b)/c \rightarrow a b + c /$)
+				\item algoritmo de Dijkstra
+				\item sistema operacional THE
+				\item construção de semáforos para coordenar múltiplos processadores e programas
+				\item ...
+			\end{itemize}
+	\end{itemize}
+	\pause
+\end{frame}
+
+\newcommand{\function}[1]{\texttt{\textbf{#1}}}%
+\begin{frame}[fragile,label=main]
+
+	\begin{block}{Definição de Dijkstra}
+		Um algoritmo corresponde a uma descrição de um padrão de comportamento, expresso em termos de um conjunto finito de ações.
+		%\subitem[Ex:]{comportamento de $a + b$ para diferentes valores de $a$ e $b$.}
+	\end{block}
+	\vfill\pause	
+	\begin{itemize}
+		\item Um algoritmo não representa, necessariamente, um programa de computador.
+			% \pause
+			% \begin{itemize}
+			%	\item Algoritmo: sequência de passos para resolver uma tarefa.
+			%	\item Programa: sequência de instruções \alert<1>{em código} para executar uma operação em um computador.
+			% \end{itemize}
+			\pause
+		\item Um algoritmo corretamente executado pode não resolver uma tarefa.% se:
+			% \begin{itemize}
+			%	\item foi incorretamente implementado;
+			%	\item não for apropriado a tarefa.
+			% \end{itemize}
+	\end{itemize}
+	\vfill
+	Problema: aprovação em \insertshortsubtitle\pause
+	\begin{columns}[T]\small
+		\column{.35\textwidth}
+			\begin{exampleblock}{Adequado}
+				\function{assistir}(aula)\\
+				\function{estudar}(algoritmos)\\
+				\function{fazer}(provas $\land$ trabalhos)
+			\end{exampleblock}
+			\pause
+		\column{0\textwidth}
+		\column{.25\textwidth}
+			\begin{block}{Indequado}
+				\function{assistir}(filmes)\\
+				\function{estudar}(química)\\
+				\function{fazer}(faxina)
+			\end{block}
+			\pause
+		\column{0\textwidth}
+		\column{.25\textwidth}
+			\begin{alertblock}{Não apropriado}
+				\function{escovar}(dentes)\\
+				\function{vestir}(pijamas)\\
+				\function{deitar}
+			\end{alertblock}
+	\end{columns}
+\end{frame}

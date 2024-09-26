@@ -1,0 +1,428 @@
+% !TEX root = ED_Lista_Fila_Pilha
+
+\section{Lista}
+\begin{frame}[label=notas]
+	\begin{itemize}
+		\item Conjunto ordenado de EDs com acesso \emph{sequencial} onde inclusão, 
+		exclusão e consulta de seus elementos podem acontecer de forma aleatória
+		%Uma coleção de dados homogênea;Itens dispostos em seqüência;Quantificável;Ordenável;
+			\begin{itemize}
+				\item Aberta - o último nó aponta para nada
+				\item Fechada - o último nó aponta para o primeiro
+				\pause
+				\item Simplesmente Encadeada
+					\vspace{-.5\baselineskip}
+					\begin{columns}
+						\column{.1\textwidth}
+						\column{.45\textwidth}
+							\subitem{Referência para a próxima ED}
+						\column{.4\textwidth}
+							\vspace{-.5\baselineskip}
+							\includegraphics[width=\textwidth]{slinked-list}
+							%source: http://en.wikipedia.org/wiki/File:Singly-linked-list.svg
+					\end{columns}
+				\pause
+				\vfill
+				\item Duplamente Encadeada
+					\vspace{-.5\baselineskip}
+					\begin{columns}
+						\column{.1\textwidth}
+						\column{.45\textwidth}
+							\begin{itemize}
+								\item Referência para a próxima ED
+								\item Referência para a ED anterior
+							\end{itemize}
+						\column{.4\textwidth}
+							\vspace{-.5\baselineskip}
+							\includegraphics[width=\textwidth]{dlinked-list}
+							%source: http://en.wikipedia.org/wiki/File:Doubly-linked-list.svg
+					\end{columns}
+			\end{itemize}
+		\pause
+		\vfill
+		\item Vantagem: tamanho variável
+		\item Desvantagem: acesso sequencial
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[label=notas]
+	Exemplos:
+	\begin{center}
+		\begin{tabular}{r|l|l|}
+			\multicolumn{1}{c}{} & \multicolumn{1}{c|}{\emph{Aberta}} & \multicolumn{1}{c}{\emph{Fechada}}\\\cline{2-3}
+			\textbf{Simples} & lista telefônica & escalonamento Round-Robin \\\hline
+			\textbf{Dupla} & histórico do navegador & cantos de um polígono \\\cline{2-3}
+		\end{tabular}
+	\end{center}
+\end{frame}
+
+\begin{frame}[label=notas]
+	Implementação (de cada tipo)? 
+	\\\pause\vfill
+	Tipo abstrato $\rightarrow$ definido pelas operações. \pause
+	\begin{itemize}
+		\item criar uma lista vazia
+		\item inserir um item novo (em qualquer posição)
+		\item remover um item
+		\item localizar um item
+		\item copiar a lista
+		\item combinar duas ou mais listas
+		\item dividir uma lista em duas ou mais listas
+		\item etc.
+	\end{itemize}
+\end{frame}
+
+% \begin{frame}[fragile,label=notas]
+% 	\framesubtitle{\subsecname\ Aberta Simplesmente Encadeada}
+	
+% 	\begin{center}
+% 		\begin{minipage}{.75\textwidth}
+% 			\begin{lstlisting}[title=Lista]
+% 				typedef struct slist_t {
+% 				  slist_node_t *first;
+% 				  // int num_elementos; /* contador de elementos */
+% 				} slist_t;
+% 			\end{lstlisting}			
+% 		\end{minipage}
+% 	\end{center}
+% 	\pause
+% 	\begin{minipage}{1.02\textwidth}
+% 		\begin{lstlisting}[title=Criar novo elemento]
+% 			slist_node_t *slist_new_node(data_t data, slist_node_t *next){
+% 			  slist_node_t *node = (slist_node_t *) malloc(sizeof(slist_node_t));
+% 			  if (node) {
+% 			    node->data = data;
+% 			    node->next = next;
+% 			  }
+% 			  return node;
+% 			}
+% 		\end{lstlisting}
+% 	\end{minipage}
+% \end{frame}
+% \lstset{morekeywords={slist_t, slist_new_node}}
+
+% \begin{frame}[fragile,label=notas]
+% 	\framesubtitle{\subsecname\ Aberta Simplesmente Encadeada}
+	
+% 	\vspace{-1\baselineskip}
+% 	\begin{center}
+% 		\begin{minipage}{.92\textwidth}
+% 			\begin{lstlisting}[title=Criar nova lista]  
+% 				slist_t *slist_new(data_t *data){
+% 				  slist_t *lista = (slist_t *)malloc(sizeof(slist_t));
+% 				  if (lista)
+% 				    lista->first = (data ? slist_new_node(*data, NULL) : NULL);
+% 				  return lista;
+% 				}
+% 			\end{lstlisting}
+% 		\end{minipage}
+% 	\end{center}
+% 	\vspace{-1.5em}\pause
+% 	\begin{center}
+% 		\begin{minipage}{.65\textwidth}
+% 			\begin{lstlisting}[title=Obter o último elemento]
+% 				slist_node_t *slist_last(slist_t *lista) {
+% 				  slist_node_t *last = lista->first;
+% 				  while (last && last->next) last = last->next;
+% 				  return last;
+% 				}
+% 			\end{lstlisting}
+% 		\end{minipage}
+% 	\end{center}
+% \end{frame}
+% \lstset{morekeywords={slist_new,slist_last}}
+
+% \begin{frame}[fragile,label=notas]
+% 	\framesubtitle{\subsecname\ Aberta Simplesmente Encadeada}
+	
+% 	\tikz[remember picture] \node (a) {\vphantom{X}}; %ancora no início do frame
+% 	\vspace{-1\baselineskip}
+% 	\begin{center}
+% 		\begin{minipage}{.85\textwidth}
+% 			\begin{lstlisting}[title=Inserção]
+% 				void slist_insert(slist_t *lista, data_t data, int posicao) {
+% 				  slist_node_t *aux = lista->first;
+% 				  if(!aux || posicao == 0) { // primeiro da lista
+% 				    lista->first = slist_new_node(data, aux);
+% 				  } else { // posicao arbitraria
+% 				    int i = 1;
+% 				    while (i < posicao && aux->next) {
+% 				      aux = aux->next;
+% 				      ++i;
+% 				    }
+% 				    aux->next = slist_new_node(data, aux->next);
+% 				  }
+% 				}
+% 			\end{lstlisting}
+% 		\end{minipage}
+% 	\end{center}
+% 	\pause
+% 	\begin{tikzpicture}[remember picture,overlay]
+% 		\node[anchor=west,ellipse callout,fill=redUnB!50, callout relative pointer={(-0.8, 1.7)}] at (7.5,3) {caso especial};
+% 	\end{tikzpicture}
+
+% \end{frame}
+% \lstset{morekeywords={slist_insert}}
+
+% \begin{frame}[fragile,label=notas]
+% 	\framesubtitle{\subsecname\ Aberta Simplesmente Encadeada}
+	
+% 	\tikz[remember picture] \node (a) {\vphantom{X}}; %ancora no início do frame
+% 	\vspace{-1.8\baselineskip}
+% 	\begin{center}
+% 		\begin{minipage}{.85\textwidth}
+% 			\begin{lstlisting}[title=Remoção]
+% 				slist_node_t *slist_remove(slist_t *lista, int posicao) {
+% 				  slist_node_t *aux = lista->first;
+% 				  if(posicao == 0) { // primeiro da lista
+% 				    lista->first = aux->next;
+% 				    return aux;
+% 				  } else { // posicao arbitraria
+% 				    int i = 1;
+% 				    while (i < posicao && aux->next) {
+% 				      aux = aux->next;
+% 				      ++i;
+% 				    }
+% 				    if(i > posicao) return NULL;
+% 				    slist_node_t *aux2 = aux->next;
+% 				    aux->next = (aux2 ? aux2->next : NULL);
+% 				    return aux2;
+% 				   }
+% 				}
+% 			\end{lstlisting}
+% 		\end{minipage}
+% 	\end{center}
+% 	\pause
+% 	\begin{tikzpicture}[remember picture,overlay]
+% 		\node[anchor=west,ellipse callout,fill=redUnB!50, callout relative pointer={(-1.5, 3)}] at (7.5,3) {caso especial};
+% 	\end{tikzpicture}
+% \end{frame}
+% \lstset{morekeywords={slist_remove,data_compare}}
+
+% \begin{frame}[fragile,label=notas]
+% 	\framesubtitle{\subsecname\ Aberta Simplesmente Encadeada}
+	
+% 	\begin{center}
+% 		\begin{minipage}{.5\textwidth}
+% 			\begin{lstlisting}[title=Limpar lista]
+% 				void slist_empty(slist_t *lista) {
+% 				  slist_node_t *aux;
+% 				  while (lista->first)
+% 				    aux = slist_remove(lista, 0);
+% 				    free(aux);
+% 				}
+% 			\end{lstlisting}
+% 		\end{minipage}
+% 		\pause
+% 		\begin{minipage}{.75\textwidth}
+% 			\begin{lstlisting}[title=Pesquisa]
+% 				slist_node_t *slist_find(slist_t *lista, data_t data) {
+% 				  slist_node_t *aux = lista->first;
+% 				  while (aux && !data_compare(data, aux->data))
+% 				    aux = aux->next;
+% 				  return aux;
+% 				}
+% 			\end{lstlisting}
+% 		\end{minipage}
+% 	\end{center}
+% \end{frame}
+% \lstset{morekeywords={slist_empty,slist_empty}}
+
+% \begin{frame}[fragile,label=notas]
+% 	\framesubtitle{\subsecname\ Aberta Simplesmente Encadeada}
+	
+% 	\begin{center}
+% 		\begin{minipage}{.65\textwidth}
+% 			\begin{lstlisting}[title=Copiar lista]
+% 				slist_t *slist_copy(slist_t *lista) {
+% 				  slist_t *copy = slist_new(NULL);
+% 				  slist_node_t *aux = lista->first;
+% 				  while (aux) {
+% 				    slist_insert(copy, aux->item, INT_MAX);
+% 				    aux = aux->next;
+% 				  }
+% 				  return copy;    
+% 				}
+% 			\end{lstlisting}
+% 		\end{minipage}
+% 	\end{center}
+% 	\pause
+% 	Eficiente?
+% \end{frame}
+% \lstset{morekeywords={slist_copy}}
+
+% \begin{frame}[fragile,label=notas]
+% 	\framesubtitle{\subsecname\ Aberta Simplesmente Encadeada}
+	
+% 	\begin{center}
+% 		\begin{minipage}{.75\textwidth}
+% 			\begin{lstlisting}[title=Combinar listas]	
+% 				void slist_append(slist_t *list1, slist_t *list2) {
+% 				  slist_node_t *last = slist_last(list1);
+% 				  if (!last) 
+% 				    list1->first = list2->first;
+% 				  else
+% 				    last->next = list2->first;
+% 				}
+% 			\end{lstlisting}
+% 		\end{minipage}
+% 	\end{center}
+% \end{frame}
+% \lstset{morekeywords={slist_append}}
+
+\begin{frame}[label=notas]
+	\framesubtitle{\subsecname\ Aberta Simplesmente Encadeada}
+
+	Aplicação: Soma de inteiros (super) longos
+	\\\vfill
+	O hardware  da maioria dos computadores só permite inteiros de um tamanho máximo específico. Como representar inteiros positivos de tamanhos arbitrariamente grandes? 
+	\\\vfill\pause
+	Usando uma lista para armazenar pedaços valor: 
+cada nó armazena alguns dígitos do número. Por exemplo, o 
+número 1234 5678 9012 3456, seria armazenado como:
+
+	\begin{figure}
+		\centering
+		\begin{tikzpicture}[node distance=2em,minimum width=5em, minimum height=1.8em]
+			\node[block] (b1) {3456};
+			\node[block, right=of b1] (b2) {9012} edge[line, <-] (b1);
+			\node[block, right=of b2] (b3) {5678} edge[line, <-] (b2);
+			\node[block, right=of b3] (b4) {1234} edge[line, <-] (b3);
+		\end{tikzpicture}
+	\end{figure}		
+\end{frame}
+
+\begin{frame}
+	\framesubtitle{\subsecname\ Aberta Simplesmente Encadeada}
+
+	E como escrever uma função que retorne a soma de dois números inteiros deste tipo?
+	\pause
+	\begin{figure}
+		\centering
+		\begin{tikzpicture}[node distance=2em,minimum width=5em, minimum height=1.8em]
+			\node[block] (a1) {3456};
+			\node[block, right=of a1] (a2) {9012} edge[line, <-] (a1);
+			\node[block, right=of a2] (a3) {5678} edge[line, <-] (a2);
+			\node[block, right=of a3] (a4) {1234} edge[line, <-] (a3);
+			
+			\node[block, below=of a1] (b1) {9999};
+			\node[block, below=of a2] (b2) {0044} edge[line, <-] (b1);
+			\node[block, below=of a3] (b3) {7998} edge[line, <-] (b2);
+			\node[block, below=of a4] (b4) {1030} edge[line, <-] (b3);
+			
+			\uncover<3>{
+				\node[block, below=of b1, color=blueUnB] (c1) {3455};
+				\node[block, below=of b2, color=blueUnB] (c2) {9057} edge[line, <-] (c1);
+				\node[block, below=of b3, color=blueUnB] (c3) {3676} edge[line, <-] (c2);
+				\node[block, below=of b4, color=blueUnB] (c4) {2265} edge[line, <-] (c3);
+			}		
+		\end{tikzpicture}
+	\end{figure}		
+\end{frame}
+
+\begin{frame}[fragile]
+	\framesubtitle{Inversão ($O(n)$)}
+	\pause
+	\begin{center}
+	\begin{minipage}{.45\textwidth}
+		\begin{lstlisting}[morekeywords={inverte, no}]
+			inverte(lista)
+			    no inv := emptyset
+			    no aux
+
+			    enquanto(lista != emptyset)
+			        aux := lista
+			        lista := lista.prox
+			        aux.prox := inv
+			        inv := aux
+			    lista := inv
+		\end{lstlisting}
+	\end{minipage}
+	\end{center}
+\end{frame}
+	
+
+% \begin{frame}[fragile,label=notas]
+%	\framesubtitle{\subsecname\ Aberta Duplamente Encadeada}
+ 	
+%	\vspace{-1\baselineskip}
+%	\begin{center}
+%		\begin{minipage}{.55\textwidth}
+%			\begin{lstlisting}[title=Elemento da lista,emph={previous},emphstyle=\color{red}]
+%				typedef struct dlist_data_t {
+%				  data_t item;
+%				  struct dlist_data_t *next, *previous;
+%				} dlist_data_t;
+%			\end{lstlisting}
+%		\end{minipage}
+%	\end{center}
+%	\vspace{-1.5em}
+%	\begin{minipage}{1.02\textwidth}
+%		\begin{lstlisting}[title=Novo elemento]
+%			dlist_data_t *dlist_new_item(data_t item, dlist_data_t *next, dlist_data_t *previous) {
+%			  dlist_data_t *data = (dlist_data_t *) malloc(sizeof(dlist_data_t));
+%			  if (dlist_item) {
+%			    dlist_item->item = item;
+%			    dlist_item->next = next;
+%			    dlist_item->previous = previous;
+%			  }
+%			  return data;
+%			}
+%		\end{lstlisting}
+%	\end{minipage}
+% \end{frame}
+% \lstset{morekeywords={dlist_data_t,dlist_new_item}}
+
+% \begin{frame}[fragile,label=notas]
+% 	\framesubtitle{\subsecname\ Aberta Duplamente Encadeada}
+	
+% 	\vspace{-1\baselineskip}
+% 	\begin{lstlisting}[title=Inserção]
+% 		void dlist_insert(dlist_t *lista, data_t item, int posicao) {
+% 		  dlist_data_t *item_before = lista->first;
+% 		  if(!item_before || posicao == 0) { // primeiro da lista
+% 		     lista->first = dlist_new_item(item, lista->first, NULL);
+% 		     if(item_before) item_before->previous = lista->first;
+% 		  } else { // posicao arbitraria
+% 		    int i = 1;
+% 		    while (i < posicao && item_before->next) {
+% 		      item_before = item_before->next;
+% 		      ++i;
+% 		    }
+% 		    dlist_data_t *item_after = item_before->next;
+% 		    item_before->next = dlist_new_item(item, item_after, item_before);
+% 		    if(item_after) item_after->previous = item_before->next;
+% 		  }
+% 		}	\end{lstlisting}
+% \end{frame}
+% \lstset{morekeywords={dlist_insert}}
+
+% \begin{frame}[fragile,label=notas]
+% 	\framesubtitle{\subsecname\ Aberta Duplamente Encadeada}
+	
+% 	\vspace{-1\baselineskip}
+% 	\begin{center}
+% 		\begin{minipage}{.8\textwidth}
+% 			\begin{lstlisting}[title=Remoção]
+% 				dlist_data_t *dlist_remove(dlist_t *lista, int posicao) {
+% 				  dlist_data_t *aux = lista->first;
+% 				  if(posicao == 0) { // primeiro da lista
+% 				    lista->first = aux->next;
+% 				    if(lista->first) lista->first->previous = NULL;
+% 				    return aux;
+% 				  } else { // posicao arbitraria
+% 				    int i = 1;
+% 				    while (i < posicao && aux->next) {
+% 				      aux = aux->next;   ++i;
+% 				    }
+% 				    dlist_data_t *aux2 = aux->next;
+% 				    aux->next = aux2->next;
+% 				    if(aux2->next) aux2->next->previous = aux;
+% 				    return aux2;
+% 				  }
+% 				}
+% 			\end{lstlisting}
+% 		\end{minipage}
+% 	\end{center}
+% \end{frame}
+% \lstset{morekeywords={dlist_remove}}

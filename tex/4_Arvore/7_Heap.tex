@@ -1,0 +1,98 @@
+%!TEX root = ED_Arvore.tex
+
+\section{Heap}
+\begin{frame}[label=notas]
+	Estrutura de dados abstrata, derivada da árvore, que satisfaz a propriedade:
+	\begin{itemize}
+		\item Se $B$ é filho de $A$, então $B.chave \le A.chave$ (heap de máximo)\pause
+		\item Se $B$ é filho de $A$, então $B.chave \ge A.chave$ (heap de mínimo)
+		\item Pode ser construída em tempo linear.
+	\end{itemize}
+	\pause
+	\begin{center}
+	\begin{tikzpicture}[->]
+		\Tree[ .100 [ .19 [ .17 [ .2 ] [.7 ] ] [ .3 ] ] [ .36 [.25 ] [ .1 ] ] ]
+	\end{tikzpicture}
+	\end{center}
+	\pause
+	Não há restrições quanto ao número de filhos por nó.
+	\subitem{Na prática: 2}
+\end{frame}
+
+\subsection{Aplicações}
+\begin{frame}[label=notas]
+	\begin{itemize}[<+->]
+		\item \emph{\alert<1>{É a estrutura de dados mais eficiente para implementar uma fila de prioridade.}}
+		\item Heapsort: algoritmo de ordenação \emph{in-place}, complexidade $O(n{\cdot}log(n))$.
+			\vspace{-1\baselineskip}
+			\begin{itemize}
+				\item Vantagem: O comportamento é logarítmico, qualquer que seja a entrada.
+				\item Desvantagem: não é estável; o caso médio é pior que o do quicksort e a implementação mais complexa.
+				\item Recomendado para aplicações que não podem tolerar um caso desfavorável.
+			\end{itemize}
+		\item Algoritmos de seleção (custo linear ou mesmo constante):
+			\begin{itemize}
+				\item Busca de máximo/mínimo.
+				\item Busca do valor médio
+				\item Busca do $k$-ésimo máximo elemento
+			\end{itemize}
+		\item Algoritmos de grafos (ex: algoritmo de Dijkstra)
+	\end{itemize}
+\end{frame}
+
+\tikzstyle{vetor} = [rectangle, draw, fill]
+\begin{frame}[label=notas]
+
+	Operações comuns:
+	\begin{itemize}
+		\item busca-max: encontra o máximo item (ou busca-min)
+		\item remove-max: remove a raiz
+		\item insere: insere um novo valor
+		\item fusão: une duas heaps (como uma heap)
+	\end{itemize}
+	\pause
+	\begin{columns}[T]
+		\column{.7\textwidth}
+			Implementação mais simples/eficiente ([semi-]completa): \alert<2>{vetor}
+		\column{.25\textwidth}
+			\vspace{-2\baselineskip}
+			\Tree [.$i$ [ .$2i+1$ ] [ .$2i+2$ ] ]
+			\\\vfill\hfill ${\forall}i = 0,1,...,n/2$
+	\end{columns}
+	\pause
+	\begin{center}
+	\begin{tikzpicture}
+		\node[vetor] (100) {\textcolor{white}{100}};
+		\node[vetor, greenUnB!35, right of=100]	(19)	{\textcolor{black}{19}};
+		\node[vetor, blueUnB!35, right of=19]  	(36)	{\textcolor{black}{36}};
+		\node[vetor, greenUnB!70, right of=36] 	(17)	{\textcolor{white}{17}};
+		\node[vetor, greenUnB!70, right of=17] 	(3) 	{\textcolor{white}{3}};
+		\node[vetor, blueUnB!70, right of=3]   	(25)	{\textcolor{white}{25}};
+		\node[vetor, blueUnB!70, right of=25]  	(1) 	{\textcolor{white}{1}};
+		\node[vetor, greenUnB, right of=1]     	(2) 	{\textcolor{white}{2}};
+		\node[vetor, greenUnB, right of=2]     	(7) 	{\textcolor{white}{7}};
+
+		\node[below of=100] {\footnotesize 0};
+		\node[below of=19]	{\footnotesize 1};
+		\node[below of=36]	{\footnotesize 2};
+		\node[below of=17]	{\footnotesize 3};
+		\node[below of=3] 	{\footnotesize 4};
+		\node[below of=25]	{\footnotesize 5};
+		\node[below of=1] 	{\footnotesize 6};
+		\node[below of=2] 	{\footnotesize 7};
+		\node[below of=7] 	{\footnotesize 8};
+
+		\uncover<4>{
+		\draw[->] (100) .. controls +(north:.5) and +(north:.5) .. (19);
+		\draw[->] (100) .. controls +(north:1) and +(north:1) .. (36);}
+		\uncover<5>{
+		\draw[->] (19) .. controls +(south:.5) and +(south:.5) .. (17);
+		\draw[->] (19) .. controls +(south:1) and +(south:1) .. (3);
+		\draw[->] (36) .. controls +(north:.5) and +(north:.5) .. (25);
+		\draw[->] (36) .. controls +(north:1) and +(north:1) .. (1);}
+		\uncover<6>{
+		\draw[->] (17) .. controls +(south:.5) and +(south:.5) .. (2);
+		\draw[->] (17) .. controls +(south:1) and +(south:1) .. (7);}
+	\end{tikzpicture}
+	\end{center}
+\end{frame}

@@ -1,0 +1,60 @@
+\ProvidesPackage{ED_Arvore}%
+
+\RequirePackage{colortbl}%
+\RequirePackage{tikz-qtree}% 
+
+\usetikzlibrary{decorations.markings,fit,shapes.multipart}%calc,positioning,shapes.geometric}%
+\tikzstyle{btnode} = [draw, rectangle split, rectangle split horizontal,rectangle split parts=3, rectangle split part fill={blueUnB!50, white, greenUnB!50}]%
+\tikzstyle{thickcircle} = [draw, circle, line width=2pt]%
+\tikzstyle{subtree} = [draw, rectangle, dotted, line width=2pt]%
+\tikzstyle{rotate_right} = [thickcircle, blue, decoration={markings, mark=at position 0.5 with {\arrow[line width=4pt]{<}}}, postaction={decorate}]%
+\tikzstyle{rotate_left} = [thickcircle, red, decoration={markings, mark=at position 0.5 with {\arrow[line width=4pt]{>}}}, postaction={decorate}]%
+
+
+\newcommand{\unbalancedbinarytree}{%
+	\Tree [ .50 [ .17 [ .9 \edge[white]; [ .\node(n1){}; ]
+					[ .14 
+						[ .12 ] 
+						\edge[white]; [ .\node(n2){}; ] ] ]
+				[ .23 [ .19 ] 
+					\edge[white]; [ .\node(n3){}; ] ] ]
+			 [ .76 [ .54 \edge[white]; [ .\node(n4){}; ]
+					[ .72 
+						[ .67 ] 
+						\edge[white]; [ .\node(n5){}; ] ] ] 
+				\edge[white]; [ .\node(n6){}; ] ] ]
+}%
+
+\newcommand{\balancedbinarytree}{%
+	\Tree [ .50 
+			[ .17 
+				[ .12 
+					[ .9 ]
+					[ .14 ] ]
+				[ .23 
+					[ .19 ] 
+					\edge[white]; [ .\node(n1){}; ] ] ]
+			[ .72
+				[ .54
+					\edge[white]; [ .\node(n3){}; ]
+					[ .67 ] ] 
+				[ .76 ] ] ]
+}%
+
+\newcommand{\extree}{%
+	\node (a) {A}
+		child {node (b) {B}
+			child {node (f) {F}}
+		}
+		child {node (c) {C}}
+		child {node (d) {D}
+			child {node (g) {G}}
+			child {node (h) {H}
+				child {node (i) {I}}
+			}
+		}
+		child {node (e) {E}}
+	;
+}%
+
+\newcommand{\rotateright}[1]{\foreach \x in {#1}{\node[rotate_right, fit=({\x})] {};}}%

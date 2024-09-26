@@ -1,0 +1,103 @@
+%!TEX root = Aula_1.tex
+
+\section*{Ordenação Ineficiente}
+\subsection{Bogosort}
+\begin{frame}[fragile,label=main]
+	\begin{columns}
+		\column{.6\textwidth}\centering
+			\includegraphics[width=\textwidth]{bogosort}
+		\pause
+		\column{.35\textwidth}\centering
+			% Algoritmo é probabilístico por natureza (e pode nunca terminar!)
+			\begin{lstlisting}[morekeywords={em_ordem,embaralha}]
+				enquanto !em_ordem(lista)
+				    embaralha(lista)
+			\end{lstlisting}
+			\pause\vfill
+			\begin{alertblock}{Complexidade}
+				\begin{itemize}
+					\item Tempo: $O(\infty)$
+						\subitem{médio: $O(n{\cdot}n!)$}
+					\item Espaço: $O(n)$
+				\end{itemize}
+			\end{alertblock}
+	\end{columns}
+\end{frame}
+
+\subsection{Bubblesort}
+\begin{frame}[fragile,label=main]
+	\begin{columns}
+		\column{.5\textwidth}\centering
+			\includegraphics[width=.75\textwidth]{bubbles}
+		\pause
+		\column{.45\textwidth}\centering
+			% Algoritmo é probabilístico por natureza (e pode nunca terminar!)
+			\begin{lstlisting}[morekeywords={troca}]
+				repita
+				    ordenado := verdadeiro
+				    para i de 1 a n-1
+				        se A[i] > A[i+1]
+				            troca(A[i],A[i+1])
+				            ordenado := falso
+				enquanto !ordenado
+			\end{lstlisting}
+			\pause\vfill
+			\begin{alertblock}{Complexidade}
+				\begin{itemize}
+					\item Tempo: $O(n^2)$
+					\item Espaço: $O(n)$
+				\end{itemize}
+			\end{alertblock}
+	\end{columns}
+\end{frame}
+
+\subsection{Insertion Sort}
+\begin{frame}[fragile,label=main]
+	\begin{columns}
+		\column{.5\textwidth}\centering
+			\includegraphics[width=.75\textwidth]{cards}
+		\pause
+		\column{.45\textwidth}\centering
+			% Algoritmo é probabilístico por natureza (e pode nunca terminar!)
+			\begin{lstlisting}[morekeywords={troca}]
+			para i de 2 a n
+			    j := i
+			    enquanto j > 1 e A[j-1] > A[j]
+			       troca(A[j-1],A[j])
+			       j := j - 1
+			\end{lstlisting}
+			\pause\vfill
+			\begin{alertblock}{Complexidade}
+				\begin{itemize}
+					\item Tempo: $O(n^2)$
+					\item Espaço: $O(n)$
+				\end{itemize}
+			\end{alertblock}
+	\end{columns}
+\end{frame}
+
+\subsection{Selection Sort}
+\begin{frame}[fragile,label=main]
+	\begin{columns}
+		\column{.5\textwidth}\centering
+			\includegraphics[width=.75\textwidth]{lupa}
+		\pause
+		\column{.45\textwidth}\centering
+			% Algoritmo é probabilístico por natureza (e pode nunca terminar!)
+			\begin{lstlisting}[morekeywords={troca}]
+			para i de 1 a n-1
+			    min := i+1
+			    para j de min+1 a n
+			        se A[min] > A[j]
+			            min := j
+			    troca(A[i],A[min])
+			\end{lstlisting}
+			\pause\vfill
+			\begin{alertblock}{Complexidade}
+				\begin{itemize}
+					\item Tempo: $O(n^2)$
+					\item Espaço: $O(n)$
+				\end{itemize}
+			\end{alertblock}
+	\end{columns}
+\end{frame}

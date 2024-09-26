@@ -1,0 +1,67 @@
+%!TEX root = ED_Grafo.tex
+
+\section{Aplicações em Inteligência Artificial de Jogos}
+\subsection{Grafo de Navegação}
+\begin{frame}[label=notas]
+	\framesubtitle{Learning AI by Example}
+	\begin{columns}
+		\column{.5\textwidth}\centering
+			\includegraphics[width=.9\textwidth]{navi_graph}
+		\column{.5\textwidth}\centering
+			\includegraphics[width=.9\textwidth]{grid_graph}
+	\end{columns}
+\end{frame}
+
+\subsection{Grafo de Dependências}
+\begin{frame}[label=notas]
+	\frametitle{\subsecname\footnote{``Árvore tecnológica''}}
+	\framesubtitle{Learning AI by Example}
+    \begin{overprint}
+		\begin{tikzpicture}[every node/.style={draw,block},every edge/.style={draw,<-,line width=1.5pt}]
+			\node              	at(0,0)  	(Prefeitura)	{Prefeitura};
+			%\onslide<2->{\node	at(0,-1) 	(Peoes)     	{Peões}     	edge (Prefeitura);
+			\onslide<2->{\node 	at(2,0)  	(Mina)      	{Mina}      	edge (Prefeitura);}
+			\onslide<2->{\node 	at(0,1)  	(Forte)     	{Forte}     	edge (Prefeitura);}
+			\onslide<2->{\node 	at(-2,0) 	(Quartel)   	{Quartel}   	edge (Prefeitura);}
+			\onslide<2->{\node 	at(0,-1) 	(Madeireira)	{Madeireira}	edge (Prefeitura);}
+			\onslide<3->{\node 	at(-3,1) 	(Cavalaria) 	{Cavalaria} 	edge (Quartel);}
+			\onslide<3->{\node 	at(-4,0) 	(Infantaria)	{Infantaria}	edge (Quartel);}
+			\onslide<3->{\node 	at(0,-2) 	(Serraria)  	{Serraria}  	edge (Madeireira);}
+			\onslide<3->{\node 	at(2,-1) 	(Oficina)   	{Oficina}   	edge (Mina)	edge (Madeireira);}
+			\onslide<4->{\node 	at(4,0)  	(Polvora)   	{Pólvora}   	edge (Oficina);}
+			\onslide<4->{\node 	at(4,-2) 	(Ferro)     	{Ferro}     	edge (Oficina);}
+			\onslide<4->{\node 	at(-2,-2)	(Flechas)   	{Flechas}   	edge (Serraria);}
+			\onslide<5>{\node  	at(-3,-1)	(Arqueiros) 	{Arqueiros} 	edge (Quartel)	edge (Flechas);}
+			\onslide<5>{\node  	at(0,2)  	(Castelo)   	{Castelo}   	edge (Forte)  	edge (Polvora)	edge (Quartel);}
+			\onslide<5>{\node  	at(6,-1) 	(Canhoes)   	{Canhões}   	edge (Ferro)  	edge (Polvora);}
+			\onslide<5>{\node  	at(4,-1) 	(Armas)     	{Armas}     	edge (Ferro)  	edge (Polvora);}
+		\end{tikzpicture}
+    \end{overprint}
+\end{frame}
+
+\newcommand{\hanoi}[1]{\includegraphics[scale=0.5]{hanoi_#1}}%
+\subsection{Grafo de Estados}
+\begin{frame}[label=notas]
+	\framesubtitle{Learning AI by Example}
+	
+    \begin{overprint}
+		\begin{tikzpicture}[node distance=2cm,every edge/.style={draw,<->,line width=1.5pt}]
+			\node                               	(1)	{\hanoi{2_0_0}};
+			\onslide<2->{\node[below right of=1]	(2)	{\hanoi{1_1_0a}}	edge (1);}
+			\onslide<2->{\node[above right of=1]	(3)	{\hanoi{1_0_1b}}	edge (1);}
+
+			\onslide<3->{\draw (2)                    	edge (3);}
+			\onslide<3->{\node[right of=2, right=-5mm]	(4)	{\hanoi{0_1_1a}}	edge (2);}
+			\onslide<3->{\node[right of=3, right=-5mm]	(5)	{\hanoi{0_1_1b}}	edge (3);}
+
+			\onslide<4->{\node[below right of=4]      	(6)	{\hanoi{0_0_2}} 	edge (4);}
+			\onslide<4->{\node[right of=4, right=-5mm]	(7)	{\hanoi{1_0_1a}}	edge (4);}
+			\onslide<4->{\node[right of=5, right=-5mm]	(8)	{\hanoi{1_1_0b}}	edge (5);}
+			\onslide<4->{\node[above right of=5]      	(9)	{\hanoi{0_2_0}} 	edge (5);}
+			
+			\onslide<5->{\draw (6) edge (7);}
+			\onslide<5->{\draw (7) edge (8);}
+			\onslide<5->{\draw (8) edge (9);}
+		\end{tikzpicture}
+    \end{overprint}
+\end{frame}

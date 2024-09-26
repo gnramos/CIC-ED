@@ -1,0 +1,48 @@
+\ProvidesPackage{ED_Grafo}%
+
+\usetikzlibrary{decorations,fit,decorations.pathmorphing,decorations.pathreplacing}%
+
+\newcommand{\drawABCDnodes}{%
+	\node[circle, draw] (A) at(0, -1)    	{A};%
+	\node[circle, draw] (B) at(1, 0)     	{B};%
+	\node[circle, draw] (C) at(1.5, -1.5)	{C};%
+	\node[circle, draw] (D) at(3, -1)    	{D};%
+}%
+
+\newcommand{\drawABCDedges}{%
+	\draw[line] (A) -- (B);
+	\draw[line] (B) -- (C);
+	\draw[line] (B) -- (D);
+	\draw[line] (C) -- (D);
+	\draw[line] (A)..controls +(south:1.5) and +(south:1.5) ..(D);
+}%
+
+\newcommand{\drawABCDdirectedEdges}{%
+	\draw[->, line] (A)..controls +(east:0.5) 	and +(south:1) 	 .. (B);%
+	\draw[->, line] (B)..controls +(west:0.5) 	and +(north:1) 	 .. (A);%
+	\draw[->, line] (B)..controls +(east:0.5) 	and +(north:1) 	 .. (C);%
+	\draw[->, line] (B)..controls +(east:0.5) 	and +(north:1.5) .. (D);%
+	\draw[->, line] (C)..controls +(west:1.75) 	and +(south:1.5) .. (C);%
+	\draw[->, line] (D)..controls +(south:2) 	and +(south:2) 	 .. (A);%
+	\draw[->, line] (D)..controls +(west:0.5) 	and +(east:1) 	 .. (C);%
+}%
+
+\newcommand{\drawABCDweights}{%
+	\draw[->, line] (C) ..controls +(north east:0.5) and +(north west:1) .. node[above=1pt,blueUnB]	{$0.1$} (D);%
+	\draw[->, line] (A) ..controls +(east:0.5) and +(south:1) .. node[above=1pt,blueUnB]           	{$0.3\ \ $} (B);%
+	\draw[->, line] (B) ..controls +(west:0.5) and +(north:1) .. node[above=1pt,blueUnB]           	{$0.4$} (A);%
+	\draw[->, line] (B) ..controls +(east:0.5) and +(north:1) .. node[right=1pt,blueUnB]           	{$0.2$} (C);%
+	\draw[->, line] (B) ..controls +(east:0.5) and +(north:1.5) .. node[above=1pt,blueUnB]         	{$0.7$} (D);%
+	\draw[->, line] (C) ..controls +(west:1.75) and +(south:1.5) .. node[above=1pt,blueUnB]        	{$\ \ \ 0.5$} (C);%
+	\draw[->, line] (D) ..controls +(south:2) and +(south:2) .. node[below=1pt,blueUnB]            	{$0.8$} (A);%
+	\draw[->, line] (D) ..controls +(west:0.5) and +(east:1) .. node[above=1pt,blueUnB]            	{$1$} (C);%
+}%
+
+\newcommand{\drawEFnodes}{%
+	\node[circle, draw] (E) at (6, 0)  {E};%
+	\node[circle, draw] (F) at (5, -1) {F};%
+}%
+
+\newcommand{\drawEFedges}[1][]{%
+	\draw[#1, line] (E)..controls +(west:0.5) and +(north:1) .. (F);%
+}%

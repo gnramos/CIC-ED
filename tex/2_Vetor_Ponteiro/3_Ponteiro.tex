@@ -1,0 +1,390 @@
+%!TEX root = ED_Vetor_Ponteiro.tex
+
+\section{Ponteiros}
+\begin{frame}[label=notas]
+	\framesubtitle{\subsecname\ (apontador)}
+
+	\begin{beamerboxesrounded}{}
+		Tipo de dado de uma linguagem de programação. O valor armazenado se refere \emph{diretamente} a um outro valor alocado em outra área da memória - é o endereço deste.
+	\end{beamerboxesrounded}
+	\begin{figure}
+		\centering
+		\begin{tikzpicture}[node distance=1em,minimum width=5.5em, minimum height=1.5em]
+			\node[block,draw=redUnB,label=above:$ptr\_int$]	(ptr) 	{1048736};
+			\node[block,right=of ptr,label=above:$int$]    	(int) 	{2010};
+			\node[block,below=of int,label=below:$int$]    	(int1)	{2011};
+			\node[block,right=of int,label=above:$char$]   	(int2)	{CIC};
+			\node[block,below=of int2,label=below:$char$]  	(int3)	{UnB};
+			\node[block,right=of int2,label=above:$int$]   	(int4)	{2014};
+			\node[block,below=of int4,label=below:$char$]  	(int5)	{ED};
+			\draw[->,line] (ptr) |- (int1);
+		\end{tikzpicture}
+	\end{figure}
+	
+	\pause
+	\begin{alertblock}{O Ministério da Programação adverte}
+		O descuido com ponteiros pode levar a sérios bugs, perda de tempo e a dores de cabeça. 
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}
+	\framesubtitle{\subsecname\ - Falha de segmentação}
+	
+	\includegraphics[width=\textwidth]{sigsev}
+	\pause
+	\framezoom<1><2 | handout:0>(0mm,40mm)(80mm,10mm)
+\end{frame}
+
+\begin{frame}
+	\framesubtitle{\subsecname\ - Ponteiro selvagem}
+	
+	\includegraphics[width=\textwidth]{bluescreen}
+\end{frame}
+
+\begin{frame}[fragile,label=notas]
+	Em C:
+	\begin{center}
+		\begin{minipage}{.8\textwidth}
+			\begin{lstlisting}
+				chave_t dado; // estrutura qualquer
+				// inicializacao
+				
+				dado_t *ptr = NULL; // ponteiro para tipo dado_t
+				
+				ptr = &dado; // ptr recebe o endereco de memoria de dado
+				
+				dado_t dado2 = *ptr; // dado2 recebe o conteudo de ptr
+				
+				if(dado2 != dado)
+				    // tela azul?
+			\end{lstlisting}
+		\end{minipage}
+	\end{center}
+\end{frame}
+
+% \begin{frame}[fragile,label=notas]
+% 	Mais C:
+% 	\begin{lstlisting}
+% 		int array[5];      // Declaracao estatica de 5 inteiros consecutivos
+		
+% 		int *ptr = array;  // Um vetor pode ser usado como ponteiro
+		
+% 		ptr[0] = 1;        // Ponteiros podem ser indexados como um vetor
+		
+% 		*(array + 1) = 2;  /* Vetores podem ser referenciados com a sintaxe de 
+% 		                      ponteiro (mesmo que array[1] = 2;) */
+		
+% 		*(1 + array) = 3;  /* Adicao de ponteiros e comutativa (mesmo que 
+% 		                      array[1] = 3;) 	*/
+		
+% 		2[array] = 4;      // Indexacao e comutativa (mesmo que array[2] = 4;)
+% 	\end{lstlisting}
+% \end{frame}
+
+% \subsection{Exemplos}
+% \begin{frame}[fragile,label=notas]
+% 	\begin{center}
+% 		\begin{minipage}{.6\textwidth}
+% 			\begin{lstlisting}
+% 				void ptr_1() {
+% 				  int x, y, *p1, *p2;
+% 				  x = 5;
+% 				  y = 7;
+% 				  p1 = &x;
+% 				  printf(" p1 = %d | *p1 = %d\n", p1, *p1);
+% 				  p2 = &y;
+% 				  printf(" p2 = %d | *p2 = %d\n", p2, *p2);
+% 				}
+% 			\end{lstlisting}
+% 		\end{minipage}
+% 		\\\pause
+% 		\begin{minipage}{.4\textwidth}
+% 			\begin{exampleblock}{Resultado}
+% 				 p1 = 1606416876 \textbar\ *p1 = 5 \\
+% 				 p2 = 1606416872 \textbar\ *p2 = 7
+% 			\end{exampleblock}
+% 		\end{minipage}
+% 	\end{center}
+% \end{frame}
+
+% \begin{frame}[fragile,label=notas]
+% 	\begin{center}
+% 		\begin{minipage}{.6\textwidth}
+% 			\begin{lstlisting}
+% 				void ptr_2() {
+% 				  int x, y, *p1, *p2;
+% 				  x = 5;
+% 				  y=7;
+% 				  p1 = &x;
+% 				  printf(" p1 = %d | *p1 = %d\n", p1, *p1);
+% 				  p2 = &y;
+% 				  printf(" p2 = %d | *p2 = %d\n", p2, *p2);
+% 				  *p2 = *p1;
+% 				  printf(" p2 = %d | *p2 = %d\n", p2, *p2);
+% 				}
+% 			\end{lstlisting}
+% 		\end{minipage}
+% 		\\\pause
+% 		\begin{minipage}{.4\textwidth}
+% 			\begin{exampleblock}{Resultado}
+% 				p1 = 1606416876 \textbar\ *p1 = 5\\
+% 				p2 = 1606416872 \textbar\ *p2 = 7\\
+% 				p2 = 1606416872 \textbar\ *p2 = 5
+% 			\end{exampleblock}
+% 		\end{minipage}
+% 	\end{center}
+% \end{frame}
+
+% \begin{frame}[fragile,label=notas]
+% 	\begin{center}
+% 		\begin{minipage}{.6\textwidth}
+% 			\begin{lstlisting}
+% 				void ptr_3() {
+% 				  int *p1, *p2;
+% 				  p1 = malloc(sizeof(int));
+% 				  p2 = malloc(sizeof(int));
+% 				  *p1 = 10;
+% 				  *p2 = 20;
+% 				  printf(" p1 = %d | *p1 = %d\n", p1, *p1);
+% 				  printf(" p2 = %d | *p2 = %d\n", p2, *p2);
+% 				}
+% 			\end{lstlisting}
+% 		\end{minipage}
+% 		\\\pause
+% 		\begin{minipage}{.4\textwidth}
+% 			\begin{exampleblock}{Resultado}
+% 				p1 = 1048704 \textbar\ *p1 = 10\\
+% 				p2 = 1048720 \textbar\ *p2 = 20
+% 			\end{exampleblock}
+% 		\end{minipage}
+% 	\end{center}
+% \end{frame}
+
+% \begin{frame}[fragile,label=notas]
+% 	\begin{center}
+% 		\begin{minipage}{.6\textwidth}
+% 			\begin{lstlisting}
+% 				void ptr_4() {
+% 				  int *p1, *p2;
+% 				  p1 = malloc(sizeof(int));
+% 				  p2 = malloc(sizeof(int));
+% 				  *p1 = 10;
+% 				  *p2 = 20;
+% 				  printf(" p1 = %d | *p1 = %d\n", p1, *p1);
+% 				  printf(" p2 = %d | *p2 = %d\n", p2, *p2);
+% 				  *p2 = *p1;
+% 				  printf(" p2 = %d | *p2 = %d\n", p2, *p2);
+% 				}
+% 			\end{lstlisting}
+% 		\end{minipage}
+% 	\end{center}
+% 	\vspace{-2em}\pause
+% 	\begin{center}
+% 		\begin{minipage}{.4\textwidth}
+% 			\begin{exampleblock}{Resultado}
+% 				p1 = 1048736 \textbar\ *p1 = 10\\
+% 				p2 = 1048752 \textbar\ *p2 = 20\\ \pause
+% 				p2 = 1048752 \textbar\ *p2 = 10
+% 			\end{exampleblock}
+% 		\end{minipage}
+% 	\end{center}
+% \end{frame}
+
+% \begin{frame}[fragile,label=notas]
+% 	\begin{center}
+% 		\begin{minipage}{.6\textwidth}
+% 			\begin{lstlisting}
+% 				void ptr_5() {
+% 				  int *p1, *p2;
+% 				  p1 = malloc(sizeof(int));
+% 				  p2 = malloc(sizeof(int));
+% 				  *p1 = 10;
+% 				  *p2 = 20;
+% 				  printf(" p1 = %d | *p1 = %d\n", p1, *p1);
+% 				  printf(" p2 = %d | *p2 = %d\n", p2, *p2);
+% 				  p2 = p1;
+% 				  printf(" p2 = %d | *p2 = %d\n", p2, *p2);
+% 				}
+% 			\end{lstlisting}
+% 		\end{minipage}
+% 	\end{center}
+% 	\vspace{-2em}\pause
+% 	\begin{center}
+% 		\begin{minipage}{.4\textwidth}
+% 			\begin{exampleblock}{Resultado}
+% 				p1 = 1048768 \textbar\ *p1 = 10\\
+% 				p2 = 1048784 \textbar\ *p2 = 20\\ \pause
+% 				p2 = 1048768 \textbar\ *p2 = 10
+% 	 			\end{exampleblock}
+% 		\end{minipage}
+% 	\end{center}
+% \end{frame}
+
+% \begin{frame}[fragile,label=notas]
+% 	\begin{center}
+% 		\begin{minipage}{.6\textwidth}
+% 			\begin{lstlisting}
+% 				void ptr_6() {
+% 				  int *p1, *p2;
+% 				  p1 = malloc(sizeof(int));
+% 				  p2 = malloc(sizeof(int));
+% 				  *p1 = 10;
+% 				  *p2 = 20;
+% 				  printf(" p1 = %d | *p1 = %d\n", p1, *p1);
+% 				  printf(" p2 = %d | *p2 = %d\n", p2, *p2);
+% 				  free(p2);
+% 				  p2 = p1;
+% 				  printf(" p2 = %d | *p2 = %d\n", p2, *p2);
+% 				}
+% 			\end{lstlisting}
+% 		\end{minipage}
+% 	\end{center}
+% 	\vspace{-2em}\pause
+% 	\begin{center}
+% 		\begin{minipage}{.4\textwidth}
+% 			\begin{exampleblock}{Resultado}
+% 				p1 = 1048800 \textbar\ *p1 = 10\\
+% 				p2 = 1048816 \textbar\ *p2 = 20\\ \pause
+% 				p2 = 1048800 \textbar\ *p2 = 10
+% 			\end{exampleblock}
+% 		\end{minipage}
+% 	\end{center}
+% \end{frame}
+
+% \begin{frame}[fragile,label=notas]
+% 	\vspace{-5\baselineskip}
+% 	\begin{center}
+% 		\begin{minipage}{.8\textwidth}
+% 			\begin{lstlisting}
+% 				void ptr_7() {
+% 				  int *p1;
+% 				  float *p2;
+% 				  void *p3;
+								 
+% 				  p1 = malloc(sizeof(int));
+% 				  *p1 = 5;
+% 				  p3 = p1;
+% 				  printf(" p1 = %d | *p1 = %d\n", p1, *p1);
+% 				  printf(" p3 = %d | *p3 = %d\n", p3, *((int *)p3));
+% 				  p2 = malloc(sizeof(float));
+% 				  *p2 = 6.2;
+% 				  p3 = p2;
+% 				  printf(" p2 = %d | *p2 = %f\n", p2, *p2);
+% 				  printf(" p3 = %d | *p3 = %f\n", p3, *((float *)p3));
+% 				}
+% 			\end{lstlisting}
+% 		\end{minipage}
+% 	\end{center}
+% 	\pause
+% 	\vspace{-16\baselineskip}
+% 	\begin{minipage}{.5\textwidth}\ \end{minipage}
+% 	\begin{minipage}{.38\textwidth}
+% 		\uncover<2->{
+% 			\begin{exampleblock}{Resultado}
+% 				p1 = 1049296 \textbar\ *p1 = 5\\
+% 				p3 = 1049296 \textbar\ *p1 = 5\\
+% 				\uncover<3->{p2 = 1049312 \textbar\ *p2 = 6.2\\ 
+% 				p3 = 1049312 \textbar\ *p1 = 6.2}
+% 			\end{exampleblock}
+% 		}\end{minipage}
+% \end{frame}
+
+% \begin{frame}[fragile,label=notas]
+% 	\vspace{-6\baselineskip}
+% 	\begin{center}
+% 		\begin{minipage}{1.02\textwidth}
+% 			\begin{lstlisting}
+% 				void ptr_8() {
+% 				  typedef struct {
+% 				    int x;
+% 				    float y;
+% 				  } reg;
+  
+% 				  reg *p1, *p2;
+% 				  p1 = malloc(sizeof(reg));
+% 				  p2 = malloc(sizeof(reg));
+% 				  (*p1).x = 3;
+% 				  p1->y = 5.3;
+% 				  printf(" p1 = %d | (*p1).x = %d | p1->y = %f\n", p1, (*p1).x, p1->y);
+% 				  *p2 = *p1;
+% 				  printf(" p2 = %d | (*p2).x = %d | p2->y = %f\n", p2, (*p2).x, p2->y);
+% 				}
+% 			\end{lstlisting}
+% 		\end{minipage}
+% 	\end{center}
+% 	\pause
+% 	\vspace{-15\baselineskip}
+% 	\begin{minipage}{.35\textwidth}\ \end{minipage}
+% 	\begin{minipage}{.6\textwidth}
+% 		\uncover<2->{
+% 			\begin{exampleblock}{Resultado}
+% 				p1 = 1048848 \textbar\ (*p1).x = 3 \textbar\ p1-$>$y = 5.3\\
+% 				\uncover<3->{p2 = 1048864 \textbar\ (*p2).x = 3 \textbar\ p2-$>$y = 5.3}
+% 			\end{exampleblock}
+% 		}
+% 	\end{minipage}
+% \end{frame}
+
+% \begin{frame}[fragile,label=notas]
+% 	\vspace{-4\baselineskip}
+% 	\begin{lstlisting}
+% 		void ptr_9() {
+% 		  slist_node_t *p1, *first = NULL;
+% 		  p1 = malloc(sizeof(struct slist_node_t));
+% 		  p1->data = 0; p1->next = first;
+% 		  first = p1;
+% 		  p1 = malloc(sizeof(struct slist_node_t));
+% 		  p1->data = 2; p1->next = first;
+% 		  first = p1;
+% 		  p1 = malloc(sizeof(struct slist_node_t));
+% 		  p1->data = 4; p1->next = first;
+% 		  first = p1;
+		
+% 		  printf(" 1o elemento %d \n", first->data);
+% 		  printf(" 2o elemento %d \n", first->next->data);
+% 		  printf(" 3o elemento %d \n", first->next->next->data)  ;
+% 		  p1 = NULL;
+% 		  printf(" elemento1 %d \n", p1->data);
+% 		}
+% 	\end{lstlisting}
+% 	\vspace{-16.5\baselineskip}
+% 	\begin{minipage}{.59\textwidth}\ \end{minipage}
+% 	\begin{minipage}{.39\textwidth}
+% 		\begin{lstlisting}
+% 		typedef struct slist_node_t{
+% 		  int data;
+% 		  struct slist_node_t *next;
+% 		} slist_node_t;
+% 		\end{lstlisting}
+% 		\vspace{-1\baselineskip}
+% 		\uncover<2->{
+% 			\begin{exampleblock}{Resultado}
+% 				 1o elemento 4\\
+% 				 2o elemento 2\\
+% 				 3o elemento 0\\
+% 				 \uncover<3>{\alert{Segmentation fault}}
+% 			\end{exampleblock}
+% 		}
+% 	\end{minipage}
+% \end{frame}
+
+\section{Exercícios}
+\begin{frame}[label=notas]
+	\begin{enumerate}
+		\item Função \texttt{troca} (dado um vetor e dois índices, troca os elementos das posições)
+			\begin{enumerate}
+				\item \textbf{void} \texttt{troca}(\textbf{char} *, \textbf{int}, \textbf{int})
+				\item \textbf{void} \texttt{troca}(\textbf{no\_t} *, \textbf{int}, \textbf{int})
+			\end{enumerate}
+			\pause\vfill
+		\item Função \texttt{esvazia} (dado um vetor e seu tamanho, esvaziá-lo
+		)
+			\begin{enumerate}
+				\item \textbf{char} *\texttt{esvazia}(\textbf{char} *, \textbf{int})
+				\item \textbf{void} \texttt{esvazia}(\textbf{char} **, \textbf{int})
+				\item \textbf{void} \texttt{esvazia}(\textbf{no\_t} **, \textbf{int})
+			\end{enumerate}
+
+	\end{enumerate}
+
+\end{frame}

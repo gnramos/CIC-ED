@@ -1,0 +1,208 @@
+%!TEX root = ED_Lista_Fila_Pilha
+
+\section{Pilha}
+\begin{frame}[label=notas]
+	\begin{itemize}
+		\item Lista LIFO (Last In, First Out)
+		\item Os elementos são colocados na pilha e retirados (ou processados) em ordem inversa a de chegada
+			\begin{itemize}
+				\item Inserção \alert<1>{apenas no topo} da pilha
+				\item Remoção \alert<1>{apenas do topo} da pilha
+			\end{itemize}
+	\end{itemize}
+	\begin{center}
+		\includegraphics[width=.5\textwidth]{stack}
+		%source: http://commons.wikimedia.org/wiki/File:Data_Queue.svg
+	\end{center}
+\end{frame}
+
+\begin{frame}[label=notas]
+	Implementação? 
+	\\\pause\vfill
+	Operações possíveis:
+	\begin{itemize}
+		\item limpar a pilha 
+		\item verificar se a pilha está vazia 
+		\item colocar elemento no topo da pilha 
+		\item retirar o elemento no topo da pilha
+		\item etc.
+	\end{itemize}
+\end{frame}
+
+% \lstset{morekeywords={stack_node_t, stack_t}}
+% \begin{frame}[fragile,label=notas]
+% 	\vspace{-2\baselineskip}
+% 	\begin{center}
+% 		\begin{minipage}{1.02\textwidth}
+% 			\begin{lstlisting}[title=Criar elemento]
+% 				stack_node_t *stack_new_node(data_t item, stack_node_t *next){
+% 				  stack_node_t *stack_item = (stack_node_t *) malloc(sizeof(stack_node_t));
+% 				  if (stack_item) {
+% 				    stack_item->item = item;
+% 				    stack_item->next = next;
+% 				  }
+% 				  return stack_item;
+% 				}
+% 			\end{lstlisting}
+% 		\end{minipage}
+% 	\end{center}
+% 	\vspace{-2em}\pause
+% 	\begin{center}
+% 		\begin{minipage}{.8\textwidth}
+% 			\begin{lstlisting}[title=Criar pilha]
+% 			                	stack_t *stack_new(data_t *item) {
+% 			                	  stack_t *pilha = (stack_t *)malloc(sizeof(stack_t));
+% 			                	  if(item) push(pilha, *item);
+% 			                	  else pilha->first = NULL;
+% 			                	  return pilha;
+% 			                	}
+% 			\end{lstlisting}			
+% 		\end{minipage}
+% 	\end{center}
+% \end{frame}
+% \lstset{morekeywords={stack_new_node, stack_new}}
+
+% \begin{frame}[fragile,label=notas]
+% 	\begin{center}
+% 		\begin{minipage}{.75\textwidth}
+% 			\begin{lstlisting}[title=Inserir]
+% 				void push(stack_t *pilha, data_t item) {
+% 				  pilha->first = stack_new_node(item, pilha->first);
+% 				}
+% 			\end{lstlisting}			
+% 		\end{minipage}
+% 	\end{center}
+% 	\pause
+% 	\begin{center}
+% 		\begin{minipage}{.5\textwidth}
+% 			\begin{lstlisting}[title=Remover]
+% 				stack_node_t *pop(stack_t *pilha) {
+% 				  stack_node_t *aux = pilha->first;
+% 				  pilha->first = aux->next;
+% 				  return aux;
+% 				}
+% 			\end{lstlisting}			
+% 		\end{minipage}
+% 	\end{center}
+% \end{frame}
+% \lstset{morekeywords={push, pop}}
+
+% \begin{frame}[fragile,label=notas]
+% 	\begin{center}
+% 		\begin{minipage}{.5\textwidth}
+% 			\begin{lstlisting}[title=Esvaziar pilha]
+% 				void stack_empty(stack_t *pilha) {
+% 				  while (pilha->first)
+% 				    free(pop(pilha));
+% 				  pilha->first = NULL;
+% 				}
+% 			\end{lstlisting}			
+% 		\end{minipage}
+% 	\end{center}
+% 	\pause
+% 	\begin{center}
+% 		\begin{minipage}{.6\textwidth}
+% 			\begin{lstlisting}[title=Verificar se está vazia]
+% 				int stack_is_empty(stack_t *pilha) {
+% 				  return (pilha->first == NULL);
+% 				}
+% 			\end{lstlisting}			
+% 		\end{minipage}
+% 	\end{center}
+% \end{frame}
+% \lstset{morekeywords={stack_empty, stack_is_empty}}
+
+
+\begin{frame}
+	É ideal para processamento de estruturas aninhadas de profundidade imprevisível.
+	\\\pause\vfill
+	Uma pilha contém uma sequência de  obrigações adiadas. A ordem de remoção garante que as  estruturas mais internas serão processadas antes das mais externas.
+		\begin{itemize}
+			\item Quando é necessário caminhar em um conjunto de dados e guardar uma lista de coisas a fazer posteriormente.
+			\item O controle de sequências de chamadas de subprogramas.
+			\item A sintaxe de expressões aritméticas.
+		\end{itemize}
+	\pause\vfill
+	As pilhas ocorrem em estruturas de natureza recursiva (como árvores) e  são utilizadas para implementar a recursividade.
+\end{frame}
+
+\begin{frame}
+	\framesubtitle{\subsecname\ - Aplicação}
+	Controle de delimitadores em uma equação (rastrear o escopo).
+	\subitem[]{$\{(A+B)*C+(D+E)/[F+G]+H\}/I$}
+	\pause\vfill
+	\begin{enumerate}
+		\item se um inicializador de escopo for encontrado, ele é empilhado
+		\item se um finalizador de descopo for encontrado, a pilha é verificada
+			\begin{itemize}
+				\item se estiver vazia $\rightarrow$ equação incorreta
+				\item se não, desempilhar e comparar ao finalizador
+			\end{itemize}
+	\end{enumerate}
+	\vfill
+	Ao final, a pilha deve estar vazia.
+\end{frame}
+
+
+\begin{frame}[fragile]
+	Aplicações de Pilhas: \alert<1>{recursividade}\pause
+		\begin{itemize}
+			\item a solução de um problema depende da solução de instâncias menores do mesmo problema
+			\item um programa de computador finito para processar algo potencialmente infinito
+		\end{itemize}
+		\pause
+		\begin{columns}[T]
+		\column{.5\textwidth}
+			\begin{lstlisting}[title=Fatorial iterativo]
+				int fatorial(int n) {
+				  int result = 1;
+				  while(n > 1) {
+				    result *= n;
+				    n -= 1;
+				   }
+				   return result;
+				 }
+			\end{lstlisting}
+			\pause
+		\column{.45\textwidth}
+			\begin{lstlisting}[title=Fatorial recursivo]
+			                	int fatorial(int n) {
+			                	  if(n<=1)
+			                	    return 1;
+			                	  else
+			                	    return n*fatorial(n-1);
+			                	 }
+			\end{lstlisting}			
+	\end{columns}
+\end{frame}
+
+\begin{frame}
+	Quanto é $4!$ ?\pause
+	\begin{columns}
+		\column{.6\textwidth}
+			\begin{figure}
+				\centering
+				\begin{tikzpicture}[node distance=1em,minimum width=15em, minimum height=1.8em]
+					\tikzstyle{blockEdgePortion} = [black];
+					\tikzstyle{blockEdge} = [blockEdgePortion,->];
+								
+					\node[block] (f4) {factorial(4) $\leftarrow$ 4*fatorial(3)};
+					\node<3->[block, above=of f4] (f3) {fatorial(3) $\leftarrow$ 3*fatorial(2)} edge[line,<-] (f4);
+					\node<4->[block, above=of f3] (f2) {fatorial(2) $\leftarrow$ 2*fatorial(1)} edge[line,<-] (f3);
+					\node<5->[block, above=of f2] (f1) {fatorial(1) $\leftarrow$ 1} edge[line,<-] (f2);
+				\end{tikzpicture}
+			\end{figure}
+		\column{.35\textwidth}
+			\uncover<6>{
+				\begin{figure}
+					\centering
+					\begin{tikzpicture}[node distance=1em,minimum width=5em, minimum height=1.8em, color=blueUnB]
+						\node[block] (f1r) {1};
+						\node[block, below=of f1r] (f2r) {2*1 = 2} edge[line,<-] (f1r);
+						\node[block, below=of f2r] (f3r) {3*2 = 6} edge[line,<-] (f2r);
+						\node[block, below=of f3r] (f4r) {4*6 = \alert{24}} edge[line,<-] (f3r);
+					\end{tikzpicture}
+				\end{figure}
+			}
+	\end{columns}
+\end{frame}

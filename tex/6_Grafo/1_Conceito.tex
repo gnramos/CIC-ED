@@ -1,0 +1,42 @@
+%!TEX root = ED_Grafo.tex
+
+\section{Conceito}
+\begin{frame}[label=notas]
+	Grafo: uma representação de relações (arestas) entre objetos (vértices).
+	\vfill\pause
+	Um grafo $G=(V,A)$ é definido por:
+	\begin{description}
+		\item[$V$] conjunto de vértices (nós).
+		\item[$A$] conjunto de arestas (arcos), que são pares [ordenados] de 
+		vértices de $V$.
+	\end{description}
+	\vfill\pause
+	Exemplo:
+	\begin{itemize}
+		\item[V] = \{A,B,C,D,E,F\}
+		\item<4->[A] = \{(A,B), (B,C), (B,D), (D,A), (D,C), (E,F)\}
+	\end{itemize}
+	\vfill\pause
+	\begin{center}
+		\begin{tikzpicture}
+			\drawABCDnodes%
+			\drawEFnodes%
+			\pause%
+			\drawABCDedges%
+			\drawEFedges%
+		\end{tikzpicture}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+	\framesubtitle{Aplicações}
+	
+	\pause
+	\begin{itemize}
+		\item[$G=$] (Cidades, Estradas)
+		\item[$G=$] (Dispositivos Eletrônicos, Conexões)
+		\item[$G=$] (Tarefas, Dependências)
+		\item[$G=$] (Pessoas, Parentesco)
+		\item[$G=$] (etc., etc.)
+	\end{itemize}
+\end{frame}

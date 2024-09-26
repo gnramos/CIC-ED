@@ -1,0 +1,168 @@
+%!TEX root = ED_Vetor_Ponteiro.tex
+
+\section{Estruturas de Dados Lineares}
+\begin{frame}[label=notas]
+	\begin{exampleblock}{Estruturas de Dados e Algoritmos}
+		Temas fundamentais da Ciência da Computação, utilizados em diversas áreas do conhecimento e com diferentes propósitos de aplicação
+		\begin{itemize}
+			\item Estrutura de Dados: modo particular de armazenar/organizar dados 
+			para facilitar acesso e modificações
+			\item Algoritmo: sequência finita de instruções (para resolver uma tarefa)
+		\end{itemize}
+	\end{exampleblock}
+	\pause\vfill
+	Problema: descobrir o telefone de um conhecido.
+	\begin{itemize}
+		\item Algoritmo: pesquisa sequencial por nome (\alert<2>{chave de ordenação})	
+		\item Estrutura de dados: lista telefônica - {[nome] : [número de telefone]}
+		\pause
+		\item E se quiséssemos pesquisar pelo peso?
+	\end{itemize}
+	\pause\vfill
+	\begin{beamerboxesrounded}{}
+		Uma estrutura de dados adequada pode aumentar a eficiência do algoritmo
+	\end{beamerboxesrounded}
+\end{frame}
+
+\subsection{Introdução}
+\begin{frame}
+	Exemplos de problemas:
+	\begin{enumerate}
+		\item Manipular arquivos com informações de alunos. \pause
+			\begin{itemize}
+				\item solução: ordenar por número de matrícula
+				\item operações possíveis: inserir/remover, pesquisar, etc.
+				\item qual ED seria adequada? \pause \alert<3>{Lista, árvore}
+			\end{itemize}
+		\pause
+		\item Corrigir provas. \pause
+			\begin{itemize}
+				\item solução: analisar cada uma individualmente
+				\item operações possíveis: colocar/retirar prova
+				\item qual ED seria adequada? \pause \alert<6>{Pilha}
+			\end{itemize}
+		\pause
+		\item Lidar com alunos que querem revisar a prova. \pause
+			\begin{itemize}
+				\item solução: ordenar por ordem de chegada
+				\item operações possíveis: entrar (ao fim)/sair (do começo)
+				\item qual ED seria adequada? \pause \alert<9>{Fila}
+			\end{itemize}
+	\end{enumerate}
+\end{frame}
+
+\subsection{Tipos de Dados}
+\begin{frame}[label=notas]
+	Termos:
+	\begin{itemize}
+		\item Tipo de Dado: associado a um método de interpretar um padrão de bits (linguagem de programação)
+			\subitem{boolean (bit - 0/1)}
+		\item Tipo Abstrato de Dado (TAD): modelo de dado e operações definidas sobre ele %(tipo + operações validas) é uma metodologia de programação que tem como proposta reduzir a informação necessária para a criação/programação de um algoritmo através da abstração das variáveis envolvidas em uma única entidade fechada. A abstração de informações através do TAD permitiu a melhor compreensão dos algoritmos, maior facilidade de programação, e por consequência, aumentou a complexidade dos programas.
+			\subitem{$\mathbb{N}$ e \{+, -, /, *\}}
+		\item Estrutura de Dados (ED): forma concreta de se implementar um TAD \pause $\rightarrow$ \alert<2>{representação computacional do modelo matemático}
+	\end{itemize}
+	\pause\vfill
+	Uma ED pode ser:
+	\begin{itemize}
+		\item homogênea: conjuntos de dados do mesmo tipo
+		\item heterogênea: conjuntos de dados de diferentes tipos
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[label=notas]
+	\framesubtitle{Primitivos}
+
+	Dependem da linguagem de programação usada
+	\uncover<2>{
+		\begin{columns}
+			\column{.5\textwidth}
+			\column{.4\textwidth}
+				\begin{tabular}{|l|l|}
+				             	\multicolumn{2}{c}{\emph{Integer}} \\ \hline
+				             	\textbf{Tamanho} & \textbf{Intervalo} \\ \hline
+				             	\ 4 bits & [-8, 7] \\ \hline
+				             	\ 8 bits & [-128, 127] \\ \hline
+				             	16 bits & [-32768, 32767] \\ \hline
+				             	$\cdots$ & $\cdots$ \\ \hline
+				\end{tabular}	
+		\end{columns}
+	}
+	\vspace{-6\baselineskip}
+	\begin{itemize}
+		\item Boolean: valor lógico
+			\subitem{$b\leftarrow falso$}
+		\pause
+		\item Integer: valor numérico ($\in \mathbb{Z}$)
+			\subitem{$i\leftarrow 2010$}
+		\pause
+		\item Float: valor numérico ($\in \mathbb{R}$)
+			\subitem{$f\leftarrow3.14$}
+		\pause
+		\item Character: letras, dígitos, símbolos
+			\subitem{$c\leftarrow$'@'}
+		\pause
+		\item String: sequência de caracteres
+			\subitem{$s\leftarrow$ ``$\#2$: Gênio é $1\%$ inspiração e $99\%$ de transpiração (T. Edison)''}
+		\pause
+		\item \emph{\alert{Ponteiro}}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=notas]
+	\framesubtitle{Compostos}
+
+	Criados a partir dos tipos primitivos
+	\begin{itemize}
+		\item Registro: 2 ou mais primitivos\\
+			\begin{center}
+				\begin{minipage}{.4\textwidth}
+					\begin{lstlisting}
+						struct numero_complexo_t{
+						  float re;
+						  float im;
+						};
+					\end{lstlisting}
+				\end{minipage}
+			\end{center}
+    		\pause\vfill
+		\item União: diferentes tipos primitivos em um único espaço de memória
+			\begin{center}
+				\begin{minipage}{.25\textwidth}
+					\begin{lstlisting}
+						union valor_u {
+						  int iVal
+						  float fVal
+						  char cVal
+						};
+					\end{lstlisting}
+				\end{minipage}
+			\end{center}
+			\begin{itemize}
+				\item Simples: o programador precisa saber qual o tipo está usando
+				\item Variante: o computador sabe o tipo utilizado
+			\end{itemize}
+	\end{itemize}
+\end{frame}
+\lstset{morekeywords={numero_complexo_t,valor_u}}
+
+\begin{frame}[label=notas]
+	\framesubtitle{Abstratos}
+
+	Modelo matemático para EDs similares
+	\subitem{Definido (indiretamente) pelas operações que pode realizar}
+	\begin{beamerboxesrounded}{}
+		Forma de organizar e relacionar dados na memória do sistema, de modo a permitir certas operações sobre esses dados, independentemente do modo como essas estruturas são implementadas.
+	\end{beamerboxesrounded}
+	\pause\vfill
+	\begin{columns}
+		\column{.3\textwidth}
+			Exemplo: Pilha
+			\begin{itemize}
+				\item Push (inserir)
+				\item Pop (remover)
+			\end{itemize}
+		\column{.65\textwidth}
+			\includegraphics[width=.6\textwidth]{stack}
+			%source: http://commons.wikimedia.org/wiki/File:Stack-svg.png	
+	\end{columns}
+\end{frame}

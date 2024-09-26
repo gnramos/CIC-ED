@@ -1,0 +1,151 @@
+\section{Ordenação}
+\begin{frame}[label=main]
+	\begin{block}{Ordenar}\pause
+		Processo de organizar um conjunto de objetos em uma ordem.
+	\end{block}
+	\vfill\pause
+	\begin{itemize}
+		\item lista telefônica, com os nomes das pessoas em ordem alfabética
+		\item bancos, com os atendimentos por ordem de chegada
+		\item hospitais, com os atendimentos em ordem de prioridade
+		\item times, com os jogadores em ordem de técnica
+		\item etc.
+	\end{itemize}
+	\vfill\pause
+	A ordenação visa \alert{facilitar a recuperação de itens} do conjunto.
+\end{frame}
+
+\begin{frame}[label=main]
+	\begin{block}{Notação}
+		Algoritmos de ordenação trabalham sobre a \alert<1>{\emph{chave}} de registros ou estruturas [de um arquivo].
+	\end{block}
+	\pause
+	\begin{itemize}
+		\item nome
+		\item matrícula
+		\item id
+		\item código
+		\item etc.
+	\end{itemize}
+	\vfill
+	Claro, podem existir outros componentes no registro.
+\end{frame}
+
+\lstset{morekeywords={chave_t, data_t}}
+\begin{frame}[fragile,label=main]
+	\begin{block}{Chave de Ordenação}
+		Qualquer tipo de chave sobre o qual exista uma regra de ordenação bem definida.
+	\end{block}
+	\pause\vfill
+	\begin{columns}[T]
+		\column{.27\textwidth}
+			\begin{lstlisting}[language=C]
+					typedef int chave_t;
+			\end{lstlisting}
+		\column{.3\textwidth}
+			\begin{lstlisting}[language=C]
+					typedef char chave_t;
+			\end{lstlisting}
+			\vfill
+			\begin{lstlisting}[title=Registro,language=C]
+				typedef struct data_t{
+				  chave_t key;
+				  // etc.
+				} data_t;
+			\end{lstlisting}
+		\column{.33\textwidth}
+			\begin{lstlisting}[language=C]
+				typedef struct chave_t;
+			\end{lstlisting}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[label=main]
+	\begin{block}{Métodos Estáveis}
+		\uncover<2->{A ordem relativa dos itens com chaves iguais \emph{\alert<2>{não}} se altera durante a ordenação.}
+	\end{block}
+	\vfill
+	\begin{columns}
+		\column{.3\textwidth}\centering
+			\emph{\small Vetor}\\
+			\begin{tabular}{|l|}
+				\hline
+				\alert{C}arlos \\\hline
+				\alert{A}lice \\\hline
+				\alert{B}runo \\\hline
+				\alert{A}fonso \\\hline
+				\alert{B}ernardo \\\hline	
+			\end{tabular}
+			\pause
+		\column{.3\textwidth}\centering
+			\emph{\small Não Estável}\\
+			\begin{tabular}{|l|}
+				\hline
+				\alert{A}fonso \\\hline
+				\alert{A}lice \\\hline
+				\alert{B}runo \\\hline	
+				\alert{B}ernardo \\\hline
+				\alert{C}arlos \\\hline
+			\end{tabular}
+			\pause
+		\column{.3\textwidth}\centering
+			\emph{\small Estável}\\
+			\begin{tabular}{|l|}
+				\hline
+				\alert{A}lice \\\hline
+				\alert{A}fonso \\\hline
+				\alert{B}runo \\\hline
+				\alert{B}ernardo \\\hline
+				\alert{C}arlos \\\hline		
+			\end{tabular}
+	\end{columns}
+	\vfill\pause
+	Alguns dos métodos de ordenação mais eficientes não são estáveis, mas a estabilidade \emph{pode ser forçada}...
+		%\subitem{Sedgewick (1988) sugeriu aumentar a chave antes da ordenação}
+\end{frame}
+
+\begin{frame}[label=main]
+	\begin{center}
+	\begin{minipage}{.25\textwidth}
+		\begin{alertblock}{Ineficientes}
+			\subitem{bogosort}
+		\end{alertblock}
+	\end{minipage}
+	\vfill\pause
+	\begin{columns}[T]
+		\column{.3\textwidth}
+			\begin{block}{Elementares}
+				\begin{itemize}
+					\item bubble sort
+					\item inserção
+					\item seleção
+				\end{itemize}
+			\end{block}
+			% \pause
+			% \begin{itemize}
+			%	\item Adequados para pequenos arquivos.
+			%	% \item Complexidade $O(n^2)$.
+			%	\item Produzem programas pequenos.
+			% \end{itemize}
+			\pause
+		\column{0\textwidth}
+		\column{.3\textwidth}
+			\begin{exampleblock}{Eficientes}
+				\begin{itemize}
+					\item quicksort
+					\item shellsort
+					\item heapsort
+					\item mergesort
+				\end{itemize}
+			\end{exampleblock}
+			% \pause
+			% \begin{itemize}
+			%	\item Adequados para arquivos maiores.
+			%	% \item Complexidade $O(n\cdot\log(n))$.
+			%	\item Produzem programas maiores.
+			% \end{itemize}
+	\end{columns}
+	\end{center}
+	\vfill\pause
+	E outros: counting sort, radix sort, bucket sort, pancake sort, spaghetti sort, ...
+\end{frame}

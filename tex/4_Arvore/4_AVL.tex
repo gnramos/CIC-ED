@@ -1,0 +1,116 @@
+%!TEX root = ED_Arvore.tex
+
+\section{Balanceamento Dinâmico (AVL)}
+\begin{frame}[label=notas]
+	\frametitle{Balanceamento Dinâmico (AVL\footnote{Adelson-Velskii e Landis})}
+	
+	O balanceamento dinâmico tenta assegurar que a árvore permanecerá balanceada a cada operação (inserção e remoção).
+	\\\pause\vfill
+	A árvore necessita ter os nós alterados para incluir o \alert<2>{fator de balanceamento}
+	\begin{itemize}
+		\item número que indica a diferença de altura entre as subárvores do nó
+			\subitem{$F_B$ = altura($S_D$) - altura($S_E$)}
+		\item[$<0$] se a subárvore da esquerda for maior
+		\item[$0$] se forem do mesmo tamanho
+		\item[$>0$] se a subárvore da direita for maior
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[label=notas]
+	Exemplos\footnote{Árvores alteradas para mostrar o fator de balanceamento.}:\\\Large
+	\begin{columns}[T]
+		\column{.2\textwidth}\centering
+			\begin{tikzpicture}[->]
+				\Tree [ .0 [ .0 ] [ .0 ] ]
+			\end{tikzpicture}
+		\pause
+		\column{.2\textwidth}\centering
+			\begin{tikzpicture}[->]
+				\Tree [ .{-1} 
+						[ .{-1} [ .0 ] \edge[white]; \node {}; ]
+						[ .0 ] ]
+			\end{tikzpicture}
+		\pause
+		\column{.2\textwidth}\centering
+			\begin{tikzpicture}[->]
+				\Tree [ .{-1} [ .0 [ .0 ] [ .0 ] ] [ .0 ] ]
+			\end{tikzpicture}
+		\pause
+		\column{.3\textwidth}\centering
+			\begin{tikzpicture}[->]
+				\uncover<4 | handout:0>{
+				\Tree [ .? [ .? [ .? [ .? ] \edge[white]; \node {}; ]  \edge[white]; \node {}; ] 
+						[ .? [ .? ] [ .? [ .? ] \edge[white]; \node {}; ] ]
+				]}
+				\pause
+				\Tree [ .0 [ .{-2} [ .{-1} [ .0 ] \edge[white]; \node {}; ]  \edge[white]; \node {}; ] 
+						[ .{+1} [ .0 ] [ .{-1} [ .0 ] \edge[white]; \node {}; ] ]
+				]
+			\end{tikzpicture}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[label=notas]
+	Inserção:
+	\begin{enumerate}
+		\item Inserir o item como uma nova folha
+		\item Atualizar os fatores de balanceamento de acordo com a nova configuração
+			\subitem{apenas nos nós do caminho}
+		\item Rebalancear se necessário
+			\subitem{para o primeiro nó no caminho cujo fator de balanceamento tenha módulo maior que 1}
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}[label=notas]
+	\framesubtitle{Inserção}
+	
+	\begin{columns}[T]
+		\column{.25\textwidth}
+			\includegraphics[height=25ex]{left1}
+		\pause
+		\column{.2\textwidth}
+			\includegraphics[height=25ex]{left2}
+		\pause
+		\column{.45\textwidth}
+			\includegraphics[height=25ex]{balanced}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[label=notas]
+	\framesubtitle{Remoção}
+	
+	\begin{itemize}
+	\item Remove por \emph{cópia}.
+	\item ``Sobe'' a árvore atualizando os nós.
+		\begin{enumerate}
+			\item Se for $\pm1$, está balanceada (não houve mudança), pode-se parar.
+			\item Se for $0$, a altura diminuiu, é preciso continuar.
+			\item Se for $\pm2$, está desbalanceada, é preciso uma rotação e atualização.
+		\end{enumerate}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[label=notas]
+	\framesubtitle{\url{http://www.youtube.com/watch?v=mYGYbZxrU_4}}
+	\begin{center}
+		\Large
+		\href{run:vid/AVL-tree-balancing.mp4}{
+			\begin{tikzpicture}[->]
+				\Tree [ .0 [ .{-2} [ .{-1} [ .0 ] \edge[white]; \node {}; ]  \edge[white]; \node {}; ] 
+						[ .{+1} [ .0 ] [ .{-1} [ .0 ] \edge[white]; \node {}; ] ]
+				]
+			\end{tikzpicture}
+		}
+	\end{center}
+\end{frame}
+
+\begin{frame}[label=notas]
+	\begin{center}
+		\huge
+		\begin{tikzpicture}[->, node distance=1cm]
+			\Tree [ .12 [ .8 [ .5 [ .4 ] \edge[white]; \node {}; ] [ .11 ] ] [ .18 [ .17 ] \edge[white]; \node {}; ] ]
+		\end{tikzpicture}
+	\end{center}
+	\vfill
+	É uma árvore AVL? \pause  Sim.  É uma árvore balanceada? \pause Sim.
+\end{frame}

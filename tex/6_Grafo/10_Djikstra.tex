@@ -1,0 +1,188 @@
+%!TEX root = ED_Grafo.tex
+
+\section{Caminhos Mais Curtos}
+% \begin{frame}[label=notas]
+% 	\begin{itemize}
+% 		\item Muitas das aplicações de grafos necessitam encontrar o caminho mais 
+% 		curto entre dois vértices de um grafo ponderado
+% 		\item Busca em largura obtém o caminho mais curto entre dois vértices, se 
+% 		todos os arcos tiverem o  mesmo peso
+% 		\item O caminho mais curto entre dois vértice é um subgrafo, tal que seus 
+% 		vértices são os vértices alcançáveis do vértice origem, o subgrafo forma 
+% 		uma árvore cuja raiz é o vértice origem e para todos os vértices, o 
+% 		caminho simples da origem até esse vértice é o caminho mais curto
+% 	\end{itemize}
+% 	\vfill\pause
+% 	Algoritmo mais utilizado: Dijkstra
+% \end{frame}
+
+% \begin{frame}[label=notas]
+%	\framesubtitle{Algoritmo Djikstra}
+ 	
+%	\begin{itemize}
+%		\item Escolhido um vértice como raiz da busca, este algoritmo calcula o 
+%		custo mínimo deste vértice para todos os demais vértices do grafo.
+%		\item O algoritmo pode ser usado sobre grafos orientados, ou não, e admite 
+%		que todas as arestas possuem pesos não negativos (nulo é possível).
+%	\end{itemize}
+% \end{frame}
+
+\begin{frame}[label=notas]
+	\framesubtitle{Algoritmo Djikstra}
+	
+	Seja $G(V,A)$ um grafo direcionado e $v$ um vértice de $G$:
+	\begin{enumerate}
+		\item Atribuição de distâncias:
+			\begin{itemize}
+				\item[0] ao vértice inicial $v$;
+				\item[$\infty$] aos demais.
+			\end{itemize}
+		\item Marcar todos os vértices como \emph{abertos} (não visitados) e o 
+		inicial como \emph{atual}.
+		\item Para cada vértice aberto adjacente ao atual, atribua a 
+		\alert{distância estimada dele até o nó inicial}. Se a distância for 
+		menor que a distância registrada, atualize o valor.
+		\item Depois de processar todos os nós aberto adjacentes ao atual, 
+		marque-o como \emph{fechado} (visitado). Sua distância é final e mínima.
+		\item Escolha o nó aberto de menor distância como novo nó atual e vá para 
+		3, termine se não houver.
+	\end{enumerate}
+\end{frame}
+
+\newcommand{\lbl}[4][1-]{%
+	\node<#1>[label=#2:{\small\textcolor{red}{(#3)}}] at(#4) {};
+}
+\newcommand{\connectWithLabel}[5][1-]{%
+	\draw<#1> (#2) --  node[auto,#5] {#4} (#3);
+}
+\newcommand{\desenhaNode}[3]{%
+	\node<#1>[circle, draw, fill, #2] at(#3) (#3) {\textcolor{black}{#3}};
+}%
+\newcommand{\fechado}[2][1-]{%
+	\desenhaNode{#1}{blueUnB!50}{#2}
+}%
+\newcommand{\aberto}[2][1-]{%
+	\desenhaNode{#1}{red!50}{#2}
+}%
+
+\newcommand{\atual}[2][1-]{%
+	\desenhaNode{#1}{greenUnB!50}{#2}
+}%
+
+\begin{frame}
+	\framesubtitle{Algoritmo Djikstra - Exemplo: $g \rightarrow f$}
+	
+	\vspace{-.5\baselineskip}
+	\begin{center}
+		\begin{tikzpicture}[node distance=25mm]
+			% 1) Montar grafo
+			\node<1-10>[circle, draw] (f) {f};
+			\node<1-7>[circle, draw, right of=f] (a) {a};
+			\node<1-3>[circle, draw, below of=a] (g) {g};
+			\node<1-4>[circle, draw, right of=a] (b) {b};
+			\node<1-8>[circle, draw, left of=g] (e) {e};
+			\node<1-4>[circle, draw, right of=g] (h) {h};
+			\node<1-7>[circle, draw, right of=h] (c) {c};
+			\node<1-4>[circle, draw, below of=g] (d) {d};
+			
+			\node[circle, draw, fill, blueUnB!50, below of=c, label=right:{fechado}] (fc) {};
+			\node[circle, draw, fill, redUnB!50, above of=fc, below=18mm, label=right:{aberto}] (ab) {};
+			\node[circle, draw, fill, greenUnB!50, above of=ab, below=18mm, label=right:{atual}] (at) {};			
+			\connectWithLabel[1-6]{d}{g}{2}{}
+			\connectWithLabel[1-8]{b}{c}{2}{}
+			\connectWithLabel[1-10]{a}{e}{2}{}
+			\connectWithLabel[1-11]{e}{f}{2}{}
+			\foreach \x/\y/\z/\w in {a/b/1/,a/f/1/above,b/g/1/above,c/d/1/,d/e/1/,d/h/0.5/,g/h/0.5/}{
+				\connectWithLabel{\x}{\y}{\z}{\w}}
+
+			% 2) Atribuição de distâncias
+			\lbl[2- | handout:0]{above left}{0}{g}
+			\lbl[2-3 | handout:0]{above right}{$\infty$}{b}
+			\lbl[2-3 | handout:0]{below left}{$\infty$}{d}
+			\lbl[2-3 | handout:0]{above right}{$\infty$}{h}
+			\lbl[2-7 | handout:0]{above left}{$\infty$}{a}
+			\lbl[2-7 | handout:0]{above right}{$\infty$}{c}
+			\lbl[2-8 | handout:0]{below left}{$\infty$}{e}
+			\lbl[2-10 | handout:0]{above left}{$\infty$}{f}
+			
+			% 3) Marcar todos os vértices como não visitados e o inicial como ``atual''.
+			\atual[3-4]{g}
+			
+			% 4) Para cada vértice adjacente ao atual que não foi visitado, atribua a distância estimada dele até o nó inicial. Se a distância for menor que a distância registrada, atualize o valor.
+			\aberto[4-7]{b} \lbl[4-]{above right}{1}{b} \draw<4->[line] (b) -- (g);
+			\aberto[4-9]{d} \lbl[4-6 | handout:0]{below left}{2}{d} \draw<4-6 | handout:0>[line] (d) -- (g);
+			\aberto[4-7]{h} \lbl[4-]{above right}{0.5}{h} \draw<4->[line] (h) -- (g);
+			
+			% 5) Depois de processar todos os nós adjacentes ao atual, marque-o como visitado (sua distância é final e mínima).
+			\fechado[5-]{g}
+		
+			% 6) Escolha o nó de menor distância como novo nó atual e vá para 4, termine se não houver.
+			\atual[6-7]{h}
+			
+			% 7) Para cada vértice adjacente ao atual que não foi visitado, atribua a distância estimada dele até o nó inicial} Se a distância for menor que a distância registrada, atualize o valor.
+			\draw<7->[gray] (d) -- node[auto] {2} (g);
+			\lbl[7-]{below left}{1}{d}
+			\draw<7->[line] (d) -- (h);
+			
+			% 8) Depois de processar todos os nós adjacentes ao atual, marque-o como visitado (sua distância é final e mínima).
+			\fechado[8-]{h} \atual[8]{b}
+			\aberto[8-]{a} \lbl[8-]{above left}{2}{a} \draw<8->[line] (a) -- (b);
+			\aberto[8-9]{c} \lbl[8 | handout:0]{above right}{3}{c} \draw<8 | handout:0>[line] (c) -- (b);
+			
+			
+			\fechado[9-]{b} \atual[9]{d}
+			\aberto[9-]{e} \lbl[9-]{below left}{2}{e} \draw<8->[line] (e) -- (d);
+			\lbl[9-]{above right}{2}{c} \draw<9->[line] (c) -- (d); \draw<9->[gray] (b) -- node[auto] {2} (c);
+			
+			\fechado[10- | handout:0]{d} \atual[10 | handout:0]{c}
+			
+			\fechado[11- | handout:0]{c} \atual[11 | handout:0]{a}
+			\aberto[11-12 | handout:0]{f} \lbl[11- | handout:0]{above left}{3}{f} \draw<11- | handout:0>[line] (f) -- (a);
+			\draw<11- | handout:0>[gray] (a) -- node[auto] {2} (e);
+			
+			
+			\fechado[12- | handout:0]{a} \atual[12 | handout:0]{e}
+			\draw<12- | handout:0>[gray] (e) -- node[auto] {2} (f);
+			
+			\fechado[13- | handout:0]{e} \atual[13 | handout:0]{f}
+			
+			\fechado[14- | handout:0]{f}
+		\end{tikzpicture}
+	\end{center}
+	\vspace{-1\baselineskip}
+	\uncover<2 | handout:0>{Atribuição de distâncias.}
+	\uncover<3 | handout:0>{\\\vspace{-1\baselineskip}Marcar todos os vértices como abertos 
+	e $g$ como atual.}
+	\uncover<4 | handout:0>{\\\vspace{-1\baselineskip}Atribuir a distância estimada até o 
+	nó inicial para cada vértice aberto adjacente, e atualizar a distância.}
+	\uncover<5 | handout:0>{\\\vspace{-2\baselineskip}Marcar o atual como fechado.}
+	\uncover<6 | handout:0>{\\\vspace{-1\baselineskip}Escolher o nó aberto de menor distância 
+	como novo nó atual.}
+	\uncover<7 | handout:0>{\\\vspace{-1\baselineskip}Atribuir a distância estimada até o 
+	nó inicial para cada vértice aberto adjacente, e atualizar a distância.}
+	\uncover<8 | handout:0>{\\\vspace{-2\baselineskip}Marcar o atual como fechado, escolher 
+	o nó aberto de menor distância como novo nó atual, e atribuir distâncias.}
+	\uncover<14- | handout:0>{\\\vspace{-2\baselineskip}Terminar quando não há mais nós abertos.}
+\end{frame}
+
+\begin{frame}
+	\framesubtitle{Algoritmo Djikstra}
+	
+	Complexidade: $O(|A|+|V|log|V|)$
+	\\\vfill\pause
+	Aplicações
+	\begin{itemize}
+		\item Protocolos de roteamento dinâmicos (OSPF, IS-IS).
+		\item Algoritmo Bellman-Ford (grafos direcionados, arestas com peso negativo).
+		\item Algoritmo A* (planejamento de rota).
+		\item Análise de circuitos elétricos.
+		\item Etc.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[label=notas]
+	\framesubtitle{\url{http://www.youtube.com/watch?v=DINCL5cd_w0}}
+	\begin{center}
+		\href{run:vid/Pathfinding.mp4}{\includegraphics[width=\textwidth]{dijkstra.png}}
+	\end{center}
+\end{frame}

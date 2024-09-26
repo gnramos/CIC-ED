@@ -1,0 +1,262 @@
+\documentclass{UnBeamer}
+%\documentclass[draft]{UnBeamer}
+%\documentclass[handout]{UnBeamer}
+% \documentclass[notasDeAula]{UnBeamer}
+
+\usepackage{../ED}
+\title{Revisão}
+
+\begin{document}%
+	\frame{\titlepage}[label=main]%
+
+	\section{\inserttitle}
+	\subsection{Objetivos do Curso}
+	\begin{frame}[label=main]
+		\Large Apresentar técnicas fundamentais na análise e projeto de estruturas 
+		de dados em programas e computacionais.
+		\begin{center}
+			\includegraphics[width=.6\textwidth]{hammer-screw}
+		\end{center}
+	\end{frame}
+
+	\subsection{Algoritmos \& Estruturas de Dados}
+	\begin{frame}[label=main]
+		\begin{exampleblock}{Algoritmo}
+			\pause
+			Sequência \alert{finita} de \emph{instruções} para executar uma tarefa.
+			\begin{itemize}
+				\item Bem definidas e não ambíguas
+				\item Executáveis com uma quantidade de esforço finita
+				\item Executáveis em um período de tempo finito 
+			\end{itemize}
+		\end{exampleblock}
+		\vfill
+		\begin{block}{Estrutura de Dados}
+			\pause
+			Modo particular de armazenar/organizar dados e operações associadas.
+			\subitem{\alert<4>{Só tem significado quando \emph{associada a um algoritmo}.}}
+		\end{block}
+	\end{frame}
+
+	\subsection{Algoritmos}
+	\begin{frame}[label=main]
+		\Large
+		\begin{enumerate}[<+->]
+			\setlength{\itemsep}{\baselineskip}
+			\item Classificação: término, representação, implementação, paradigma, 
+			complexidade
+			\item Custo/complexidade
+			\item Ordenação: eficiência \& estabilidade
+		\end{enumerate}
+	\end{frame}
+
+	\subsection{Estruturas de Dados Lineares}
+	\begin{frame}[label=main]
+		\Large
+		\begin{enumerate}[<+->]
+			\setlength{\itemsep}{\baselineskip}
+			\item Vetores: estáticos e dinâmicos
+			\item Ponteiros
+			\item Lista: coleção [quantificável e ordenável] de dados homogênea, 
+			com itens dispostos em sequência.
+				\begin{itemize}
+					\Large
+					\item Fila: lista FIFO
+					\item Pilha: lista FILO
+				\end{itemize}
+		\end{enumerate}
+	\end{frame}
+
+	\subsection{Estruturas de Dados Não Lineares}
+	\begin{frame}[label=main]
+		\Large
+		\begin{enumerate}[<+->]
+			\setlength{\itemsep}{\baselineskip}
+			\item Árvores
+				\begin{itemize}
+					\Large
+					\item Genérica (binária [de busca])
+					\item Travessia
+					\item Balanceamento
+					\item B
+					\item Heap
+				\end{itemize}
+			\item Tabela de Dispersão: colisão, reespalhamento, encadeamento
+			\item Grafos
+		\end{enumerate}
+	\end{frame}
+
+	\begin{frame}[label=main]
+		\frametitle{Robert C. Pike}
+		\begin{itemize}
+			\item Engenheiro de software e escritor.
+			\item Trabalhou na equipe que desenvolveu o sistema Unix.
+			\item Escreveu o primeiro sistema de janelas para o Unix.
+			\item Criou o padrão UTF-8 (com Ken Thompson).
+			\item Um dos ``maiores mestres'' da linguagem \emph{C} (atualmente, 
+			desenvolvendo a linguagem \emph{Go}).
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}[label=main]
+		\frametitle{Robert C. Pike}
+		Notas sobre Programação em C\footnote{\url{http://www.lysator.liu.se/c/pikestyle.html}}
+		\begin{enumerate}[<+->]
+			\item Gargalos, não os adivinhe...%You can't tell where a program is going to spend its time. Bottlenecks occur in surprising places, so don't try to second guess and put in a speed hack until you've proven that's where the bottleneck is.
+			\item Medições, faça-as.%Measure. Don't tune for speed until you've measured, and even then don't unless one part of the code overwhelms the rest.
+			\item Entradas e algoritmos fru-frus.%Fancy algorithms are slow when n is small, and n is usually small. Fancy algorithms have big constants. Until you know that n is frequently going to be big, don't get fancy. (Even if n does get big, use Rule 2 first.)
+			\item Simplicidade x fru-fru. %Fancy algorithms are buggier than simple ones, and they're much harder to implement. Use simple algorithms as well as simple data structures.
+			\item \alert{Dados são dominantes.} Se você escolheu a estrutura de dados e organizou as coisas direito, os algoritmos quase sempre serão evidentes. Estruturas de dados, não algoritmos, são centrais à programação.% Data dominates. If you've chosen the right data structures and organized things well, the algorithms will almost always be self-evident. Data structures, not algorithms, are central to programming.
+			\item Não há regra 6. %There is no Rule 6.
+	    \end{enumerate}
+	\end{frame}
+
+	\newcommand{\descItem}[2]{\begin{description}\item[#1]#2\end{description}}%
+
+	% Baseado no Programming Pearls
+	\subsection{Anagrama}
+	\begin{frame}[label=main]
+		\emph{Frase elaborada usando exatamente as mesmas letras da sentença original.}
+		\\\pause\vfill
+		\hfill
+		\emph{Quid est veritas\footnote[frame]<2>{O que é a verdade?}?}
+		\hfill
+		$\Leftrightarrow$
+		\hfill
+		\emph{Est vir qui adest\footnote[frame]<2>{É o homem que está diante de você.}.}
+		\hspace*{.2\textwidth}\vfill
+	\end{frame}
+
+	\begin{frame}[label=main]
+		\frametitle{Problema}
+
+		Dado o conjunto de palavras	da língua Portuguesa, encontre todos os 
+		conjuntos de anagramas [de palavras].
+		\\\vfill
+		\includegraphics[width=\textwidth]{iJuca}% I-Juca Pirama + \url{www.wordle.net}
+	\end{frame}
+
+	\subsection{Formulação do Problema}
+	\begin{frame}[label=main]
+		\emph{Dado o conjunto de palavras da língua Portuguesa, encontre todos os 
+		conjuntos de anagramas [de palavras].}
+		\\\vfill\pause
+		\begin{description}[<+->]
+			\item[Entrada:] conjunto de palavras.
+			\item[Saída:] conjunto de anagramas.
+			\item[Restrições:] tempo.
+		\end{description}
+    \end{frame}
+
+	\subsection{Solução}
+    \begin{frame}[label=main]
+		Supondo um conjunto com $5\cdot10^5$ palavras\footnote{\url{www.webdicionario.com}}:
+		\pause
+		\begin{enumerate}
+			\item Permutações das letras das palavras:
+				\pause
+				\begin{itemize}
+					\item Supondo \emph{otorrinolaringologista} ($22$ letras):
+					\pause
+					\item A $10^{12}$ permutações por segundo:
+						\descItem{$O(n!)$:}{$22!p\cdot10^{-12}\frac{s}{p}\approx10^{9}s\approx35anos$}
+					\pause\vspace{1ex}
+					\item A $10^{15}$ testes de igualdade por segundo:
+						\descItem{$O(n{\cdot}n!)$:}{$22!p\cdot5\cdot10^5\frac{ti}{p}\cdot10^{-15}\frac{s}{ti}\approx5.6\cdot10^{11}s\approx178\textrm{ séculos}$}
+				\end{itemize}
+			\pause\vspace{1ex}
+			\item Comparações diretas entre as palavras:
+				\pause
+				\begin{itemize}
+					\item A $10^6$ comparações por segundo:
+					\descItem{$O(n^2)$:}{$5\cdot10^5p\cdot5\cdot10^5\frac{c}{p}\cdot10^{-6}\frac{s}{c}=25\cdot10^4s\approx69h$}
+				\end{itemize}
+		\end{enumerate}
+	\end{frame}
+
+	\begin{frame}[label=main]
+		E se transformássemos cada palavra em uma \emph{chave} em função das 
+		letras que a compõem?
+		\\\vfill\pause
+		Divisão do problema em 2 subproblemas:
+		\begin{enumerate}
+			\item Definir a chave.
+			\item Agrupar palavras com chaves iguais.
+		\end{enumerate}
+	\end{frame}
+
+	\subsection{Definindo a chave}
+	\begin{frame}[label=main]
+		Objetivo: \pause transformar qualquer palavra em uma chave de modo que palavras
+		diferentes com letras iguais possuam a mesma chave.
+		\pause
+		\begin{itemize}
+			\item Indicando as letras e o número de ocorrências:\\
+				\begin{center}
+					\small
+					\begin{tikzpicture}[every edge/.style={draw,<-,line width=1.5pt}]]
+						\node[block] (ot)                 	{artificial};
+						\node[below left of=ot,left=5mm]  	{\alert{a2c1f1i3l1r1t1}} edge (ot);
+						\node[below right of=ot,right=5mm]	{\alert{a2cfi3lrt}} edge (ot);
+						\node[below of=ot,below=3mm] (t1) 	{\tiny\setlength{\tabcolsep}{1pt}\alert{
+						\begin{tabular}{|*{26}{c|}}
+							\hline
+							2 & 0 & 1 & 0 & 0 & 1 & 0 & 0 & 3 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0\\\hline
+						\end{tabular}}} edge (ot);
+						\node[white,below of=t1,above=5mm]	{\tiny\setlength{\tabcolsep}{1.15pt}\alert{
+						\begin{tabular}{*{26}{c}}
+							a & b & c & d & e & f & g & h & i & j & k & l & m & n & o & p & q & r & s & t & u & v & w & x & y & z
+						\end{tabular}}};
+					\end{tikzpicture}
+				\end{center}
+			\pause
+			\item Ordenando as letras:\\
+				\begin{center}
+					\small	
+					\begin{tikzpicture}[every node/.style={block},every edge/.style={draw,<-,line width=1.5pt}]
+						\node                          	(alta)	{alta};
+						\node[left of=alta, left=5mm]  	(lata)	{lata};
+						\node[right of=alta, right=5mm]	(tala)	{tala};
+						\node[white,below of=alta]     	      	{\alert{aalt}} edge(alta) edge(tala) edge(lata);
+					\end{tikzpicture}
+				\end{center}
+		\end{itemize}
+		\pause
+		A $10^6$ transformações por segundo:
+		\descItem{$O(n)$:}{$5\cdot10^5p\cdot1\frac{t}{p}\cdot10^{-6}\frac{s}{t}=0.5s$}
+	\end{frame}
+
+	\subsection{Agrupando palavras com chaves iguais}
+	\begin{frame}[label=main]
+		Objetivo: armazenar palavras diferentes que possuem a mesma chave.
+		\\\vfill\pause
+		Pode-se utilizar qualquer estrutura de dados que organize uma coleção de 
+		elementos (vetor, lista, etc.).
+		\\\vfill
+		\begin{itemize}
+			\item Supondo $10^6$ comparações por segundo:
+				\descItem{$O(n^2)$:}{$5\cdot10^5p\cdot5\cdot10^5\frac{c}{p}\cdot10^{-6}\frac{s}{c}=25\cdot10^4s\approx69h$}
+			\vfill\pause
+			\item Supondo que as chaves sejam ordenadas:
+				\begin{itemize}
+					\item Ordenação eficiente a $10^6$ operações por segundo:
+						\descItem{$O(n{\cdot}log(n))$:}{$5\cdot10^5{\cdot}log(5\cdot10^5)c\cdot10^{-6}\frac{s}{c}\approx2.9s$}
+					\item E inserindo em listas a $10^6$ operações por segundo:
+						\descItem{$O(n)$:}{$5\cdot10^5i\cdot10^{-6}\frac{s}{i}=0.5s$}
+				\end{itemize}
+		\end{itemize}
+	\end{frame}
+
+	\subsection{Conclusões}
+	\begin{frame}[label=main]
+		\pause
+		\begin{itemize}
+			\setlength{\itemsep}{\baselineskip}
+			\item Vale a pena gastar um pouco mais de tempo analisando o problema 
+			para encontrar a melhor solução.
+			\item Estruturar os dados da forma correta pode resultar em grandes 
+			ganhos.\pause..
+			\item[] \hspace{10ex}... e facilitar muito a vida? %hashtable!
+		\end{itemize}
+	\end{frame}
+\end{document}
