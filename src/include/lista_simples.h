@@ -122,7 +122,6 @@ void lst_remove_todos(lst *p_head, int x);
  * @param[in] p_head endereço do ponteiro inicial da lista.
  * @param[in] x valor do elemento a ser removido.
  */
-
 lst lst_remove_valor(lst *p_head, int x);
 
 #endif // UNB_CIC_ED_LISTA_SIMPLES_H
